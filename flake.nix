@@ -1,11 +1,10 @@
 {
-  description = "Example nix-darwin system flake";
+  description = "My first nix-darwin flake";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -35,10 +34,53 @@
           XDG_CACHE_HOME = "/Users/ben/.cache";
         };
 
+        system.defaults.screencapture = {
+          disable-shadow = true;
+          include-date = true;
+          location = "/Users/ben/Pictures/Screenshots";
+          show-thumbnail = true;
+          type = "png";
+        };
+
+        system.defaults.CustomUserPreferences = {
+          "com.apple.finder" = {
+            # NSUserKeyEquivalents = { "Close Window" = "@q"; };  # already have this
+            _FXEnableColumnAutoSizing = true;                    # new
+          };
+          "com.apple.TextEdit".RichText = false;
+        };
+
         # 2. Dock
         system.defaults.dock = {
+          orientation = "bottom";
+          mineffect = "genie";
+          tilesize = 64; # normal icon size in pixels (16–128)
+          magnification = true; # enlarge icons on hover
+          largesize = 72; # magnified size in pixels (16–128)
           autohide = true;
           show-recents = false;
+        };
+
+        system.defaults.WindowManager = {
+          GloballyEnabled = false; # Stage Manager off
+          StandardHideDesktopIcons = true; # hide desktop files
+          StandardHideWidgets = true; # hide desktop widgets
+          StageManagerHideWidgets = true; # hide them if Stage Manager ever gets turned on
+          EnableStandardClickToShowDesktop = false;
+        };
+
+        system.defaults.finder = {
+          FXPreferredViewStyle = "clmv"; # column view (your pick)
+          AppleShowAllExtensions = true; # always show .pdf, .zip, etc.
+          FXEnableExtensionChangeWarning = false; # no prompt when renaming an extension
+          ShowPathbar = true; # breadcrumb path at the bottom
+          ShowStatusBar = true; # item count and free space
+          _FXShowPosixPathInTitle = true; # full path in the window title
+          _FXSortFoldersFirst = true; # folders above files, like ls
+          FXDefaultSearchScope = "SCcf"; # search the current folder, not the whole Mac
+          NewWindowTarget = "Home"; # new windows open in ~
+          #FXRemoveOldTrashItems = true; # empty Trash items after 30 days
+          AppleShowAllFiles = true;
         };
 
         homebrew = {
