@@ -149,7 +149,26 @@
           configuration
           home-manager.darwinModules.home-manager
           {
+            # users.users.ben.home = "/Users/ben";
+
             users.users.ben.home = "/Users/ben";
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
+            home-manager.users.ben = {
+              home.stateVersion = "26.05";
+
+              xdg.enable = true;
+              home.preferXdgDirectories = true;
+
+              programs.git = {
+                enable = true;
+                ignores = [
+                  ".DS_Store"
+                  "*.swp"
+                ];
+              };
+            };
           }
         ];
       };
