@@ -149,24 +149,62 @@
           configuration
           home-manager.darwinModules.home-manager
           {
-            # users.users.ben.home = "/Users/ben";
-
             users.users.ben.home = "/Users/ben";
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "backup";
-            home-manager.users.ben = {
+            home-manager.users.ben = { pkgs, ... }: {
               home.stateVersion = "26.05";
+              manual.manpages.enable = false;
 
               xdg.enable = true;
               home.preferXdgDirectories = true;
+
+              home.packages = with pkgs; [
+                bun
+                zsh-completions
+              ];
+
+              home.shellAliases.rebuild = "sudo darwin-rebuild switch";
 
               programs.git = {
                 enable = true;
                 ignores = [
                   ".DS_Store"
                   "*.swp"
+                  ".direnv/"
+                  "result"
                 ];
+                settings = {
+                  user = {
+                    name = "Benjamin Carpenter";
+                    email = "benjamin.carpenter@mailbox.org";
+                    signingkey = "/Users/ben/.ssh/id_ed25519.pub";
+                  };
+                  gpg.format = "ssh";
+                  commit.gpgsign = true;
+                  tag.gpgsign = true;
+                };
+              };
+
+              programs.starship.enable = true;
+
+              programs.zsh = {
+                enable = true;
+                autosuggestion.enable = true;
+                syntaxHighlighting.enable = true;
+                historySubstringSearch.enable = true;
+
+                profileExtra = ''
+                  eval "$(/opt/homebrew/bin/brew shellenv)"
+                '';
+
+                initContent = ''
+                  zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+                  zstyle ':completion:*' menu select
+
+                  fastfetch
+                '';
               };
             };
           }
