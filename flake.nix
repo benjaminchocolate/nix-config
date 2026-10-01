@@ -45,9 +45,17 @@
         system.defaults.CustomUserPreferences = {
           "com.apple.finder" = {
             # NSUserKeyEquivalents = { "Close Window" = "@q"; };  # already have this
-            _FXEnableColumnAutoSizing = true;                    # new
+            _FXEnableColumnAutoSizing = true; # new
           };
           "com.apple.TextEdit".RichText = false;
+        };
+
+        networking.applicationFirewall = {
+          enable = true;
+          enableStealthMode = true;
+          allowSigned = false;
+          allowSignedApp = false;
+          blockAllIncoming = false; # must stay off, or the allowlist is ignored
         };
 
         # 2. Dock
