@@ -3,9 +3,14 @@
 
 * These are my dotfiles consisting of a Nix Flake.
 
-** Next steps [0/5]
+** TODO Next steps [0/5]
 - [ ] Finish migrating configurations.
 - [ ] Create a directory structure with modules.
 - [ ] Setup [[https://github.com/zhaofengli/nix-homebrew][nix-homebrew]].
 - [ ] Migrate [[https://archlinux.org][Arch Linux]] gaming PC to [[https://nixos.org][NixOS]].
 - [ ] Setup [[https://nixos.wiki/wiki/Comparison_of_secret_managing_schemes][secrets management]].
+
+* TODO Later [0/3]
+- [ ] Look into CachyOS kernel on NixOS.
+- [ ] Setup home server with NixOS
+- [ ] Create an [[https://github.com/d12frosted/homebrew-emacs-plus][Emacs Plus]] flake.
