@@ -3,7 +3,7 @@
 
 * These are my dotfiles consisting of a Nix Flake.
 
-** Next steps [ / ]
+** Next steps [0/5]
 - [ ] Finish migrating configurations.
 - [ ] Create a directory structure with modules.
 - [ ] Setup [[https://github.com/zhaofengli/nix-homebrew][nix-homebrew]].
