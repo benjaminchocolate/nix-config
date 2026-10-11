@@ -1,0 +1,491 @@
+#+TITLE: Nix Configuration
+#+AUTHOR: Benjamin Carpenter
+#+PROPERTY: header-args:nix :mkdirp yes
+#+STARTUP: content
+
+This file is the source of truth for every machine. Each =nix= block tangles to the path in its =:tangle= header, relative to this file.
+
+* Workflow
+1. Edit this file, never the tangled =.nix= files. Tangling overwrites them.
+2. Tangle with =C-c C-v t=.
+3. =git add= any new files. Flakes only see files git tracks, so an untracked file gives a "path does not exist" error.
+4. Check it evaluates with =darwin-rebuild build --flake .=, then =rebuild= to switch.
+
+* Layout
+#+begin_example
+flake.nix             inputs + one output per machine
+hosts/<machine>/      what makes each machine itself
+modules/shared/       system options that exist in both nix-darwin and NixOS
+modules/darwin/       macOS system settings
+modules/nixos/        Linux system settings (when a Linux machine exists)
+modules/home/         Home Manager: follows me to every machine
+#+end_example
+
+The folders mark which *module system* evaluates a file. nix-darwin, NixOS and Home Manager each define their own options, so a Home Manager file imported into nix-darwin fails with an unknown-option error.
+
+* Flake
+The flake only declares inputs and wires each machine to its host file.
+
+=follows= makes nix-darwin and Home Manager use my nixpkgs instead of pinning their own, so there's one nixpkgs in the lock file.
+
+=specialArgs= passes values into every module as function arguments, so any module can ask for ={ inputs, username, ... }:=.
+
+#+begin_src nix :tangle flake.nix
+{
+  description = "Ben's Nix configurations";
+
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+
+    nix-darwin.url = "github:nix-darwin/nix-darwin/master";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+  };
+
+  outputs =
+    inputs@{ nix-darwin, home-manager, ... }:
+    {
+      # darwin-rebuild switch --flake .#Benjamins-MacBook-Pro
+      darwinConfigurations."Benjamins-MacBook-Pro" = nix-darwin.lib.darwinSystem {
+        specialArgs = {
+          inherit inputs;
+          username = "ben";
+        };
+        modules = [
+          home-manager.darwinModules.home-manager
+          ./hosts/macbook
+        ];
+      };
+
+      # Later:
+      # nixosConfigurations.desktop = inputs.nixpkgs.lib.nixosSystem { ... };
+      # nixosConfigurations.wsl = inputs.nixpkgs.lib.nixosSystem { ... };
+    };
+}
+#+end_src
+
+* Hosts
+** MacBook Pro
+Everything specific to this one machine: which modules it uses, its platform, and its state versions.
+
+=stateVersion= does not mean "the version I'm on". It records which defaults existed when the machine was first set up, so upgrades don't silently change stateful things. Set it once per machine and leave it alone.
+
+#+begin_src nix :tangle hosts/macbook/default.nix
+{ inputs, username, ... }:
+{
+  imports = [
+    ../../modules/shared
+    ../../modules/darwin
+  ];
+
+  nixpkgs.hostPlatform = "aarch64-darwin";
+
+  system.primaryUser = username;
+  users.users.${username}.home = "/Users/${username}";
+
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    backupFileExtension = "backup";
+    users.${username} = {
+      imports = [
+        ../../modules/home
+        ../../modules/home/darwin.nix
+      ];
+      home.stateVersion = "26.05";
+    };
+  };
+
+  # Git commit of this flake, shown by darwin-version
+  system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
+
+  # Read the changelog before changing: darwin-rebuild changelog
+  system.stateVersion = 6;
+}
+#+end_src
+
+* Shared system modules
+Options that exist in both nix-darwin and NixOS, so every machine can import this.
+
+#+begin_src nix :tangle modules/shared/default.nix
+{ pkgs, ... }:
+{
+  fonts.packages = with pkgs; [
+    nerd-fonts.fira-code
+    atkinson-hyperlegible-next
+    atkinson-hyperlegible-mono
+    intel-one-mono
+    source-serif
+  ];
+}
+#+end_src
+
+* macOS system modules
+** Entry point
+=imports= pulls in other modules, and the module system merges all of them into one config. Importing a directory loads its =default.nix=.
+
+#+begin_src nix :tangle modules/darwin/default.nix
+{ ... }:
+{
+  imports = [
+    ./defaults.nix
+    ./homebrew.nix
+    ./launchd.nix
+    ./security.nix
+  ];
+
+  # Determinate Nix manages the Nix install itself, so nix-darwin must not
+  nix.enable = false;
+}
+#+end_src
+
+** System defaults
+Dock, Finder, window manager, screenshots, and per-app preferences. =CustomUserPreferences= writes arbitrary =defaults write= keys, keyed by the app's bundle ID.
+
+#+begin_src nix :tangle modules/darwin/defaults.nix
+{ username, ... }:
+{
+  system.defaults = {
+    dock = {
+      orientation = "bottom";
+      mineffect = "genie";
+      tilesize = 64; # icon size in pixels (16–128)
+      magnification = true;
+      largesize = 72; # magnified size in pixels (16–128)
+      autohide = true;
+      show-recents = false;
+    };
+
+    finder = {
+      CreateDesktop = false; # don't draw the desktop at all
+      FXPreferredViewStyle = "clmv"; # column view
+      AppleShowAllExtensions = true;
+      AppleShowAllFiles = true;
+      FXEnableExtensionChangeWarning = false;
+      ShowPathbar = true;
+      ShowStatusBar = true;
+      _FXShowPosixPathInTitle = true;
+      _FXSortFoldersFirst = true;
+      FXDefaultSearchScope = "SCcf"; # search the current folder, not the whole Mac
+      NewWindowTarget = "Home";
+    };
+
+    WindowManager = {
+      GloballyEnabled = false; # Stage Manager off
+      StandardHideDesktopIcons = true;
+      StandardHideWidgets = true;
+      StageManagerHideWidgets = true;
+      EnableStandardClickToShowDesktop = false;
+    };
+
+    screencapture = {
+      disable-shadow = true;
+      include-date = true;
+      location = "/Users/${username}/Pictures/Screenshots";
+      show-thumbnail = true;
+      type = "png";
+    };
+
+    CustomUserPreferences = {
+      "com.apple.finder"._FXEnableColumnAutoSizing = true;
+
+      "com.apple.TextEdit" = {
+        RichText = false;
+        NSFont = "Atkinson Hyperlegible Next Regular";
+        NSFontSize = 15;
+        NSFixedPitchFont = "Atkinson Hyperlegible Next Mono";
+        NSFixedPitchFontSize = 15;
+      };
+
+      "org.hammerspoon.Hammerspoon".MJConfigFile = "~/.config/hammerspoon/init.lua";
+    };
+  };
+}
+#+end_src
+
+** Homebrew
+Only for things Nix can't do well on macOS: GUI apps (casks) and a few tools.
+
+=cleanup = "zap"= uninstalls anything not listed here, including its app data. Being in this list is the only way something stays installed.
+
+=autoUpdate= and =upgrade= make every switch slower, and two switches of the same config can produce different Homebrew versions. That's the trade for auto-updates through Nix.
+
+#+begin_src nix :tangle modules/darwin/homebrew.nix
+{ ... }:
+{
+  homebrew = {
+    enable = true;
+
+    onActivation = {
+      autoUpdate = true;
+      upgrade = true;
+      cleanup = "zap";
+    };
+
+    taps = [
+      {
+        name = "d12frosted/emacs-plus";
+        clone_target = "https://github.com/d12frosted/homebrew-emacs-plus";
+        trusted = true;
+      }
+    ];
+
+    brews = [
+      "container"
+      "gcc"
+      "libgccjit"
+      "mole"
+    ];
+
+    # greedy: also upgrade casks that update themselves
+    casks =
+      map
+        (name: {
+          inherit name;
+          greedy = true;
+        })
+        [
+          "affinity"
+          "beeper"
+          "bitwig-studio"
+          "claude"
+          "d12frosted/emacs-plus/emacs-plus-app"
+          "ghostty"
+          "hammerspoon"
+          "iina"
+          "karabiner-elements"
+          "keyboardcleantool"
+          "macpacker"
+          "mos"
+          "motu-m-series"
+          "netnewswire"
+          "rectangle"
+          "surge-xt"
+          "syntax-highlight"
+          "touchdesigner"
+          "ungoogled-chromium"
+        ];
+  };
+}
+#+end_src
+
+** launchd
+Login agents and environment variables for GUI apps. Shell variables don't reach apps launched from the Dock, so XDG paths are set here too.
+
+Time Machine skips =~/Library/Caches= but backs up =~/.cache=. After moving caches there, exclude it once:
+=sudo tmutil addexclusion ~/.cache=
+
+#+begin_src nix :tangle modules/darwin/launchd.nix
+{ username, ... }:
+let
+  homeDir = "/Users/${username}";
+in
+{
+  launchd.user.envVariables = {
+    XDG_CONFIG_HOME = "${homeDir}/.config";
+    XDG_DATA_HOME = "${homeDir}/.local/share";
+    XDG_STATE_HOME = "${homeDir}/.local/state";
+    XDG_CACHE_HOME = "${homeDir}/.cache";
+  };
+
+  # Open Mail and Emacs in the background at login
+  launchd.user.agents.background-apps.serviceConfig = {
+    ProgramArguments = [
+      "/bin/sh"
+      "-c"
+      "/usr/bin/open -gj -a Mail; /usr/bin/open -gj -a Emacs"
+    ];
+    RunAtLoad = true;
+  };
+
+  # Launch apps at login, then hide their windows
+  launchd.user.agents.hidden-apps.serviceConfig = {
+    ProgramArguments = [
+      "/bin/sh"
+      "-c"
+      ''
+        apps="Claude"
+        for app in $apps; do /usr/bin/open -a "$app"; done
+        sleep 1
+        for app in $apps; do
+          /usr/bin/osascript -e "tell application \"System Events\" to set visible of process \"$app\" to false"
+        done
+      ''
+    ];
+    RunAtLoad = true;
+  };
+}
+#+end_src
+
+** Security
+#+begin_src nix :tangle modules/darwin/security.nix
+{ ... }:
+{
+  networking.applicationFirewall = {
+    enable = true;
+    enableStealthMode = true;
+    allowSigned = false;
+    allowSignedApp = false;
+    blockAllIncoming = false; # must stay off, or the allowlist is ignored
+  };
+
+  # Touch ID for sudo
+  security.pam.services.sudo_local.touchIdAuth = true;
+}
+#+end_src
+
+* Home Manager modules
+These configure my user, not the system, so they work on macOS, NixOS and WSL alike. Anything platform-specific goes in its own file that only that platform's host imports.
+
+** Entry point
+#+begin_src nix :tangle modules/home/default.nix
+{ ... }:
+{
+  imports = [
+    ./git.nix
+    ./zsh.nix
+    ./packages.nix
+  ];
+
+  xdg.enable = true;
+  home.preferXdgDirectories = true;
+  manual.manpages.enable = false;
+
+  # Global clang-format style for anything under ~
+  home.file.".clang-format".text = ''
+    BasedOnStyle: Google
+    BreakBeforeBraces: Allman
+  '';
+}
+#+end_src
+
+** Git
+=config= is the final merged config of every module, so one module can read values set elsewhere. =config.home.homeDirectory= is =/Users/ben= on macOS and =/home/ben= on Linux, which keeps the signing key path portable.
+
+On a new machine, copy or generate the SSH key before committing, or signed commits will fail.
+
+#+begin_src nix :tangle modules/home/git.nix
+{ config, ... }:
+{
+  programs.git = {
+    enable = true;
+    ignores = [
+      ".DS_Store"
+      "*.swp"
+      ".direnv/"
+      "result"
+    ];
+    settings = {
+      user = {
+        name = "Benjamin Carpenter";
+        email = "benjamin.carpenter@mailbox.org";
+        signingkey = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
+      };
+      gpg.format = "ssh";
+      commit.gpgsign = true;
+      tag.gpgsign = true;
+    };
+  };
+}
+#+end_src
+
+** Zsh
+Home Manager installs and loads the plugins itself, so they don't come from Homebrew.
+
+#+begin_src nix :tangle modules/home/zsh.nix
+{ ... }:
+{
+  programs.zsh = {
+    enable = true;
+    autosuggestion.enable = true;
+    syntaxHighlighting.enable = true;
+    historySubstringSearch.enable = true;
+
+    initContent = ''
+      # Case-insensitive completion with an arrow-key menu
+      zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+      zstyle ':completion:*' menu select
+    '';
+  };
+
+  programs.starship.enable = true;
+
+  home.shellAliases.ls = "ls -la";
+}
+#+end_src
+
+** Packages
+User-level CLI tools. Keeping them in Home Manager means one list follows me to every machine.
+
+#+begin_src nix :tangle modules/home/packages.nix
+{ pkgs, ... }:
+{
+  home.packages = with pkgs; [
+    # Documents
+    (texliveBasic.withPackages (
+      ps: with ps; [
+        capt-of
+        cm-super
+        dvipng
+        dvisvgm
+        latexmk
+        ulem
+        wrapfig
+      ]
+    ))
+    mupdf-headless
+    pandoc
+    typst
+
+    # Development
+    bun
+    cmake
+    crystal
+    llvm
+    nixd
+    nixfmt
+    python3
+    uv
+
+    # Shell
+    bashInteractive
+    cheat
+    fastfetch
+    navi
+    tlrc
+    zsh-completions
+
+    # Network and media
+    aria2
+    ffmpeg
+    wget
+    yt-dlp
+
+    # Misc
+    sequoia-sq
+    xdg-ninja
+  ];
+}
+#+end_src
+
+** macOS-only
+Imported only by the Mac host.
+
+#+begin_src nix :tangle modules/home/darwin.nix
+{ ... }:
+{
+  programs.zsh.profileExtra = ''
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  '';
+
+  home.shellAliases.rebuild = "sudo darwin-rebuild switch";
+}
+#+end_src
+
+* Future machines
+Add these when the machine actually exists, so every module here is one I can test.
+
+** Desktop (NixOS)
+** WSL (NixOS-WSL)
