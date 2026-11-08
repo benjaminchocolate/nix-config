@@ -26,7 +26,11 @@
     homebrew-cask = {
       url = "github:homebrew/homebrew-cask";
       flake = false;
+
     };
+
+    # secrets
+    sops-nix.url = "github:Mic92/sops-nix";
   };
 
   outputs =
@@ -38,6 +42,7 @@
       nix-homebrew,
       homebrew-core,
       homebrew-cask,
+      sops-nix,
     }:
     let
       # ==============================================================
@@ -112,7 +117,7 @@
 
             finder = {
               CreateDesktop = false; # don't draw the desktop at all
-              FXPreferredViewStyle = "clmv"; # column view
+              FXPreferredViewStyle = "Nlsv"; # list view
               AppleShowAllExtensions = true; # always show .pdf, .zip, etc.
               FXEnableExtensionChangeWarning = false; # no prompt when renaming an extension
               ShowPathbar = true; # breadcrumb path at the bottom
@@ -146,6 +151,11 @@
               "com.apple.finder" = {
                 # NSUserKeyEquivalents = { "Close Window" = "@q"; };  # already have this
                 _FXEnableColumnAutoSizing = true;
+              };
+
+              "com.apple.desktopservices" = {
+                DSDontWriteNetworkStores = true; # SMB/NFS shares
+                DSDontWriteUSBStores = true; # external drives
               };
 
               "com.apple.Safari" = {
@@ -196,8 +206,8 @@
                 ProgramArguments = [
                   "/bin/sh"
                   "-c"
-                  "/usr/bin/open -gj -a Calendar; /usr/bin/open -gj -a Mail; /usr/bin/open -gj -a Messages; /usr/bin/open -gj -a Music; /usr/bin/open -gj -a Reminders"
-                  # "/usr/bin/open -gj -a Mail; /usr/bin/open -gj -a Emacs"
+                  #"/usr/bin/open -gj -a Calendar; /usr/bin/open -gj -a Mail; /usr/bin/open -gj -a Messages; /usr/bin/open -gj -a Music; /usr/bin/open -gj -a Reminders"
+                  "/usr/bin/open -gj -a Mail"
                 ];
                 RunAtLoad = true;
               };
@@ -222,7 +232,42 @@
                 RunAtLoad = true;
               };
             };
+
+            agents.reset-finder-views = {
+              script = ''
+                /usr/bin/find /Users/ben -path /Users/ben/Library -prune -o -name .DS_Store -type f -delete
+                /usr/bin/killall Finder
+              '';
+              serviceConfig = {
+                RunAtLoad = true; # run once at login
+                StandardErrorPath = "/tmp/reset-finder-views.err";
+              };
+            };
           };
+
+          # ── System services (run as root) ─────────────────────────
+          # Sweep .DS_Store across the disk at boot and daily at 4am
+          launchd.daemons.clean-ds-store = {
+            script = ''
+              /usr/bin/find /Users /Applications /Library -name .DS_Store -type f -delete
+            '';
+            serviceConfig = {
+              RunAtLoad = true;
+              StartCalendarInterval = [
+                {
+                  Hour = 4;
+                  Minute = 0;
+                }
+              ];
+              StandardErrorPath = "/var/log/clean-ds-store.err";
+            };
+          };
+
+          environment.systemPath = [
+            "/opt/homebrew/bin"
+            "/Library/TeX/texbin"
+            "/Users/ben/.local/bin/env"
+          ];
 
           # ── Homebrew ──────────────────────────────────────────────
           homebrew = {
@@ -235,8 +280,27 @@
 
             taps = [
               {
+                name = "benjaminchocolate/tap";
+                trusted = true;
+              }
+              {
                 name = "d12frosted/emacs-plus";
                 clone_target = "https://github.com/d12frosted/homebrew-emacs-plus";
+                trusted = true;
+              }
+              {
+                name = "mattt/tap";
+                clone_target = "https://github.com/mattt/homebrew-tap";
+                trusted = true;
+              }
+              {
+                name = "y3owk1n/tap";
+                clone_target = "https://github.com/y3owk1n/neru";
+                trusted = true;
+              }
+              {
+                name = "nikitabobko/tap";
+                clone_target = "https://github.com/nikitabobko/homebrew-tap";
                 trusted = true;
               }
             ];
@@ -254,12 +318,12 @@
               "container"
               "gh"
               "nixfmt"
+              "vscode-langservers-extracted"
 
               # Documents & publishing
-              "mupdf-tools"
+              "mupdf"
               "pandoc"
               "typst"
-              # "typstyle"
 
               # Help & cheatsheets
               "cheat"
@@ -267,9 +331,10 @@
               "tlrc"
 
               # Languages & runtimes
-              "crystal"
               "python"
               "uv"
+              "zig@0.17"
+              "zls"
 
               # Media & downloads
               "aria2"
@@ -293,6 +358,25 @@
               "mole"
               "sequoia-sq"
               "xdg-ninja"
+              "mas"
+
+              # Emacs
+              ## pdf-tools
+              "pkg-config"
+              "poppler"
+              "autoconf"
+              "automake"
+
+              # testing out
+              "zoxide"
+              "eza"
+              "bat"
+              "ripgrep"
+              "fd"
+              "shellcheck"
+
+              # GNU Coreutils
+              "coreutils"
             ];
 
             # Groups are alphabetical (Fonts last); so is each group's contents.
@@ -303,14 +387,24 @@
                   greedy = true;
                 })
                 [
-                  # Creative: audio
-                  "bitwig-studio"
+                  # My tap
+                  "benjaminchocolate/tap/carla"
+                  "benjaminchocolate/tap/moonlight@nightly"
+
+                  # Hardware
                   "motu-m-series"
+                  "keyboardcleantool"
+
+                  # Creative: audio
+                  "blackhole-2ch"
+                  #"au-lab"
+                  "bitwig-studio"
                   "surge-xt"
+                  "mixxx"
 
                   # Creative: visual
                   "affinity"
-                  "touchdesigner"
+                  #"touchdesigner"
 
                   # Development
                   "claude-code"
@@ -323,9 +417,7 @@
                   # Input & window management
                   "hammerspoon"
                   "karabiner-elements"
-                  "keyboardcleantool"
                   "mos"
-                  "rectangle"
 
                   # Internet & communication
                   "beeper"
@@ -335,8 +427,6 @@
                   "ungoogled-chromium"
 
                   # Utilities
-                  "iina"
-                  "macpacker"
                   "syntax-highlight"
 
                   # Fonts: language coverage (CJK + emoji)
@@ -344,6 +434,8 @@
                   "font-noto-sans-cjk"
                   "font-noto-sans-sc"
                   "font-noto-sans-tc"
+                  "font-noto-sans"
+                  "font-noto-serif"
 
                   # Fonts: monospace
                   "font-0xproto"
@@ -362,9 +454,31 @@
 
                   # Fonts: text
                   "font-atkinson-hyperlegible-next"
-                  "font-noto-sans"
-                  "font-noto-serif"
+
+                  # not sure
+                  "y3owk1n/tap/neru"
+                  #"finetune"
+                  "anki"
+                  "iMCP"
+                  "freecad"
+                  "kicad"
+                  "corretto@11" # For Matlab
+                  "ltspice"
+                  "aerospace"
                 ];
+
+            masApps = {
+              Xcode = 497799835;
+              Copilot = 1447330651;
+              Stremio = 6741710156;
+              wBlock = 6746388723;
+              "Customize Search Engine" = 6445840140;
+              "SingleFile for Safari" = 6444322545;
+              "Microsoft Excel" = 462058435;
+              "Microsoft Word" = 462054704;
+              ScreenZen = 1541027222;
+            };
+
           };
         };
 
@@ -390,8 +504,11 @@
           # ── Dotfiles ──────────────────────────────────────────────
           home.file.".clang-format".text = ''
             BasedOnStyle: Google
-            BreakBeforeBraces: Allman
           '';
+          home.file.".config/emacs-plus/build.yml".text = ''
+            icon: liquid-glass
+          '';
+          # BreakBeforeBraces: Allman
 
           # ── Git ───────────────────────────────────────────────────
           programs.git = {
@@ -421,41 +538,40 @@
             rebuild = "sudo darwin-rebuild switch";
           };
 
-          programs.starship.enable = true;
-
           programs.zsh = {
             enable = true;
-            autosuggestion.enable = true;
-            syntaxHighlighting.enable = true;
-            historySubstringSearch.enable = true;
+            # autosuggestion / syntaxHighlighting / historySubstringSearch lines removed:
+            # Brew supplies those plugins now
 
             profileExtra = ''
               eval "$(/opt/homebrew/bin/brew shellenv)"
             '';
 
+            # The one and only compinit, with zsh-completions added first
+            completionInit = ''
+              fpath=(/opt/homebrew/share/zsh-completions $fpath)
+              autoload -Uz compinit && compinit
+            '';
+
             initContent = ''
               # Completion: case-insensitive matching
               zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
-              # Completion: show matches as a menu you can move through with the arrow keys
+              # Completion: menu you can move through with the arrow keys
               zstyle ':completion:*' menu select
 
-              # Plugins (Homebrew copies). syntax-highlighting must stay last.
-              source $HOMEBREW_PREFIX/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-              source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-              source $HOMEBREW_PREFIX/share/zsh-history-substring-search/zsh-history-substring-search.zsh
-              source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+              source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+              source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+              # history-substring-search must load AFTER syntax-highlighting (per its README)
+              source /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+              bindkey '^[[A' history-substring-search-up    # up arrow
+              bindkey '^[[B' history-substring-search-down  # down arrow
 
-              # Extra completion definitions from zsh-completions
-              if type brew &>/dev/null; then
-                FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-
-                autoload -Uz compinit
-                compinit
-              fi
+              eval "$(/opt/homebrew/bin/starship init zsh)"
             '';
           };
 
           # ── Services ──────────────────────────────────────────────
+
           # Emacs daemon (emacs-plus cask): starts at login, restarts if it dies
           launchd.agents.emacs-daemon = {
             enable = true;
@@ -470,6 +586,8 @@
               StandardErrorPath = "/tmp/emacs-daemon.log";
               # the cask doesn't inject your PATH, so tools like nixd need this
               EnvironmentVariables.PATH = "/etc/profiles/per-user/ben/bin:/run/current-system/sw/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+              ProcessType = "Interactive";
+              Nice = -20; # Maybe a bad idea?
             };
           };
         };
