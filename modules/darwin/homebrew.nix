@@ -107,27 +107,27 @@
           greedy = true;
         })
         [
-          # My tap
-          "benjaminchocolate/tap/moonlight@nightly"
-
           # Hardware
           "motu-m-series"
           "keyboardcleantool"
 
           # Creative: audio
           "blackhole-2ch"
-          "bitwig-studio"
-          "surge-xt"
-          "benjaminchocolate/tap/carla"
-          "mixxx"
 
-          # Creative: visual
+          # Creative
           "affinity"
           #"touchdesigner"
+          "blender"
+          "bitwig-studio"
+          "surge-xt"
+          "benjaminchocolate/tap/carla-app"
+          "mixxx"
 
-          # Development
-          "claude-code"
+          # Engineering & development
           "ghostty"
+          "wireshark-app"
+          "freecad"
+          "kicad"
 
           # Documents & publishing
           "mactex-no-gui"
@@ -136,32 +136,30 @@
           "hammerspoon"
           "karabiner-elements"
           "mos"
+          "y3owk1n/tap/neru"
+          "aerospace"
 
           # Internet & communication
           "beeper"
-          "claude"
           "cloudflare-warp"
           "netnewswire"
           "ungoogled-chromium"
+          "benjaminchocolate/tap/moonlight@nightly"
 
           # Utilities
           "syntax-highlight"
 
-          # Fonts: language coverage (CJK + emoji)
+          # Fonts
           "font-noto-emoji"
           "font-noto-sans-cjk"
           "font-noto-sans-sc"
           "font-noto-sans-tc"
           "font-noto-sans"
           "font-noto-serif"
-
-          # Fonts: monospace
           "font-0xproto"
           "font-atkinson-hyperlegible-mono"
           "font-fira-code"
           "font-noto-sans-mono"
-
-          # Fonts: symbols, icons & fallback
           "font-gnu-unifont"
           "font-ligature-symbols"
           "font-material-symbols"
@@ -173,15 +171,17 @@
           # Fonts: text
           "font-atkinson-hyperlegible-next"
 
-          # not sure
-          "y3owk1n/tap/neru"
-          "anki"
+          # AI
+          "claude"
+          "claude-code"
           "iMCP"
-          "freecad"
-          "kicad"
+
+          "anki"
+
+          # For school
           "corretto@11" # For Matlab
+          "antconc" # For DTC 375
           "ltspice"
-          "aerospace"
         ];
 
     masApps = {

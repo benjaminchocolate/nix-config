@@ -7,6 +7,7 @@
   imports = [
     ./git.nix
     ./shell.nix
+    ./ssh.nix
   ];
 
   home.stateVersion = "26.05";
