@@ -9,6 +9,7 @@
     ./shell.nix
     ./ssh.nix
     ./sparkle.nix
+    ./links.nix
   ];
 
   home.stateVersion = "26.05";
