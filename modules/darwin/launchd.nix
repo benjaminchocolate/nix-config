@@ -12,6 +12,7 @@
       XDG_DATA_HOME = "/Users/ben/.local/share";
       XDG_STATE_HOME = "/Users/ben/.local/state";
       XDG_CACHE_HOME = "/Users/ben/.cache";
+      ELECTRON_NO_UPDATER = "1";
     };
 
     # Open these apps in the background at login

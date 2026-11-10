@@ -8,6 +8,7 @@
     ./git.nix
     ./shell.nix
     ./ssh.nix
+    ./sparkle.nix
   ];
 
   home.stateVersion = "26.05";

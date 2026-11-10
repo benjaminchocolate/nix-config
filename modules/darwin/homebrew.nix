@@ -10,24 +10,11 @@
       cleanup = "zap"; # WARNING: uninstalls AND zaps anything not listed in ANY module
     };
 
+    greedyCasks = true;
+
     taps = [
       {
         name = "benjaminchocolate/tap";
-        trusted = true;
-      }
-      {
-        name = "mattt/tap";
-        clone_target = "https://github.com/mattt/homebrew-tap";
-        trusted = true;
-      }
-      {
-        name = "y3owk1n/tap";
-        clone_target = "https://github.com/y3owk1n/neru";
-        trusted = true;
-      }
-      {
-        name = "nikitabobko/tap";
-        clone_target = "https://github.com/nikitabobko/homebrew-tap";
         trusted = true;
       }
     ];
@@ -100,89 +87,95 @@
     ];
 
     # Groups are alphabetical (Fonts last); so is each group's contents.
-    casks =
-      map
-        (name: {
-          inherit name;
-          greedy = true;
-        })
-        [
-          # Hardware
-          "motu-m-series"
-          "keyboardcleantool"
+    casks = [
+      {
+        name = "mattt/tap/imcp";
+        trusted = true;
+      }
+      {
+        name = "y3owk1n/tap/neru";
+        trusted = true;
+      }
+      {
+        name = "nikitabobko/tap/aerospace";
+        trusted = true;
+      }
+      # Hardware
+      "motu-m-series"
+      "keyboardcleantool"
 
-          # Creative: audio
-          "blackhole-2ch"
+      # Creative: audio
+      "blackhole-2ch"
 
-          # Creative
-          "affinity"
-          #"touchdesigner"
-          "blender"
-          "bitwig-studio"
-          "surge-xt"
-          "benjaminchocolate/tap/carla-app"
-          "mixxx"
+      # Creative
+      "affinity"
+      #"touchdesigner"
+      "blender"
+      "bitwig-studio"
+      "surge-xt"
+      "benjaminchocolate/tap/carla-app"
+      "mixxx"
 
-          # Engineering & development
-          "ghostty"
-          "wireshark-app"
-          "freecad"
-          "kicad"
+      # Engineering & development
+      "ghostty"
+      "wireshark-app"
+      "freecad"
+      "kicad"
 
-          # Documents & publishing
-          "mactex-no-gui"
+      # Documents & publishing
+      "mactex-no-gui"
 
-          # Input & window management
-          "hammerspoon"
-          "karabiner-elements"
-          "mos"
-          "y3owk1n/tap/neru"
-          "aerospace"
+      # Input & window management
+      "hammerspoon"
+      "karabiner-elements"
+      "mos"
+      #"y3owk1n/tap/neru"
+      #"aerospace"
 
-          # Internet & communication
-          "beeper"
-          "cloudflare-warp"
-          "netnewswire"
-          "ungoogled-chromium"
-          "benjaminchocolate/tap/moonlight@nightly"
+      # Internet & communication
+      "beeper"
+      "cloudflare-warp"
+      "netnewswire"
+      "ungoogled-chromium"
+      "benjaminchocolate/tap/moonlight@nightly"
 
-          # Utilities
-          "syntax-highlight"
+      # Utilities
+      "syntax-highlight"
 
-          # Fonts
-          "font-noto-emoji"
-          "font-noto-sans-cjk"
-          "font-noto-sans-sc"
-          "font-noto-sans-tc"
-          "font-noto-sans"
-          "font-noto-serif"
-          "font-0xproto"
-          "font-atkinson-hyperlegible-mono"
-          "font-fira-code"
-          "font-noto-sans-mono"
-          "font-gnu-unifont"
-          "font-ligature-symbols"
-          "font-material-symbols"
-          "font-noto-sans-symbols"
-          "font-noto-sans-symbols-2"
-          "font-powerline-symbols"
-          "font-symbols-only-nerd-font"
+      # Fonts
+      "font-noto-emoji"
+      "font-noto-sans-cjk"
+      "font-noto-sans-sc"
+      "font-noto-sans-tc"
+      "font-noto-sans"
+      "font-noto-serif"
+      "font-0xproto"
+      "font-atkinson-hyperlegible-mono"
+      "font-fira-code"
+      "font-noto-sans-mono"
+      "font-gnu-unifont"
+      "font-ligature-symbols"
+      "font-material-symbols"
+      "font-noto-sans-symbols"
+      "font-noto-sans-symbols-2"
+      "font-powerline-symbols"
+      "font-symbols-only-nerd-font"
 
-          # Fonts: text
-          "font-atkinson-hyperlegible-next"
+      # Fonts: text
+      "font-atkinson-hyperlegible-next"
 
-          # AI
-          "claude"
-          "claude-code"
-          "iMCP"
+      # AI
+      "claude"
+      "claude-code"
+      #"iMCP"
 
-          "anki"
+      "anki"
 
-          # For school
-          "corretto@11" # For Matlab
-          "antconc" # For DTC 375
-          "ltspice"
-        ];
+      # For school
+      "corretto@11" # For Matlab
+      "antconc" # For DTC 375
+      "ltspice"
+    ];
 
     masApps = {
       Xcode = 497799835;

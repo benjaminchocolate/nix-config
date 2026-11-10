@@ -10,7 +10,6 @@
     taps = [
       {
         name = "d12frosted/emacs-plus";
-        clone_target = "https://github.com/d12frosted/homebrew-emacs-plus";
         trusted = true;
       }
     ];
