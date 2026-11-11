@@ -23,8 +23,6 @@
     brews = [
       # Build toolchain (C/C++)
       "cmake"
-      "gcc"
-      "libgccjit"
       "llvm"
 
       # Dev tools & cloud
@@ -82,24 +80,14 @@
       "fd"
       "shellcheck"
 
-      # GNU Coreutils
-      "coreutils"
     ];
 
     # Groups are alphabetical (Fonts last); so is each group's contents.
     casks = [
-      {
-        name = "mattt/tap/imcp";
-        trusted = true;
-      }
-      {
-        name = "y3owk1n/tap/neru";
-        trusted = true;
-      }
-      {
-        name = "nikitabobko/tap/aerospace";
-        trusted = true;
-      }
+      "mattt/tap/imcp"
+      "y3owk1n/tap/neru"
+      "nikitabobko/tap/aerospace"
+
       # Hardware
       "motu-m-series"
       "keyboardcleantool"
@@ -134,7 +122,7 @@
 
       # Internet & communication
       "beeper"
-      "cloudflare-warp"
+      # "cloudflare-warp"
       "netnewswire"
       "ungoogled-chromium"
       "benjaminchocolate/tap/moonlight@nightly"

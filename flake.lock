@@ -17,6 +17,26 @@
         "type": "github"
       }
     },
+    "ds-store-killer": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1766726347,
+        "narHash": "sha256-gkx2z8IcF5WNlJPOkeVEWQDatFcVd6sCDgFivrSGNME=",
+        "owner": "kawayww",
+        "repo": "ds-store-killer",
+        "rev": "054b8627bb885aa75ba17b4381beeb460cca9314",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kawayww",
+        "repo": "ds-store-killer",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -142,6 +162,7 @@
     },
     "root": {
       "inputs": {
+        "ds-store-killer": "ds-store-killer",
         "home-manager": "home-manager",
         "homebrew-cask": "homebrew-cask",
         "homebrew-core": "homebrew-core",

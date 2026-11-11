@@ -29,6 +29,11 @@
     };
 
     sops-nix.url = "github:Mic92/sops-nix";
+
+    ds-store-killer = {
+      url = "github:kawayww/ds-store-killer";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -41,6 +46,7 @@
       homebrew-core,
       homebrew-cask,
       sops-nix,
+      ds-store-killer,
     }:
     {
       # Build darwin flake using:

@@ -1,5 +1,6 @@
 # Login items, session environment, and system services (root daemons)
 {
+  homebrew.onActivation.extraEnv.XDG_CONFIG_HOME = "/Users/ben/.config";
   # ── Login items & session environment ─────────────────────
   launchd.user = {
     # $XDG_RUNTIME_DIR
@@ -13,6 +14,7 @@
       XDG_STATE_HOME = "/Users/ben/.local/state";
       XDG_CACHE_HOME = "/Users/ben/.cache";
       ELECTRON_NO_UPDATER = "1";
+      DISABLE_UPDATE_CHECK = "1";
     };
 
     # Open these apps in the background at login
@@ -46,35 +48,6 @@
         ];
         RunAtLoad = true;
       };
-    };
-
-    agents.reset-finder-views = {
-      script = ''
-        /usr/bin/find /Users/ben -path /Users/ben/Library -prune -o -name .DS_Store -type f -delete
-        /usr/bin/killall Finder
-      '';
-      serviceConfig = {
-        RunAtLoad = true; # run once at login
-        StandardErrorPath = "/tmp/reset-finder-views.err";
-      };
-    };
-  };
-
-  # ── System services (run as root) ─────────────────────────
-  # Sweep .DS_Store across the disk at boot and daily at 4am
-  launchd.daemons.clean-ds-store = {
-    script = ''
-      /usr/bin/find /Users /Applications /Library -name .DS_Store -type f -delete
-    '';
-    serviceConfig = {
-      RunAtLoad = true;
-      StartCalendarInterval = [
-        {
-          Hour = 4;
-          Minute = 0;
-        }
-      ];
-      StandardErrorPath = "/var/log/clean-ds-store.err";
     };
   };
 }

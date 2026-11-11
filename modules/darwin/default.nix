@@ -9,5 +9,6 @@
     ./launchd.nix # login items, session env vars, root daemons
     ./homebrew.nix # Homebrew settings and the general package lists
     ./emacs.nix # everything emacs-plus: tap, app, deps, config, daemon
+    ./ds-store-killer.nix
   ];
 }
