@@ -3,9 +3,9 @@ let
   link = config.lib.file.mkOutOfStoreSymlink;
 in
 {
-  home.file."Developer/dotfiles".source = link "/private/etc/nix-darwin";
-  home.file."Developer/homebrew-tap".source =
-    link "/opt/homebrew/Library/Taps/benjaminchocolate/homebrew-tap";
+  home.file."Developer/dotfiles".source = link config.dotfiles.path;
+  # ~/Developer/homebrew-tap used to link into /opt/homebrew/Library/Taps.
+  # Taps are read-only store paths now, so it is a normal clone instead.
   home.file."Developer/container".source =
-    link "/Users/ben/Library/Application Support/com.apple.container";
+    link "${config.home.homeDirectory}/Library/Application Support/com.apple.container";
 }

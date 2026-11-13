@@ -1,33 +1,27 @@
-# Machine basics: Nix, platform, user, security, system packages, PATH
-{ pkgs, inputs, ... }:
+# Machine basics: Nix, security, system packages, PATH
 {
-  # ── Nix & platform ────────────────────────────────────────
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
+let
+  home = config.users.users.${config.system.primaryUser}.home;
+in
+{
+  # ── Nix ───────────────────────────────────────────────────
   nix.enable = false; # Determinate Nix manages the Nix daemon
 
   # Necessary for using flakes on this system.
   #nix.settings.experimental-features = "nix-command flakes";
 
-  # The platform the configuration will be used on.
-  nixpkgs.hostPlatform = "aarch64-darwin";
-
   # Set Git commit hash for darwin-version.
   # (`self` lives in `inputs`, passed in via specialArgs in flake.nix)
   system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
 
-  # Used for backwards compatibility, please read the changelog before changing.
-  # $ darwin-rebuild changelog
-  system.stateVersion = 6;
-
-  # ── User & shells ─────────────────────────────────────────
-  system.primaryUser = "ben";
-  users.users.ben.home = "/Users/ben";
-
+  # ── Shells ────────────────────────────────────────────────
   # Enable alternative shell support in nix-darwin.
   # programs.fish.enable = true;
-
-  # TODO(ben): stop nix-darwin from writing compinit and bashcompinit into
-  # /etc/zshrc. Home Manager's completionInit (modules/home/shell.nix) should
-  # be the only compinit.
 
   # ── Security ──────────────────────────────────────────────
   security.pam.services.sudo_local.touchIdAuth = true;
@@ -56,6 +50,6 @@
   environment.systemPath = [
     "/opt/homebrew/bin"
     "/Library/TeX/texbin"
-    "/Users/ben/.local/bin/env"
+    "${home}/.local/bin" # user-installed binaries (the XDG convention)
   ];
 }

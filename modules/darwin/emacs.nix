@@ -1,19 +1,22 @@
-# Emacs (emacs-plus): tap, app, pdf-tools build deps, icon config, daemon.
+# Emacs (emacs-plus): tap, app, pdf-tools build deps, config link, daemon.
 # Everything Emacs lives here. Remove ./emacs.nix from default.nix and all
-# of it goes away together (cleanup = "zap" uninstalls the brew side too).
+# of it goes away together (Homebrew cleanup uninstalls the brew side too).
 #
 # This is a nix-darwin module, but it can still set Home Manager options
-# through `home-manager.users.ben`; they merge with modules/home.
+# through `home-manager.users.<name>`; they merge with modules/home.
+{ config, inputs, ... }:
+let
+  user = config.system.primaryUser;
+in
 {
   # ── Homebrew side ─────────────────────────────────────────
-  homebrew = {
-    taps = [
-      {
-        name = "d12frosted/emacs-plus";
-        trusted = true;
-      }
-    ];
+  # The tap is pinned and fully trusted here so that removing this file
+  # removes every trace of emacs-plus. (homebrew.nix turns the trust entry
+  # into `trusted: true` on the tap's Brewfile line.)
+  nix-homebrew.taps."d12frosted/homebrew-emacs-plus" = inputs.homebrew-emacs-plus;
+  nix-homebrew.trust.taps = [ "d12frosted/emacs-plus" ];
 
+  homebrew = {
     brews = [
       # pdf-tools build deps
       "pkg-config"
@@ -31,7 +34,10 @@
   };
 
   # ── Home Manager side ─────────────────────────────────────
-  home-manager.users.ben = {
+  home-manager.users.${user} = {
+    # ~/.config/emacs -> config/emacs in this repo (edit without rebuilding)
+    dotfiles.live = [ "emacs" ];
+
     # Read by emacs-plus at install time only:
     # after changing it, run `brew reinstall --cask emacs-plus-app`
     home.file.".config/emacs-plus/build.yml".text = ''
@@ -50,8 +56,11 @@
         KeepAlive = true; # restart if it dies
         StandardOutPath = "/tmp/emacs-daemon.log";
         StandardErrorPath = "/tmp/emacs-daemon.log";
-        # the cask doesn't inject your PATH, so tools like nixd need this
-        EnvironmentVariables.PATH = "/etc/profiles/per-user/ben/bin:/run/current-system/sw/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+        # launchd starts this with an almost empty environment. Give it the
+        # session environment (environment.nix) directly: PATH so it finds
+        # nixd, TeX and Homebrew tools, plus the XDG variables. The login
+        # agent sets the same values, but may run after this daemon starts.
+        EnvironmentVariables = config.launchd.user.envVariables;
         ProcessType = "Interactive";
         Nice = -20; # Maybe a bad idea?
       };

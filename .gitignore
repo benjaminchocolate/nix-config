@@ -1,0 +1,26 @@
+# Nix build outputs
+result
+result-*
+.direnv/
+
+# macOS
+.DS_Store
+
+# ── config/ is live: programs write next to the files I edit ──
+# Emacs (state is redirected to XDG dirs in early-init.el; these are stragglers)
+config/emacs/*.elc
+config/emacs/custom.el
+config/emacs/elpa/
+config/emacs/eln-cache/
+config/emacs/etc/
+config/emacs/var/
+config/emacs/tree-sitter/
+config/emacs/auto-save-list/
+config/emacs/transient/
+# zsh (history and completion dumps are redirected in .zshrc)
+config/zsh/.zsh_history
+config/zsh/.zcompdump*
+config/zsh/.zcompcache/
+config/zsh/.zsh_sessions/
+# Karabiner-Elements saves a dated copy on every GUI change
+config/karabiner/automatic_backups/

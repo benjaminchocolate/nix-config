@@ -1,4 +1,5 @@
 # Git: identity, SSH commit signing, global ignores
+{ config, ... }:
 {
   programs.git = {
     enable = true;
@@ -12,7 +13,7 @@
       user = {
         name = "Benjamin Carpenter";
         email = "dev@benjamincarpenter.dev";
-        signingkey = "/Users/ben/.ssh/id_ed25519.pub";
+        signingkey = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
       };
       gpg.format = "ssh";
       commit.gpgsign = true;
