@@ -1,97 +1,52 @@
-# Homebrew: the installation itself (nix-homebrew), activation behaviour, and
-# the general package lists. Feature modules (like emacs.nix) add their own
-# taps/brews/casks; Nix merges every module's lists into one Brewfile.
-#
-# Two modules cooperate here:
-#   nix-homebrew  installs Homebrew and its taps from pinned flake inputs
-#   homebrew      (nix-darwin) runs `brew bundle` with a generated Brewfile
-{
-  config,
-  inputs,
-  lib,
-  ...
-}:
+# Homebrew: activation behaviour and the general package lists. Homebrew
+# itself is a normal install from the official installer in /opt/homebrew;
+# nix-darwin only runs `brew bundle` with a generated Brewfile. Feature
+# modules (like emacs.nix) add their own taps/brews/casks; Nix merges every
+# module's lists into one Brewfile.
+{ config, ... }:
 let
   home = config.users.users.${config.system.primaryUser}.home;
-
-  # "owner/homebrew-name" (the repository) -> "owner/name" (what brew calls it)
-  tapName = lib.replaceStrings [ "/homebrew-" ] [ "/" ];
 in
 {
-  imports = [ inputs.nix-homebrew.darwinModules.nix-homebrew ];
-
-  # ── Homebrew itself ───────────────────────────────────────
-  nix-homebrew = {
-    enable = true;
-    user = config.system.primaryUser;
-
-    # Take over the Homebrew that the official installer put in /opt/homebrew:
-    # its own code is removed, installed packages are kept. Only does anything
-    # on the first switch; harmless afterwards.
-    autoMigrate = true;
-
-    # Strict mode: /opt/homebrew/Library/Taps becomes a read-only link into
-    # the Nix store. `brew tap` and `brew update` stop working on purpose.
-    mutableTaps = false;
-
-    # Keys are "<owner>/homebrew-<name>" (the repository name), values are
-    # flake inputs. Feature modules add their own (see emacs.nix).
-    taps = {
-      "homebrew/homebrew-core" = inputs.homebrew-core;
-      "homebrew/homebrew-cask" = inputs.homebrew-cask;
-      "benjaminchocolate/homebrew-tap" = inputs.homebrew-tap;
-      "mattt/homebrew-tap" = inputs.homebrew-mattt;
-      "nikitabobko/homebrew-tap" = inputs.homebrew-nikitabobko;
-      "y3owk1n/homebrew-tap" = inputs.homebrew-y3owk1n;
-    };
-
-    # Trust policy. Homebrew refuses to load anything from a non-official tap
-    # unless it is trusted (https://docs.brew.sh/Tap-Trust).
-    #
-    #   Whole tap:   listed here. Only taps I would run any future code from.
-    #                (emacs.nix adds d12frosted/emacs-plus.)
-    #   Single cask: no list. Writing a cask as "owner/tap/name" in `casks`
-    #                below trusts exactly that cask (nix-darwin adds
-    #                `trusted: true` to its Brewfile line).
-    #
-    # The Brewfile is the authority: on every switch `brew bundle cleanup`
-    # resets brew's trust file to what the Brewfile declares. That is why
-    # `homebrew.taps` below copies this list into the Brewfile; trust set only
-    # here would be wiped again minutes later.
-    trust.taps = [ "benjaminchocolate/tap" ];
-
-    # Exported inside bin/brew, so every brew run (terminal, activation, GUI)
-    # keeps its trust list in ~/.config/homebrew instead of ~/.homebrew.
-    extraEnv.XDG_CONFIG_HOME = "${home}/.config";
-    extraEnv.HOMEBREW_DEVELOPER = "1";
-
-    # My zsh config runs `brew shellenv` once in .zprofile; without this
-    # nix-homebrew would run it again in /etc/zshrc for every shell.
-    enableZshIntegration = false;
-  };
-
   # ── What brew bundle does on every switch ─────────────────
   homebrew = {
     enable = true;
     onActivation = {
-      autoUpdate = false; # nothing to fetch: taps are pinned flake inputs
-      upgrade = true; # move installed packages to the pinned taps' versions
+      autoUpdate = true; # `brew update` (taps and Homebrew itself) on every switch
+      upgrade = true; # upgrade outdated packages on every switch
       # Uninstall anything brew has that no module lists. "zap" would also
       # delete the app's preferences and data; "check" would only refuse to
       # switch and print the list.
       cleanup = "uninstall";
+
+      # Keep brew's trust list in ~/.config/homebrew (not ~/.homebrew), the
+      # same place my shells use (XDG_CONFIG_HOME in environment.nix).
+      extraEnv.XDG_CONFIG_HOME = "${home}/.config";
     };
 
     greedyCasks = true;
 
-    # The Brewfile's tap lines are generated from the pinned taps above, so
-    # the two lists cannot drift. (Cleanup untaps anything missing from the
-    # Brewfile, which would fail on the read-only tap directory.) A tap in
-    # the trust list gets `trusted: true`.
-    taps = map (name: {
-      inherit name;
-      trusted = builtins.elem (tapName name) config.nix-homebrew.trust.taps;
-    }) (builtins.attrNames config.nix-homebrew.taps);
+    # Trust policy. Homebrew refuses to load anything from a non-official tap
+    # unless it is trusted (https://docs.brew.sh/Tap-Trust).
+    #
+    #   Whole tap:   `trusted = true` below. Only taps I would run any future
+    #                code from. (emacs.nix adds d12frosted/emacs-plus.)
+    #   Single cask: writing a cask as "owner/tap/name" in `casks` trusts
+    #                exactly that cask (nix-darwin adds `trusted: true` to its
+    #                Brewfile line).
+    #
+    # The Brewfile is the authority: on every switch `brew bundle cleanup`
+    # resets brew's trust file to what the Brewfile declares, and untaps any
+    # tap that no module lists.
+    taps = [
+      {
+        name = "benjaminchocolate/tap";
+        trusted = true;
+      }
+      "mattt/tap"
+      "nikitabobko/tap"
+      "y3owk1n/tap"
+    ];
 
     # Groups are alphabetical; so is each group's contents.
     brews = [

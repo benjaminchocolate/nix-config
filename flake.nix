@@ -13,44 +13,6 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Homebrew itself, installed and pinned by Nix
-    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
-
-    # Homebrew taps, pinned as plain source trees (`flake = false`).
-    # With `nix-homebrew.mutableTaps = false` these are the only taps brew can
-    # see, so a package updates only when its tap input is bumped here
-    # (`just update-brew`). modules/darwin/homebrew.nix maps them to tap names.
-    homebrew-core = {
-      url = "github:homebrew/homebrew-core";
-      flake = false;
-    };
-    homebrew-cask = {
-      url = "github:homebrew/homebrew-cask";
-      flake = false;
-    };
-    homebrew-emacs-plus = {
-      url = "github:d12frosted/homebrew-emacs-plus";
-      flake = false;
-    };
-    # My own tap (custom casks)
-    homebrew-tap = {
-      url = "github:benjaminchocolate/homebrew-tap";
-      flake = false;
-    };
-    # Third-party taps I use one cask from each
-    homebrew-mattt = {
-      url = "github:mattt/homebrew-tap"; # iMCP
-      flake = false;
-    };
-    homebrew-nikitabobko = {
-      url = "github:nikitabobko/homebrew-tap"; # AeroSpace
-      flake = false;
-    };
-    homebrew-y3owk1n = {
-      url = "github:y3owk1n/homebrew-tap"; # Neru
-      flake = false;
-    };
-
     sops-nix.url = "github:Mic92/sops-nix";
 
     ds-store-killer = {

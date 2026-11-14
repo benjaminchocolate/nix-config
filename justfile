@@ -43,17 +43,6 @@ rollback:
 update *inputs:
     nix flake update {{ inputs }} --flake "{{ flake }}"
 
-# Update the Homebrew taps only. This replaces `brew update`.
-update-brew:
-    nix flake update --flake "{{ flake }}" \
-        homebrew-core homebrew-cask homebrew-emacs-plus \
-        homebrew-tap homebrew-mattt homebrew-nikitabobko homebrew-y3owk1n
-
-# Activate using a local clone of my tap, to test a cask before pushing it
-switch-local-tap tap=(env("HOME") / "Developer/homebrew-tap"):
-    sudo darwin-rebuild switch --flake "{{ flake }}#{{ host }}" \
-        --override-input homebrew-tap "path:{{ tap }}"
-
 # ── Secrets (sops + age) ───────────────────────────────────
 
 age_key := env("HOME") / ".config/sops/age/keys.txt"

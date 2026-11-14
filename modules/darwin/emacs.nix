@@ -4,19 +4,22 @@
 #
 # This is a nix-darwin module, but it can still set Home Manager options
 # through `home-manager.users.<name>`; they merge with modules/home.
-{ config, inputs, ... }:
+{ config, ... }:
 let
   user = config.system.primaryUser;
 in
 {
   # ── Homebrew side ─────────────────────────────────────────
-  # The tap is pinned and fully trusted here so that removing this file
-  # removes every trace of emacs-plus. (homebrew.nix turns the trust entry
-  # into `trusted: true` on the tap's Brewfile line.)
-  nix-homebrew.taps."d12frosted/homebrew-emacs-plus" = inputs.homebrew-emacs-plus;
-  nix-homebrew.trust.taps = [ "d12frosted/emacs-plus" ];
-
+  # The tap is declared and fully trusted here so that removing this file
+  # removes every trace of emacs-plus.
   homebrew = {
+    taps = [
+      {
+        name = "d12frosted/emacs-plus";
+        trusted = true;
+      }
+    ];
+
     brews = [
       # pdf-tools build deps
       "pkg-config"
