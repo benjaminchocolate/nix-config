@@ -1,7 +1,3 @@
-# ==============================================================
-# SYSTEM (nix-darwin): entry point. Each file is one concern;
-# drop a line here to turn that whole concern off.
-# ==============================================================
 {
   imports = [
     ./system.nix # Nix, security, system packages, PATH

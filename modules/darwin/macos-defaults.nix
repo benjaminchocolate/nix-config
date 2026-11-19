@@ -19,7 +19,7 @@ in
       mineffect = "genie";
       tilesize = 64; # normal icon size in pixels (16–128)
       magnification = true; # enlarge icons on hover
-      largesize = 72; # magnified size in pixels (16–128)
+      largesize = 68; # magnified size in pixels (16–128)
       autohide = true;
       show-recents = false;
 
@@ -35,7 +35,8 @@ in
     };
 
     finder = {
-      CreateDesktop = false; # don't draw the desktop at all
+      # CreateDesktop = false; # don't draw the desktop at all
+      CreateDesktop = true; # keep the desktop: right-click and drag-select work
       FXPreferredViewStyle = "Nlsv"; # list view
       AppleShowAllExtensions = true; # always show .pdf, .zip, etc.
       FXEnableExtensionChangeWarning = false; # no prompt when renaming an extension
@@ -47,12 +48,17 @@ in
       NewWindowTarget = "Home"; # new windows open in ~
       FXRemoveOldTrashItems = true; # empty Trash items after 30 days
       AppleShowAllFiles = true;
+
+      ShowExternalHardDrivesOnDesktop = false; # no drives
+      ShowHardDrivesOnDesktop = false;
+      ShowMountedServersOnDesktop = false;
+      ShowRemovableMediaOnDesktop = false;
     };
 
     screencapture = {
       disable-shadow = true;
       include-date = true;
-      location = "${home}/Pictures/Screenshots";
+      location = "${home}/Desktop/Screenshots";
       show-thumbnail = true;
       type = "png";
       target = "clipboard"; # screenshots go to the clipboard, not a file
@@ -69,7 +75,7 @@ in
       StandardHideDesktopIcons = true; # hide desktop files
       StandardHideWidgets = true; # hide desktop widgets
       StageManagerHideWidgets = true; # hide them if Stage Manager ever gets turned on
-      EnableStandardClickToShowDesktop = false;
+      EnableStandardClickToShowDesktop = true;
       EnableTiledWindowMargins = false; # no gaps between tiled windows
       HideDesktop = true; # Stage Manager: hide desktop items
     };

@@ -705,3 +705,7 @@ Runs after every theme load via `enable-theme-functions'."
 
 ;; Setup ruby
 ;; fix quotes pairing workflow
+
+(use-package csv-mode)
+
+(global-auto-revert-mode 1)

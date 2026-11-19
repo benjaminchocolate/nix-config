@@ -50,3 +50,9 @@ alias wget='wget --hsts-file="$XDG_STATE_HOME/wget-hsts"'
 # Run this repo's justfile from any directory: `dots switch`, `dots update`.
 # Plain `dots` lists the recipes.
 alias dots='just --justfile ~/Developer/dotfiles/justfile'
+
+alias python='python3'
+
+if [[ -n $GHOSTTY_RESOURCES_DIR ]]; then
+  source "$GHOSTTY_RESOURCES_DIR"/shell-integration/zsh/ghostty-integration
+fi

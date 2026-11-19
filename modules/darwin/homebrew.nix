@@ -43,9 +43,11 @@ in
         name = "benjaminchocolate/tap";
         trusted = true;
       }
-      "mattt/tap"
-      "nikitabobko/tap"
-      "y3owk1n/tap"
+      {
+        name = "openai/tools";
+        trusted = true;
+      }
+
     ];
 
     # Groups are alphabetical; so is each group's contents.
@@ -115,6 +117,11 @@ in
       "fd"
       "shellcheck"
 
+      "duti"
+
+      # "infat"
+
+      "openai/tools/tart"
     ];
 
     # Groups are alphabetical (Fonts last); so is each group's contents.
@@ -129,20 +136,25 @@ in
 
       # Creative: audio
       "blackhole-2ch"
+      "bitwig-studio"
+      "surge-xt"
+      "ob-xf"
+      "valhalla-supermassive"
+      "benjaminchocolate/tap/carla-app"
+      "tone3000"
+      # "cardinal"
+      # "dexed"
 
       # Creative
       "affinity"
       #"touchdesigner"
       "blender"
-      "bitwig-studio"
-      "surge-xt"
-      "benjaminchocolate/tap/carla-app"
       "mixxx"
 
       # Engineering & development
       "ghostty"
       "wireshark-app"
-      "freecad"
+      # "freecad"
       "kicad"
       "solidcraft"
 
@@ -200,6 +212,9 @@ in
       "corretto@11" # For Matlab
       "antconc" # For DTC 375
       "ltspice"
+
+      "benjaminchocolate/tap/mpv-app"
+
     ];
 
     masApps = {
@@ -212,6 +227,7 @@ in
       "Microsoft Excel" = 462058435;
       "Microsoft Word" = 462054704;
       ScreenZen = 1541027222;
+      # medito?
     };
   };
 }

@@ -17,6 +17,7 @@
     ./ssh.nix
     ./sparkle.nix
     ./links.nix
+    ./infat.nix
   ];
 
   # ── Live-editable configs ─────────────────────────────────

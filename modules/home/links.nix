@@ -1,9 +1,19 @@
-{ config, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   link = config.lib.file.mkOutOfStoreSymlink;
 in
 {
-  home.file."Developer/dotfiles".source = link config.dotfiles.path;
-  home.file."Developer/container".source =
-    link "${config.home.homeDirectory}/Library/Application Support/com.apple.container";
+  home.file = {
+    "Developer/dotfiles".source = link config.dotfiles.path;
+  }
+  // lib.optionalAttrs pkgs.stdenv.isDarwin {
+    "Developer/container".source =
+      link "${config.home.homeDirectory}/Library/Application Support/com.apple.container";
+    "Developer/homebrew-tap".source = link "/opt/homebrew/Library/Taps/benjaminchocolate/homebrew-tap";
+  };
 }
