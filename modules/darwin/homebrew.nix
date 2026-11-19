@@ -215,6 +215,11 @@ in
 
       "benjaminchocolate/tap/mpv-app"
 
+      #"audacity"
+      #"filmcraft"
+      #"kdenlive"
+      "obs"
+
     ];
 
     masApps = {

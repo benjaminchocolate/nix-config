@@ -26,6 +26,7 @@ in
       "poppler"
       "autoconf"
       "automake"
+      "languagetool"
     ];
 
     casks = [
