@@ -31,6 +31,7 @@
     "aerospace"
     "hammerspoon"
     "karabiner"
+    "mpv"
   ];
 
   manual.manpages.enable = false;

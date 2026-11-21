@@ -11,7 +11,7 @@ in
   home.file = {
     "Developer/dotfiles".source = link config.dotfiles.path;
   }
-  // lib.optionalAttrs pkgs.stdenv.isDarwin {
+  // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
     "Developer/container".source =
       link "${config.home.homeDirectory}/Library/Application Support/com.apple.container";
     "Developer/homebrew-tap".source = link "/opt/homebrew/Library/Taps/benjaminchocolate/homebrew-tap";

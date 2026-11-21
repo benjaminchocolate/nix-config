@@ -26,6 +26,6 @@
   # These record which release's defaults this machine started on. They are
   # not "the version I run": leave them alone when updating inputs.
   # $ darwin-rebuild changelog
-  system.stateVersion = 6;
+  system.stateVersion = 7;
   home-manager.users.ben.home.stateVersion = "26.05";
 }

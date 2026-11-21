@@ -122,6 +122,10 @@ in
       # "infat"
 
       "openai/tools/tart"
+
+      "opencode"
+
+      "pi-coding-agent"
     ];
 
     # Groups are alphabetical (Fonts last); so is each group's contents.
@@ -215,10 +219,12 @@ in
 
       "benjaminchocolate/tap/mpv-app"
 
-      #"audacity"
+      "audacity"
       #"filmcraft"
       #"kdenlive"
       "obs"
+
+      "github"
 
     ];
 
