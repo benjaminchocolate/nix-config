@@ -3,19 +3,14 @@ let
   home = config.users.users.${config.system.primaryUser}.home;
 in
 {
-  # ── What brew bundle does on every switch ─────────────────
   homebrew = {
     enable = true;
     onActivation = {
-      autoUpdate = true; # `brew update` (taps and Homebrew itself) on every switch
-      upgrade = true; # upgrade outdated packages on every switch
-      # Uninstall anything brew has that no module lists. "zap" would also
-      # delete the app's preferences and data; "check" would only refuse to
-      # switch and print the list.
+      autoUpdate = true;
+      upgrade = true;
       cleanup = "uninstall";
 
-      # Keep brew's trust list in ~/.config/homebrew (not ~/.homebrew), the
-      # same place my shells use (XDG_CONFIG_HOME in environment.nix).
+      # Keep brew's trust list in ~/.config/homebrew (not ~/.homebrew)
       extraEnv.XDG_CONFIG_HOME = "${home}/.config";
     };
 
@@ -30,50 +25,34 @@ in
         name = "openai/tools";
         trusted = true;
       }
-
     ];
 
-    # Groups are alphabetical; so is each group's contents.
     brews = [
-      # Build toolchain (C/C++)
       "cmake"
       "llvm"
-
-      # Dev tools & cloud
       "cloudflare-wrangler"
       "container"
       "gh"
       "just"
       "nixfmt"
       "vscode-langservers-extracted"
-
       "rclone"
-
-      # Documents & publishing
       "mupdf"
       "pandoc"
       "qpdf"
       "typst"
-
-      # Help & cheatsheets
       "cheat"
       "navi"
       "tlrc"
-
-      # Languages & runtimes
       "python"
       "uv"
       "zig@0.17"
       "zls"
-
-      # Media & downloads
       "aria2"
       "ffmpeg"
       "imagemagick"
       "wget"
       "yt-dlp"
-
-      # Shell
       "bash"
       "starship"
       "zsh-autocomplete"
@@ -81,54 +60,34 @@ in
       "zsh-completions"
       "zsh-history-substring-search"
       "zsh-syntax-highlighting"
-
-      # Secrets (used by `just secrets-*`; see modules/home/secrets.nix)
       "age"
       "sops"
-
-      # System utilities
       "fastfetch"
       "mole"
       "sequoia-sq"
       "xdg-ninja"
       "mas"
-
-      # testing out
       "zoxide"
       "eza"
       "bat"
       "ripgrep"
       "fd"
       "shellcheck"
-
       "duti"
-
-      # "infat"
-
       "openai/tools/tart"
-
       "opencode"
-
       "pi-coding-agent"
-
       "mosh"
-
       "gitleaks"
-
-      # zsh
+      "zsh"
     ];
 
-    # Groups are alphabetical (Fonts last); so is each group's contents.
     casks = [
       "mattt/tap/imcp"
       "y3owk1n/tap/neru"
       "nikitabobko/tap/aerospace"
-
-      # Hardware
       "motu-m-series"
       "keyboardcleantool"
-
-      # Creative: audio
       "blackhole-2ch"
       "bitwig-studio"
       "surge-xt"
@@ -136,38 +95,24 @@ in
       "valhalla-supermassive"
       "benjaminchocolate/tap/carla-app"
       "tone3000"
-
-      # Creative
       "affinity"
       #"touchdesigner"
       "blender"
       "mixxx"
-
-      # Engineering & development
       "ghostty"
       "wireshark-app"
-      # "freecad"
+      #"freecad"
       "kicad"
       "solidcraft"
-
-      # Documents & publishing
       "mactex-no-gui"
-
-      # Input & window management
       "hammerspoon"
       "karabiner-elements"
       "mos"
-
-      # Internet & communication
       "beeper"
       "netnewswire"
       "ungoogled-chromium"
       "moonlight"
-
-      # Utilities
       "syntax-highlight"
-
-      # Fonts
       "font-noto-emoji"
       "font-noto-sans-cjk"
       "font-noto-sans-sc"
@@ -185,32 +130,19 @@ in
       "font-noto-sans-symbols-2"
       "font-powerline-symbols"
       "font-symbols-only-nerd-font"
-
-      # Fonts: text
       "font-atkinson-hyperlegible-next"
-
-      # AI
       "claude"
       "claude-code"
-      #"iMCP"
-
       "anki"
-
-      # For school
       "antconc"
       "ltspice"
-
       "benjaminchocolate/tap/mpv-app"
-
       #"benjaminchocolate/tap/matlab-package-manager"
       #"benjaminchocolate/tap/matlab@2026b"
-
       "audacity"
       "kdenlive"
       "obs"
-
       "github"
-
     ];
 
     masApps = {
@@ -223,7 +155,7 @@ in
       "Microsoft Excel" = 462058435;
       "Microsoft Word" = 462054704;
       ScreenZen = 1541027222;
-      # medito?
+      # iPad apps not listed?
     };
   };
 }
