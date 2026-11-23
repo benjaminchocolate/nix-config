@@ -113,6 +113,8 @@ in
 
       "mosh"
 
+      "gitleaks"
+
       # zsh
     ];
 
@@ -200,8 +202,8 @@ in
 
       "benjaminchocolate/tap/mpv-app"
 
-      "benjaminchocolate/tap/matlab-package-manager"
-      "benjaminchocolate/tap/matlab@2026b"
+      #"benjaminchocolate/tap/matlab-package-manager"
+      #"benjaminchocolate/tap/matlab@2026b"
 
       "audacity"
       "kdenlive"

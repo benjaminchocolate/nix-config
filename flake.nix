@@ -32,10 +32,10 @@
       # One entry per machine. The name must match the Mac's LocalHostName
       # (`scutil --get LocalHostName`) so `darwin-rebuild --flake .` finds it
       # without a `#name` suffix.
-      darwinConfigurations."Benjamins-MacBook-Pro" = nix-darwin.lib.darwinSystem {
+      darwinConfigurations."honeycrisp" = nix-darwin.lib.darwinSystem {
         # Hands `inputs` to every module as an argument: `{ inputs, ... }:`
         specialArgs = { inherit inputs; };
-        modules = [ ./hosts/benjamins-macbook-pro ];
+        modules = [ ./hosts/honeycrisp ];
       };
     };
 }

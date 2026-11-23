@@ -52,4 +52,8 @@ in
     "/Library/TeX/texbin"
     "${home}/.local/bin" # user-installed binaries (the XDG convention)
   ];
+
+  networking.hostName = "honeycrisp";
+  networking.localHostName = "honeycrisp";
+  networking.computerName = "Honeycrisp";
 }
