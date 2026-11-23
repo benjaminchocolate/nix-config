@@ -1,8 +1,3 @@
-# Homebrew: activation behaviour and the general package lists. Homebrew
-# itself is a normal install from the official installer in /opt/homebrew;
-# nix-darwin only runs `brew bundle` with a generated Brewfile. Feature
-# modules (like emacs.nix) add their own taps/brews/casks; Nix merges every
-# module's lists into one Brewfile.
 { config, ... }:
 let
   home = config.users.users.${config.system.primaryUser}.home;
@@ -26,18 +21,6 @@ in
 
     greedyCasks = true;
 
-    # Trust policy. Homebrew refuses to load anything from a non-official tap
-    # unless it is trusted (https://docs.brew.sh/Tap-Trust).
-    #
-    #   Whole tap:   `trusted = true` below. Only taps I would run any future
-    #                code from. (emacs.nix adds d12frosted/emacs-plus.)
-    #   Single cask: writing a cask as "owner/tap/name" in `casks` trusts
-    #                exactly that cask (nix-darwin adds `trusted: true` to its
-    #                Brewfile line).
-    #
-    # The Brewfile is the authority: on every switch `brew bundle cleanup`
-    # resets brew's trust file to what the Brewfile declares, and untaps any
-    # tap that no module lists.
     taps = [
       {
         name = "benjaminchocolate/tap";
@@ -60,14 +43,16 @@ in
       "cloudflare-wrangler"
       "container"
       "gh"
-      "just" # runs this repo's justfile
+      "just"
       "nixfmt"
       "vscode-langservers-extracted"
+
+      "rclone"
 
       # Documents & publishing
       "mupdf"
       "pandoc"
-      "qpdf" # was installed by hand on 2026-11-10; delete this line if it was a one-off
+      "qpdf"
       "typst"
 
       # Help & cheatsheets
@@ -102,7 +87,6 @@ in
       "sops"
 
       # System utilities
-      #"cf" # NOTE: timestamp formatter, not a Cloudflare CLI (check with `brew info cf`)
       "fastfetch"
       "mole"
       "sequoia-sq"
@@ -126,6 +110,10 @@ in
       "opencode"
 
       "pi-coding-agent"
+
+      "mosh"
+
+      # zsh
     ];
 
     # Groups are alphabetical (Fonts last); so is each group's contents.
@@ -146,8 +134,6 @@ in
       "valhalla-supermassive"
       "benjaminchocolate/tap/carla-app"
       "tone3000"
-      # "cardinal"
-      # "dexed"
 
       # Creative
       "affinity"
@@ -169,15 +155,11 @@ in
       "hammerspoon"
       "karabiner-elements"
       "mos"
-      #"y3owk1n/tap/neru"
-      #"aerospace"
 
       # Internet & communication
       "beeper"
-      # "cloudflare-warp"
       "netnewswire"
       "ungoogled-chromium"
-      # "benjaminchocolate/tap/moonlight@nightly"
       "moonlight"
 
       # Utilities
@@ -213,15 +195,16 @@ in
       "anki"
 
       # For school
-      "corretto@11" # For Matlab
-      "antconc" # For DTC 375
+      "antconc"
       "ltspice"
 
       "benjaminchocolate/tap/mpv-app"
 
+      "benjaminchocolate/tap/matlab-package-manager"
+      "benjaminchocolate/tap/matlab@2026b"
+
       "audacity"
-      #"filmcraft"
-      #"kdenlive"
+      "kdenlive"
       "obs"
 
       "github"
