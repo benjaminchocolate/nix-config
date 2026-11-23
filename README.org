@@ -1,15 +1,9 @@
-#+TITLE: My Dotfiles
-#+AUTHOR: Benjamin Carpenter
+#+TITLE: README
 
-* These are my dotfiles consisting of a Nix Flake.
+* My Nix, NixOS, Nix-Darwin Flake
 
 ** TODO Next steps [1/5]
-- [ ] Finish migrating configurations.
-- [ ] Create a directory structure with modules.
-- [ ] Migrate [[https://archlinux.org][Arch Linux]] gaming PC to [[https://nixos.org][NixOS]].
 - [ ] Setup [[https://nixos.wiki/wiki/Comparison_of_secret_managing_schemes][secrets management]].
 
-* TODO Later [0/3]
+* TODO Later [0/1]
 - [ ] Look into CachyOS kernel on NixOS.
-- [ ] Setup home server with NixOS
-- [ ] Create an [[https://github.com/d12frosted/homebrew-emacs-plus][Emacs Plus]] flake.
