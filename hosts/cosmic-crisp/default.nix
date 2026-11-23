@@ -1,26 +1,20 @@
 {
-  modulesPath,
+  inputs,
   lib,
   pkgs,
   ...
 }:
 {
   imports = [
-    # (modulesPath + "/installer/scan/not-detected.nix")
-    # (modulesPath + "/profiles/qemu-guest.nix")
+    inputs.disko.nixosModules.disko
+    inputs.determinate.nixosModules.default
+    ./hardware-configuration.nix
     ./disk-config.nix
     ./services/caddy.nix
     ./services/uptermd.nix
     ./services/freshrss.nix
-    # ./services/rsshub.nix
+    #./services/rsshub.nix
   ];
-
-  nix.settings = {
-    extra-substituters = [ "https://install.determinate.systems" ];
-    extra-trusted-public-keys = [
-      "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
-    ];
-  };
 
   networking.hostName = "cosmic-crisp";
 
