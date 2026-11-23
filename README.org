@@ -1,4 +1,4 @@
-#+TITLE: My Nix, NixOS, Nix-Darwin Flake
+#+TITLE: My Nix, NixOS, nix-darwin Flake
 
 ** TODO Next steps [1/5]
 - [ ] Setup [[https://nixos.wiki/wiki/Comparison_of_secret_managing_schemes][secrets management]].
