@@ -1,7 +1,7 @@
 #+TITLE: nix-config
 
 #+begin_example
-] _             _      _
+                               ] _             _      _
                              #####(_____ _   _+ _  ___ ####_
                               ####  ###" _####/ "####L_###"
                               ####L  #L   ####    ####|##
@@ -23,7 +23,7 @@
     ^###_##"    [###_'####_ ######"  _###  _###_  ### _####L  #### ^###_>^#######"
       ####"   <"""""# #f"""" `["`   =####=_f"""""####L#####_`_####L_####L<L`"#"`'L
       -                       !                  ]        [` `                L
-#+end_example
+ #+end_example
 
 My Nix flake for NixOS and nix-darwin, built on Determinate Nix.
 
