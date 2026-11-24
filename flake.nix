@@ -1,5 +1,5 @@
 {
-  description = "My Nix flake for NixOS and nix-darwin, built on Determinate Nix";
+  description = "Nix configuration for my Mac (nix-darwin) and my server (NixOS). It uses the dendritic pattern, one file per feature for every host, on Determinate Nix.";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
