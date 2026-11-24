@@ -43,7 +43,7 @@ in
   # ── PATH ──────────────────────────────────────────────────
   environment.systemPath = [
     "/opt/homebrew/bin"
-    "/Library/TeX/texbin"
+    # "/Library/TeX/texbin"
     "${home}/.local/bin" # user-installed binaries (the XDG convention)
   ];
 }

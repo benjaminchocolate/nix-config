@@ -124,7 +124,7 @@ in
       "keyboardcleantool"
       "kicad"
       "ltspice"
-      "mactex-no-gui"
+      #"mactex-no-gui"
       "mixxx"
       "moonlight"
       "mos"
