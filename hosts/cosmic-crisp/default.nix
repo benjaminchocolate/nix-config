@@ -2,6 +2,7 @@
   inputs,
   lib,
   pkgs,
+  config,
   ...
 }:
 {
@@ -15,6 +16,7 @@
     ../../modules/nixos/uptermd.nix
     ../../modules/nixos/freshrss.nix
     ../../modules/nixos/rsshub.nix
+    ../../modules/nixos/ntfy.nix
   ];
 
   sops.defaultSopsFile = ../../secrets/cosmic-crisp.yaml;
@@ -25,6 +27,12 @@
 
   services.openssh.enable = true;
   services.openssh.settings.PasswordAuthentication = false;
+
+  services.openssh.settings.KbdInteractiveAuthentication = false;
+
+  users.mutableUsers = false;
+  sops.secrets.root-password.neededForUsers = true;
+  users.users.root.hashedPasswordFile = config.sops.secrets.root-password.path;
 
   environment.systemPackages = map lib.lowPrio [
     pkgs.curl
