@@ -5,8 +5,8 @@
     enableZshIntegration = false; # Ghostty injects its own
     settings = {
       theme = "Clear Dark";
-      background-opacity = 0.85;
-      background-blur = "macos-glass-regular";
+      #background-opacity = 0.85;
+      #background-blur = "macos-glass-regular";
       font-family = "Atkinson Hyperlegible Mono";
       font-size = 15;
       keybind = [

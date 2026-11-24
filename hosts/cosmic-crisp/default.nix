@@ -85,4 +85,8 @@
     pkgs.ghostty.terminfo
     pkgs.gitMinimal
   ];
+
+  hardware.facter.reportPath = ./facter.json;
+  hardware.facter.detected.graphics.enable = false;
+  hardware.facter.detected.dhcp.enable = false;
 }
