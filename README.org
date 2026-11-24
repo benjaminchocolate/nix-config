@@ -28,12 +28,14 @@ tree -L 2 --dirsfirst -I 'result|.git'
 │   ├── darwin
 │   ├── home
 │   └── nixos
-├── flake.lock
-├── flake.nix
+├── pkgs
+│   └── update-readme.nix
 ├── LICENSE
-└── README.org
+├── README.org
+├── flake.lock
+└── flake.nix
 
-15 directories, 4 files
+16 directories, 5 files
 #+end_example
 * Flake inputs
 #+begin_src sh :results output verbatim :exports results
@@ -61,6 +63,9 @@ Inputs:
 ├───disko: github:nix-community/disko/44761d4 (2026-11-20 09:52:48)
 │   └───nixpkgs follows input 'nixpkgs-stable'
 ├───ds-store-killer: github:kawayww/ds-store-killer/054b862 (2025-12-26 05:19:07)
+│   └───nixpkgs follows input 'nixpkgs'
+├───git-hooks: github:cachix/git-hooks.nix/204b697 (2026-11-03 06:09:14)
+│   ├───flake-compat: github:NixOS/flake-compat/5edf11c (2025-12-29 20:24:17)
 │   └───nixpkgs follows input 'nixpkgs'
 ├───home-manager: github:nix-community/home-manager/3b8140d (2026-11-22 16:59:17)
 │   └───nixpkgs follows input 'nixpkgs'

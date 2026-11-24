@@ -24,3 +24,4 @@ config/zsh/.zcompcache/
 config/zsh/.zsh_sessions/
 # Karabiner-Elements saves a dated copy on every GUI change
 config/karabiner/automatic_backups/
+/.pre-commit-config.yaml

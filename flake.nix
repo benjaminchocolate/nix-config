@@ -30,6 +30,11 @@
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
   };
 
@@ -38,21 +43,43 @@
       nixpkgs,
       nixpkgs-stable,
       nix-darwin,
-      disko,
-      determinate,
+      git-hooks,
       ...
     }:
+    let
+      forSystems = nixpkgs.lib.genAttrs [
+        "aarch64-darwin"
+        "aarch64-linux"
+        "x86_64-linux"
+      ];
+    in
     {
       formatter = nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed (
         system: nixpkgs.legacyPackages.${system}.nixfmt-tree
       );
 
-      apps = nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed (system: {
-        readme = {
-          type = "app";
-          program = nixpkgs.lib.getExe (
-            nixpkgs.legacyPackages.${system}.callPackage ./pkgs/update-readme.nix { }
-          );
+      checks = forSystems (system: {
+        pre-commit = git-hooks.lib.${system}.run {
+          src = ./.;
+          hooks = {
+            gitleaks.enable = true;
+            nixfmt.enable = true;
+            readme = {
+              enable = true;
+              name = "update README";
+              entry = nixpkgs.lib.getExe (
+                nixpkgs.legacyPackages.${system}.callPackage ./pkgs/update-readme.nix { }
+              );
+              pass_filenames = false;
+            };
+          };
+        };
+      });
+
+      devShells = forSystems (system: {
+        default = nixpkgs.legacyPackages.${system}.mkShell {
+          inherit (inputs.self.checks.${system}.pre-commit) shellHook;
+          buildInputs = inputs.self.checks.${system}.pre-commit.enabledPackages;
         };
       });
 
