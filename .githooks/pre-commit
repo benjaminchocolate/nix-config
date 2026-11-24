@@ -1,0 +1,2 @@
+#!/bin/sh
+nix run .#readme && git add README.org

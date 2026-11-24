@@ -47,6 +47,15 @@
         system: nixpkgs.legacyPackages.${system}.nixfmt-tree
       );
 
+      apps = nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed (system: {
+        readme = {
+          type = "app";
+          program = nixpkgs.lib.getExe (
+            nixpkgs.legacyPackages.${system}.callPackage ./pkgs/update-readme.nix { }
+          );
+        };
+      });
+
       darwinConfigurations."honeycrisp" = nix-darwin.lib.darwinSystem {
         specialArgs = { inherit inputs; };
         modules = [ ./hosts/honeycrisp ];
