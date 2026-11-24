@@ -1,4 +1,3 @@
-# Example to create a bios compatible gpt partition
 { lib, ... }:
 {
   disko.devices = {
@@ -34,10 +33,11 @@
                     "noatime"
                   ];
                 };
-                # "@swap" = {
-                # mountpoint = "/.swap-file";
-                # swap.swapfile.size = "4G";
-                # };
+                "@swap" = {
+                  mountpoint = "/swap";
+                  mountOptions = [ "noatime" ];
+                  swap.swapfile.size = "2G";
+                };
               };
             };
           };

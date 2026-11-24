@@ -18,7 +18,8 @@
 
   networking.hostName = "cosmic-crisp";
 
-  boot.loader.grub.enable = true; # disko adds /dev/sda to GRUB's install targets automatically, because of the EF02 partition
+  boot.loader.grub.enable = true;
+
   services.openssh.enable = true;
   services.openssh.settings.PasswordAuthentication = false;
 
@@ -58,11 +59,8 @@
     ];
   };
 
-  zramSwap = {
+  boot.zswap = {
     enable = true;
-    memoryPercent = 100;
+    compressor = "zstd";
   };
 }
-
-# uptermd
-#
