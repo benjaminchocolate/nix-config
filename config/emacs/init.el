@@ -455,7 +455,7 @@ Runs after every theme load via `enable-theme-functions'."
   :custom
   ;; This option's :set function loads the languages, so it replaces a
   ;; separate `org-babel-do-load-languages' call.
-  (org-babel-load-languages '((emacs-lisp . t) (python . t)))
+  (org-babel-load-languages '((emacs-lisp . t) (python . t) (dot . t) (shell . t)))
   (org-babel-python-command "python3")
   :config
   (advice-add 'org-agenda :before #'my/refresh-agenda-files)
@@ -522,10 +522,6 @@ Runs after every theme load via `enable-theme-functions'."
 
 
 (setq org-list-allow-alphabetical t)
-
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((dot . t)))
 
 
 ;;(setenv "PATH" (concat (file-name-directory (executable-find "dot")) ":" (getenv "PATH")))

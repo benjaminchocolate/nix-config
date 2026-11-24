@@ -1,5 +1,5 @@
 {
-  description = "My Nix, NixOS, nix-darwin flake";
+  description = "My Nix flake for NixOS and nix-darwin, built on Determinate Nix";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -15,7 +15,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     ds-store-killer = {
       url = "github:kawayww/ds-store-killer";

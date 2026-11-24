@@ -1,5 +1,73 @@
-#+TITLE: My Nix, NixOS, nix-darwin Flake
+#+TITLE: nix-config
 
-* TODO TODO [0/2]
+My Nix flake for NixOS and nix-darwin, built on Determinate Nix.
+
+* Tasks [0/2]
 - [ ] Setup sops-nix
 - [ ] Migrate gaming PC
+
+* Layout
+#+begin_src sh :results output verbatim :exports both
+tree -L 2 --dirsfirst -I 'result|.git'
+#+end_src
+
+#+RESULTS:
+#+begin_example
+.
+├── config
+│   ├── aerospace
+│   ├── emacs
+│   ├── hammerspoon
+│   ├── karabiner
+│   ├── mpv
+│   └── zsh
+├── hosts
+│   ├── cosmic-crisp
+│   └── honeycrisp
+├── modules
+│   ├── darwin
+│   ├── home
+│   └── nixos
+├── flake.lock
+├── flake.nix
+├── LICENSE
+└── README.org
+
+15 directories, 4 files
+#+end_example
+* Flake inputs
+#+begin_src sh :results output verbatim :exports both
+nix flake metadata 2>/dev/null | perl -pe 's/\e\[[0-9;]*m//g' | sed -n '/^Inputs:/,$p'
+#+end_src
+
+#+RESULTS:
+#+begin_example
+Inputs:
+├───determinate: https://api.flakehub.com/f/pinned/DeterminateSystems/determinate/3.24.3/01a1f12b-29f0-7623-8ebb-9b32a98f9538/source.tar.gz (2026-11-19 00:14:09)
+│   ├───determinate-nixd-aarch64-darwin: https://install.determinate.systems/determinate-nixd/tag/v3.24.3/macOS
+│   ├───determinate-nixd-aarch64-linux: https://install.determinate.systems/determinate-nixd/tag/v3.24.3/aarch64-linux
+│   ├───determinate-nixd-x86_64-linux: https://install.determinate.systems/determinate-nixd/tag/v3.24.3/x86_64-linux
+│   ├───nix: https://api.flakehub.com/f/pinned/DeterminateSystems/nix-src/3.24.3/01a1f0b9-59c2-76c2-a2fd-23133df9043e/source.tar.gz (2026-11-18 21:44:48)
+│   │   ├───bdwgc: github:DeterminateSystems/bdwgc/021d852 (2026-11-12 10:45:18)
+│   │   ├───flake-parts: https://api.flakehub.com/f/pinned/hercules-ci/flake-parts/0.1.480%2Brev-17c9d6cdfc60c64f4ee8d306f9bc0b4ccb51481e/019f2195-dee5-7233-9747-eca0c27f7406/source.tar.gz (2026-07-01 23:38:01)
+│   │   │   └───nixpkgs-lib follows input 'determinate/nix/nixpkgs'
+│   │   ├───git-hooks-nix: https://api.flakehub.com/f/pinned/cachix/git-hooks.nix/0.1.1231%2Brev-43b3c1ab9d40fb1dbb008f451988a91e375825e9/019f7135-8fdf-76f0-b1a1-d2c67e91af8d/source.tar.gz (2026-07-17 11:40:35)
+│   │   │   ├───flake-compat: github:NixOS/flake-compat/5edf11c (2025-12-29 20:24:17)
+│   │   │   └───nixpkgs follows input 'determinate/nix/nixpkgs'
+│   │   ├───nixpkgs: https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.2605.1018921%2Brev-f68407657ad294471eb4b2e65d193df26edf729f/01a1ea95-6db4-7d02-8a1d-753f3849fe0e/source.tar.gz (2026-11-16 23:43:10)
+│   │   ├───nixpkgs-23-11: github:NixOS/nixpkgs/a62e6ed (2024-05-31 12:45:33)
+│   │   └───nixpkgs-regression: github:NixOS/nixpkgs/215d4d0 (2022-01-24 19:20:45)
+│   └───nixpkgs: https://api.flakehub.com/f/pinned/DeterminateSystems/nixpkgs-weekly/0.1.1113206%2Brev-f4a03c008967841f2a0b3cb7c436fc6fc31671f6/01a1e7ff-6305-7ad2-bb1f-9855526cb446/source.tar.gz (2026-11-07 09:04:50)
+├───disko: github:nix-community/disko/44761d4 (2026-11-20 09:52:48)
+│   └───nixpkgs follows input 'nixpkgs-stable'
+├───ds-store-killer: github:kawayww/ds-store-killer/054b862 (2025-12-26 05:19:07)
+│   └───nixpkgs follows input 'nixpkgs'
+├───home-manager: github:nix-community/home-manager/3b8140d (2026-11-22 16:59:17)
+│   └───nixpkgs follows input 'nixpkgs'
+├───nix-darwin: github:nix-darwin/nix-darwin/663d8b9 (2026-11-22 18:47:21)
+│   └───nixpkgs follows input 'nixpkgs'
+├───nixpkgs: github:NixOS/nixpkgs/619c39f (2026-11-22 18:15:35)
+├───nixpkgs-stable: github:NixOS/nixpkgs/0dc498b (2026-11-22 17:54:03)
+└───sops-nix: github:Mic92/sops-nix/d5abe5e (2026-11-23 22:02:25)
+    └───nixpkgs follows input 'nixpkgs'
+#+end_example

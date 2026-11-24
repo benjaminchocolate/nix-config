@@ -9,7 +9,7 @@ let
 in
 {
   home.file = {
-    "Developer/dotfiles".source = link config.dotfiles.path;
+    "Developer/nix-config".source = link config.dotfiles.path;
   }
   // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
     "Developer/container".source =

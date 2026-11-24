@@ -80,6 +80,8 @@ in
       "zsh-completions"
       "zsh-history-substring-search"
       "zsh-syntax-highlighting"
+      "git"
+      "tree"
     ];
 
     casks = [
