@@ -8,10 +8,8 @@
 {
   imports = [
     inputs.determinate.nixosModules.default
-    inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
-    ./disk-config.nix
-    ./hardware-configuration.nix
+    inputs.self.modules.nixos.cosmic-crisp-disk
 
     ../../legacy/nixos/caddy.nix
     ../../legacy/nixos/copyparty.nix
