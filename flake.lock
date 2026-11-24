@@ -17,6 +17,27 @@
         "type": "github"
       }
     },
+    "copyparty": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": [
+          "nixpkgs-stable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1795481920,
+        "narHash": "sha256-lyhyE184BmQ1VvTeTAa6BCbxH2/45YCaNUqGs6V1AjQ=",
+        "owner": "9001",
+        "repo": "copyparty",
+        "rev": "5a2d8e02137078eb97b0268c73ca8665307e1497",
+        "type": "github"
+      },
+      "original": {
+        "owner": "9001",
+        "repo": "copyparty",
+        "type": "github"
+      }
+    },
     "determinate": {
       "inputs": {
         "determinate-nixd-aarch64-darwin": "determinate-nixd-aarch64-darwin",
@@ -165,6 +186,21 @@
       "original": {
         "type": "tarball",
         "url": "https://flakehub.com/f/hercules-ci/flake-parts/0.1"
+      }
+    },
+    "flake-utils": {
+      "locked": {
+        "lastModified": 1678901627,
+        "narHash": "sha256-U02riOqrKKzwjsxc/400XnElV+UtPUQWpANPlyazjH0=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "93a2b84fc4b70d9e089d029deacc3583435c2ed6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
       }
     },
     "git-hooks": {
@@ -367,6 +403,7 @@
     },
     "root": {
       "inputs": {
+        "copyparty": "copyparty",
         "determinate": "determinate",
         "disko": "disko",
         "ds-store-killer": "ds-store-killer",

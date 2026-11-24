@@ -17,6 +17,7 @@
     ../../modules/nixos/freshrss.nix
     ../../modules/nixos/rsshub.nix
     ../../modules/nixos/ntfy.nix
+    ../../modules/nixos/copyparty.nix
   ];
 
   sops.defaultSopsFile = ../../secrets/cosmic-crisp.yaml;

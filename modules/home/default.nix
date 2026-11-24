@@ -20,6 +20,7 @@
     ./infat.nix
     ./mpv.nix
     ./zsh.nix
+    ./ghostty.nix
   ];
 
   # ── Live-editable configs ─────────────────────────────────
@@ -56,12 +57,11 @@
     #zsh-completions
   ];
 
-  # ── Dotfiles small enough to keep inline ──────────────────
-  # Vim: XDG config location is built in; the viminfo location is not.
   xdg.configFile."vim/vimrc".text = ''
     syntax on
     filetype plugin indent on
     set viminfofile=${config.xdg.stateHome}/vim/viminfo
+    set mouse=a
   '';
   xdg.stateFile."vim/.keep".text = ""; # vim won't create the directory itself
 
@@ -71,5 +71,4 @@
   home.file.".clang-format".text = ''
     BasedOnStyle: Google
   '';
-  # BreakBeforeBraces: Allman
 }

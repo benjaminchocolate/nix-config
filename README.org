@@ -27,10 +27,6 @@
 
 My Nix flake for NixOS and nix-darwin, built on Determinate Nix.
 
-* Tasks [0/2]
-- [ ] Setup sops-nix
-- [ ] Migrate gaming PC
-
 * Layout
 #+begin_src sh :results output verbatim :exports results
 tree -L 2 --dirsfirst -I 'result|.git'
@@ -72,6 +68,9 @@ nix flake metadata 2>/dev/null | perl -pe 's/\e\[[0-9;]*m//g' | sed -n '/^Inputs
 #+RESULTS:
 #+begin_example
 Inputs:
+├───copyparty: github:9001/copyparty/5a2d8e0 (2026-11-24 00:58:40)
+│   ├───flake-utils: github:numtide/flake-utils/93a2b84 (2023-03-15 17:33:47)
+│   └───nixpkgs follows input 'nixpkgs-stable'
 ├───determinate: https://api.flakehub.com/f/pinned/DeterminateSystems/determinate/3.24.3/01a1f12b-29f0-7623-8ebb-9b32a98f9538/source.tar.gz (2026-11-19 00:14:09)
 │   ├───determinate-nixd-aarch64-darwin: https://install.determinate.systems/determinate-nixd/tag/v3.24.3/macOS
 │   ├───determinate-nixd-aarch64-linux: https://install.determinate.systems/determinate-nixd/tag/v3.24.3/aarch64-linux
