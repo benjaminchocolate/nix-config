@@ -14,7 +14,7 @@
     ../../modules/nixos/caddy.nix
     ../../modules/nixos/uptermd.nix
     ../../modules/nixos/freshrss.nix
-    # ../../modules/nixos/rsshub.nix
+    ../../modules/nixos/rsshub.nix
   ];
 
   sops.defaultSopsFile = ../../secrets/cosmic-crisp.yaml;

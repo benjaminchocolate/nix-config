@@ -34,9 +34,10 @@ tree -L 2 --dirsfirst -I 'result|.git'
 ├── LICENSE
 ├── README.org
 ├── flake.lock
-└── flake.nix
+├── flake.nix
+└── justfile
 
-15 directories, 7 files
+15 directories, 8 files
 #+end_example
 * Flake inputs
 #+begin_src sh :results output verbatim :exports results

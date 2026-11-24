@@ -6,8 +6,8 @@ in
   homebrew = {
     enable = true;
     onActivation = {
-      autoUpdate = true;
-      upgrade = true;
+      autoUpdate = false; # `just upgrade` updates Homebrew
+      upgrade = false;
       cleanup = "uninstall";
 
       # Keep brew's trust list in ~/.config/homebrew (not ~/.homebrew)

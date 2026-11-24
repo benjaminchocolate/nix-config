@@ -14,7 +14,16 @@ let
   rules = writeText "commit-msg-rules.txt" ''
     You review git commit messages for a personal Nix configuration repo.
 
-    TODO(ben): write the rules a good commit message follows here.
+    Follow these rules:
+    - Subject: imperative mood ("Add", "Fix", "Set up"), capitalized,
+      no trailing period, 50 characters or fewer.
+    - The subject must complete the sentence "If applied, this commit will ...".
+    - Name what changed (host, module, service) so the log is searchable.
+    - Add a body only when the reason isn't obvious from the diff:
+      blank line after the subject, wrap at 72 characters, explain why.
+    - No Conventional Commits prefixes like "feat:".
+    - Change only what breaks a rule. If the message follows the rules,
+      return it unchanged, even if you would phrase it differently.
   '';
 in
 writeShellApplication {
