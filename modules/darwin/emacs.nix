@@ -1,4 +1,7 @@
-{ config, ... }:
+{
+  config,
+  ...
+}:
 let
   user = config.system.primaryUser;
 in
@@ -13,10 +16,10 @@ in
 
     brews = [
       # pdf-tools build deps
-      "pkg-config"
-      "poppler"
-      "autoconf"
-      "automake"
+      # "pkg-config"
+      # "poppler"
+      # "autoconf"
+      # "automake"
       "languagetool"
     ];
 
@@ -29,7 +32,6 @@ in
   };
 
   home-manager.users.${user} = {
-    # ~/.config/emacs -> config/emacs in this repo (edit without rebuilding)
     dotfiles.live = [ "emacs" ];
 
     home.file.".config/emacs-plus/build.yml".text = ''
@@ -43,17 +45,12 @@ in
           "/opt/homebrew/bin/emacs"
           "--fg-daemon"
         ];
-        RunAtLoad = true; # start at login
-        KeepAlive = true; # restart if it dies
+        RunAtLoad = true;
+        KeepAlive = true;
         StandardOutPath = "/tmp/emacs-daemon.log";
         StandardErrorPath = "/tmp/emacs-daemon.log";
-        # launchd starts this with an almost empty environment. Give it the
-        # session environment (environment.nix) directly: PATH so it finds
-        # nixd, TeX and Homebrew tools, plus the XDG variables. The login
-        # agent sets the same values, but may run after this daemon starts.
         EnvironmentVariables = config.launchd.user.envVariables;
         ProcessType = "Interactive";
-        Nice = -20; # Maybe a bad idea?
       };
     };
   };

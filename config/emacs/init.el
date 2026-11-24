@@ -1,86 +1,73 @@
 ;;; init.el --- Personal Emacs configuration -*- lexical-binding: t -*-
 
 ;;; Commentary:
-;; Conventions used throughout:
-;; - Inside `use-package', user options go in :custom (same machinery
-;;   as `setopt': runs the option's :set function and checks its type).
-;; - Outside `use-package', user options use `setopt'.  Plain variables
-;;   (defvar, not defcustom) and runtime updates inside functions use `setq'.
+;; Conventions:
+;; - Inside `use-package', user options go in :custom.  Outside, they use
+;;   `setopt'.  Plain variables and runtime updates use `setq'.
 ;; - Functions on hooks are named, never lambdas, so they can be removed
 ;;   and read in C-h v.
-;; - `;;' for comments on their own line, `;' only after code on the same
-;;   line.  The elisp save hook below re-indents lone `;' comments to
-;;   column 40.
+;; - `;;' for comments on their own line, `;' only after code.  The elisp
+;;   save hook re-indents lone `;' comments to column 40.
 
 ;;; Code:
 
-;;; ------------------------------------------------------------------
 ;;; Packages
-;;; ------------------------------------------------------------------
-;; Archives must be set before anything uses :ensure.
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (setopt package-install-upgrade-built-in t
-        use-package-always-ensure t)    ; built-ins below opt out with :ensure nil
+        use-package-always-ensure t)    ; built-ins opt out with :ensure nil
 
-;; Load early so other packages write their files into its directories.
+;; First, so every package after it is compiled as it loads.
+(use-package compile-angel
+  :demand t
+  :custom
+  (compile-angel-verbose t)
+  :config
+  (push "/init.el" compile-angel-excluded-path-suffixes)
+  (push "/early-init.el" compile-angel-excluded-path-suffixes)
+  (compile-angel-on-load-mode 1))
+
+;; Before anything that writes files, so they land in its directories.
 (use-package no-littering
   :config
   (let ((dir (no-littering-expand-var-file-name "lock-files/")))
     (make-directory dir t)
     (setopt lock-file-name-transforms `((".*" ,dir t)))))
 
-
-;;; ------------------------------------------------------------------
 ;;; Basic behavior
-;;; ------------------------------------------------------------------
 
 (setopt make-backup-files nil
         auto-save-default nil
-        inhibit-startup-screen t)
+        inhibit-startup-screen t
+        window-sides-vertical t)
 
-;; Keep Customize output out of this file, but still apply it.  Emacs
-;; rewrites custom.el on its own, so it lives with the rest of the state
-;; (`my/state-dir' is defined in early-init.el), not in this git checkout.
+;; Customize writes to the state directory (from early-init.el), not here.
 (setopt custom-file (expand-file-name "custom.el" my/state-dir))
 (load custom-file 'noerror)
 
+(delete-selection-mode 1)
+(global-auto-revert-mode 1)
+(add-hook 'dired-mode-hook #'auto-revert-mode)
 
-;;; ------------------------------------------------------------------
+(use-package repeat
+  :ensure nil
+  :config
+  (repeat-mode 1))
+
 ;;; Appearance
-;;; ------------------------------------------------------------------
-;; Frame parameters (size, titlebar, startup colors) live in early-init.el.
+;; Frame parameters are in early-init.el.
 
 (setopt ns-click-through nil)
-
 (blink-cursor-mode -1)
 (column-number-mode 1)
 
-(defun my/flat-mode-line (&rest _)
-  "Remove the box around the mode line faces.
-Runs after every theme load via `enable-theme-functions'."
-  (dolist (face '(mode-line mode-line-active mode-line-inactive))
-    (when (facep face)
-      (set-face-attribute face nil :box nil))))
-;; Added before the theme loads so it applies to the first theme too.
-(add-hook 'enable-theme-functions #'my/flat-mode-line)
+(setq-default line-spacing 0.3)
 
-(use-package standard-themes)
-
-(use-package ef-themes
-  :config
-  ;; :no-confirm skips the "Really load?" prompt, which otherwise comes
-  ;; back every time the theme package updates.
-  ;;(load-theme 'ef-symbiosis :no-confirm))
-  )
-(defun my/apply-theme (appearance)
-  (mapc #'disable-theme custom-enabled-themes)
-  (pcase appearance
-    ('light (load-theme 'modus-operandi-tinted t))
-    ('dark  (load-theme 'modus-vivendi-tinted t))))
-
-(add-hook 'ns-system-appearance-change-functions #'my/apply-theme)
+(defun my/no-line-spacing ()
+  "Remove extra line spacing in the current buffer."
+  (setq-local line-spacing 0))
+(add-hook 'minibuffer-setup-hook #'my/no-line-spacing)
 
 ;; Font candidates and the :height that matches their x-heights:
 ;; 0xProto Regular x-height 0.550   :height 0.90
@@ -94,21 +81,34 @@ Runs after every theme load via `enable-theme-functions'."
 (set-face-attribute 'variable-pitch nil :family "Atkinson Hyperlegible Next" :height 1.0)
 (set-face-attribute 'line-number nil :inherit '(shadow fixed-pitch))
 
-;; Prose buffers (org, markdown, plain text) get variable pitch, while
-;; code, tables and line numbers stay fixed.  mixed-pitch-mode does the
-;; variable-pitch remap itself, so `variable-pitch-mode' isn't needed.
+(defun my/flat-mode-line (&rest _)
+  "Remove the box around the mode line faces."
+  (dolist (face '(mode-line mode-line-active mode-line-inactive))
+    (when (facep face)
+      (set-face-attribute face nil :box nil))))
+;; Before any theme loads, so the first theme gets it too.
+(add-hook 'enable-theme-functions #'my/flat-mode-line)
+
+(defun my/apply-theme (appearance)
+  "Load the Modus theme that matches macOS APPEARANCE."
+  (mapc #'disable-theme custom-enabled-themes)
+  (pcase appearance
+    ('light (load-theme 'modus-operandi-tinted t))
+    ('dark  (load-theme 'modus-vivendi-tinted t))))
+(add-hook 'ns-system-appearance-change-functions #'my/apply-theme)
+
+(use-package standard-themes)
+(use-package ef-themes)
+
+;; Variable pitch for prose; code, tables and line numbers stay fixed.
 (use-package mixed-pitch
   :hook (text-mode . mixed-pitch-mode))
 
 (use-package mood-line
-
-  ;; Enable mood-line
-  :config
-  (mood-line-mode)
-
-  ;; Use pretty Fira Code-compatible glyphs
   :custom
-  (mood-line-glyph-alist mood-line-glyphs-fira-code))
+  (mood-line-glyph-alist mood-line-glyphs-fira-code)
+  :config
+  (mood-line-mode 1))
 
 (use-package nerd-icons
   :custom
@@ -126,14 +126,10 @@ Runs after every theme load via `enable-theme-functions'."
      "::" "++" "--" "<<" ">>" "..." "/*" "*/" "//" "|>" "<|"))
   (global-ligature-mode 1))
 
-
-;;; ------------------------------------------------------------------
-;;; Line numbers
-;;; ------------------------------------------------------------------
-;; Type and width options must be set before the mode turns on.
+;;; Line numbers and scrolling
 
 (setopt display-line-numbers-type 'relative
-        display-line-numbers-width-start t ; size the gutter to the buffer's line count
+        display-line-numbers-width-start t
         display-line-numbers-grow-only t)
 
 (defun my/disable-line-numbers ()
@@ -146,25 +142,16 @@ Runs after every theme load via `enable-theme-functions'."
 ;; org-mode derives from text-mode, so undo the text-mode hook there.
 (add-hook 'org-mode-hook #'my/disable-line-numbers)
 
-
-;;; ------------------------------------------------------------------
-;;; Scrolling
-;;; ------------------------------------------------------------------
-
 (use-package ultra-scroll
   :custom
-  (scroll-conservatively 3)             ; any value works since v0.4
-  (scroll-margin 6)                     ; supported since v0.7
+  (scroll-conservatively 3)
+  (scroll-margin 6)
   :config
   (ultra-scroll-mode 1))
 
-
-;;; ------------------------------------------------------------------
 ;;; Completion
-;;; ------------------------------------------------------------------
-;; Minibuffer: vertico + orderless + marginalia.
-;; In-buffer: completion-preview, with TAB falling back to the built-in
-;; *Completions* buffer configured in the `minibuffer' block.
+;; Minibuffer: vertico, orderless, marginalia.  In buffers:
+;; completion-preview, with TAB falling back to *Completions*.
 
 (use-package vertico
   :init
@@ -180,7 +167,6 @@ Runs after every theme load via `enable-theme-functions'."
   :bind (:map minibuffer-local-map
               ("M-A" . marginalia-cycle))
   :init
-  ;; Enabled in :init so it's active right away (this loads the package).
   (marginalia-mode 1))
 
 (use-package completion-preview
@@ -194,15 +180,13 @@ Runs after every theme load via `enable-theme-functions'."
     ("M-n" . completion-preview-next-candidate)
     ("M-p" . completion-preview-prev-candidate)
     ("M-<return>" . completion-preview-insert)
-    ;; TAB defers to the *Completions* buffer for more candidates.
     ("<tab>" . completion-preview-complete))
   :config
   (with-eval-after-load 'org
     (add-to-list 'completion-preview-commands #'org-self-insert-command))
   (global-completion-preview-mode 1))
 
-;; Based on Prot's built-in completion setup:
-;; https://protesilaos.com/codelog/2026-07-29-emacs-default-minibuffer-completion-overview/
+;; Based on https://protesilaos.com/codelog/2026-07-29-emacs-default-minibuffer-completion-overview/
 (use-package minibuffer
   :ensure nil
   :demand t
@@ -219,17 +203,11 @@ Runs after every theme load via `enable-theme-functions'."
     ("M-n" . minibuffer-next-completion)
     ("M-p" . minibuffer-previous-completion)))
 
-
-;;; ------------------------------------------------------------------
 ;;; Editing (meow)
-;;; ------------------------------------------------------------------
-
-(delete-selection-mode 1)
 
 (use-package meow
   :config
   (defun meow-setup ()
-    ;; A plain defvar, not a user option, so setq is correct here.
     (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
     (meow-motion-overwrite-define-key
      '("j" . meow-next)
@@ -239,7 +217,6 @@ Runs after every theme load via `enable-theme-functions'."
      ;; SPC j/k run the original command in MOTION state.
      '("j" . "H-j")
      '("k" . "H-k")
-     ;; SPC 0-9 for digit arguments.
      '("1" . meow-digit-argument)
      '("2" . meow-digit-argument)
      '("3" . meow-digit-argument)
@@ -319,52 +296,22 @@ Runs after every theme load via `enable-theme-functions'."
   (setf (alist-get 'line meow-expand-hint-counts) 0)
   (meow-global-mode 1))
 
-
-;;; ------------------------------------------------------------------
 ;;; Programming
-;;; ------------------------------------------------------------------
 
 (use-package emacs
   :ensure nil
   :custom
-  ;; This option has a :set function that updates
-  ;; `major-mode-remap-alist'; plain setq would leave ts-modes off.
-  (treesit-enabled-modes t)             ; use ts-modes wherever available
-  (treesit-font-lock-level 3)           ; 1-4, where 4 is max highlighting
-  (treesit-auto-install-grammar 'ask)   ; or `always' / `ask-dir'
+  ;; Its :set function updates `major-mode-remap-alist'; setq would not.
+  (treesit-enabled-modes t)
+  (treesit-font-lock-level 3)
+  (treesit-auto-install-grammar 'ask)
   :hook
-  ;; Buffer-local version; `electric-pair-mode' is global.
   (prog-mode . electric-pair-local-mode))
 
-(use-package nix-ts-mode
-  :mode "\\.nix\\'"
-  :init
-  (with-eval-after-load 'treesit
-    (add-to-list 'treesit-language-source-alist
-                 '(nix "https://github.com/nix-community/tree-sitter-nix"))))
-
-(use-package eglot
+(use-package project
   :ensure nil
-  :preface
-  (defun my/eglot-format-on-save ()
-    "Format with the language server before saving, while Eglot manages the buffer."
-    (if (eglot-managed-p)
-        (add-hook 'before-save-hook #'eglot-format-buffer nil t)
-      (remove-hook 'before-save-hook #'eglot-format-buffer t)))
-  :hook
-  (((c-ts-mode c++-ts-mode nix-ts-mode) . eglot-ensure)
-   (eglot-managed-mode . my/eglot-format-on-save))
   :custom
-  (eglot-send-changes-idle-time 0.1)
-  (eglot-extend-to-xref t)              ; also manage referenced non-project files
-  ;; Avoid changing line heights if your font is wonky. See
-  ;; https://github.com/joaotavora/eglot/discussions/1492
-  (eglot-code-action-indicator "h")
-  ;; Don't log every JSON-RPC event (big performance win).  This is the
-  ;; supported switch for what overriding `jsonrpc--log-event' did.
-  (eglot-events-buffer-config '(:size 0 :format full))
-  :config
-  (add-to-list 'eglot-server-programs '(nix-ts-mode . ("nixd"))))
+  (project-vc-extra-root-markers '(".project")))
 
 (defun my/indent-buffer ()
   "Re-indent the whole buffer."
@@ -376,18 +323,59 @@ Runs after every theme load via `enable-theme-functions'."
   (add-hook 'before-save-hook #'my/indent-buffer nil t))
 (add-hook 'emacs-lisp-mode-hook #'my/elisp-format-on-save)
 
+(use-package eglot
+  :ensure nil
+  :preface
+  (defun my/eglot-format-on-save ()
+    "Format with the language server before saving, while Eglot manages the buffer."
+    (if (eglot-managed-p)
+        (add-hook 'before-save-hook #'eglot-format-buffer nil t)
+      (remove-hook 'before-save-hook #'eglot-format-buffer t)))
+  :hook
+  (((c-ts-mode c++-ts-mode nix-ts-mode swift-mode) . eglot-ensure)
+   (eglot-managed-mode . my/eglot-format-on-save))
+  :custom
+  (eglot-send-changes-idle-time 0.1)
+  (eglot-extend-to-xref t)              ; also manage referenced files outside the project
+  ;; Keeps line heights stable: https://github.com/joaotavora/eglot/discussions/1492
+  (eglot-code-action-indicator "h")
+  ;; Don't log JSON-RPC events; a large speedup.
+  (eglot-events-buffer-config '(:size 0 :format full))
+  :config
+  (add-to-list 'eglot-server-programs '(nix-ts-mode . ("nixd")))
+  (add-to-list 'eglot-server-programs '(zig-mode . ("zls"))))
+
+(use-package nix-ts-mode
+  :mode "\\.nix\\'"
+  :init
+  (with-eval-after-load 'treesit
+    (add-to-list 'treesit-language-source-alist
+                 '(nix "https://github.com/nix-community/tree-sitter-nix"))))
+
+(use-package swift-mode
+  :mode "\\.swift\\'"
+  :interpreter "swift")
+
+(use-package zig-mode)
+(use-package matlab-mode)
+(use-package csv-mode)
+
 (use-package devdocs
   :bind ("C-h D" . devdocs-lookup))
 
+(use-package dape)
 
-;;; ------------------------------------------------------------------
 ;;; Tools
-;;; ------------------------------------------------------------------
 
 (use-package magit)
 
 (use-package ghostel
   :bind ("C-c t" . ghostel))
+
+(use-package meow-ghostel
+  :vc (:url "https://github.com/dakra/meow-ghostel" :rev :newest)
+  :after (ghostel meow)
+  :hook (ghostel-mode . meow-ghostel-mode))
 
 (use-package dashboard
   :demand t                             ; :bind alone would defer loading past startup
@@ -400,38 +388,36 @@ Runs after every theme load via `enable-theme-functions'."
   :config
   (dashboard-setup-startup-hook))
 
-;; (use-package emacs-everywhere
-;;   :config
-;;   (defun my/emacs-everywhere-fix-osacompile (args)
-;;     "Make emacs-everywhere compile its AppleScripts into the data fork.
-;; Its `-r scpt:128' flag writes to the resource fork, which current
-;; macOS can't run (script error -1758)."
-;;     (let ((cmd (car args)))
-;;       (if (and (stringp cmd)
-;;                (string-match
-;;                 "\\`osacompile -r scpt:128 -t osas -o \\(\\S-+\\) \\(\\S-+\\)\\'"
-;;                 cmd))
-;;           (let ((out (match-string 1 cmd))
-;;                 (src (match-string 2 cmd)))
-;;             (cons (format "rm -f %s && osacompile -o %s %s" out out src)
-;;                   (cdr args)))
-;;         args)))
-;;   (advice-add 'shell-command :filter-args #'my/emacs-everywhere-fix-osacompile))
-
 (use-package pdf-tools
-  :ensure t
+  :magic ("%PDF" . pdf-view-mode)
+  :hook (pdf-view-mode . pdf-view-roll-minor-mode)
   :config
-  (pdf-tools-install)
-  (add-hook 'pdf-view-mode-hook #'pdf-view-roll-minor-mode))
+  (pdf-tools-install :no-query))
 
+(use-package treemacs)
+(use-package minimap)
 
-;;; ------------------------------------------------------------------
+(use-package languagetool
+  :commands (languagetool-check
+             languagetool-clear-suggestions
+             languagetool-correct-at-point
+             languagetool-correct-buffer
+             languagetool-set-language
+             languagetool-server-mode
+             languagetool-server-start
+             languagetool-server-stop)
+  :custom
+  (languagetool-java-arguments '("-Dfile.encoding=UTF-8"))
+  (languagetool-console-command "/opt/homebrew/opt/languagetool/libexec/languagetool-commandline.jar")
+  (languagetool-server-command "/opt/homebrew/opt/languagetool/libexec/languagetool-server.jar"))
+
 ;;; Org
-;;; ------------------------------------------------------------------
 
-;; Set before Org loads so the paths can build on `org-directory'.
+;; Before Org loads: the paths build on `org-directory', and Org reads
+;; `org-list-allow-alphabetical' only when it loads.
 (setopt org-directory "~/Documents/Org/"
         org-default-notes-file (expand-file-name "inbox.org" org-directory)
+        org-list-allow-alphabetical t
         ;; Daily page: plan at the top, log below, one page per day.
         org-capture-templates
         `(("t" "Today's page" entry
@@ -444,22 +430,47 @@ Runs after every theme load via `enable-theme-functions'."
 
 (defun my/refresh-agenda-files (&rest _)
   "Rebuild `org-agenda-files' from every .org file under `org-directory'."
-  ;; A runtime update rather than configuration, so setq.
   (setq org-agenda-files
         (directory-files-recursively org-directory "\\.org\\'")))
 
 (use-package org
   :ensure nil
-  :demand t                             ; load now so org-wild-notifier starts at launch
+  :demand t                             ; so org-wild-notifier starts at launch
   :bind ("C-c c" . org-capture)
   :custom
-  ;; This option's :set function loads the languages, so it replaces a
-  ;; separate `org-babel-do-load-languages' call.
+  ;; Its :set function loads the languages.
   (org-babel-load-languages '((emacs-lisp . t) (python . t) (dot . t) (shell . t)))
   (org-babel-python-command "python3")
+  (org-cycle-separator-lines 1)
   :config
   (advice-add 'org-agenda :before #'my/refresh-agenda-files)
   (advice-add 'org-agenda-redo :before #'my/refresh-agenda-files))
+
+(use-package org-agenda
+  :ensure nil
+  :defer t
+  :custom
+  (org-agenda-span 2)
+  (org-agenda-start-day "+0d")
+  (org-agenda-timegrid-use-ampm t)
+  ;; Hide repeats of a done item that has a timestamp, deadline and schedule.
+  (org-agenda-skip-timestamp-if-done t)
+  (org-agenda-skip-deadline-if-done t)
+  (org-agenda-skip-scheduled-if-done t))
+
+(use-package ox-latex
+  :ensure nil
+  :defer t
+  :config
+  ;; To debug a failed export, set `org-latex-remove-logfiles' to nil.
+  (add-to-list 'org-latex-logfiles-extensions "tex")
+  (add-to-list 'org-latex-classes
+               '("exam" "\\documentclass[answers]{exam}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}"))))
+
+(use-package ox-typst
+  :after org)
 
 (use-package alert
   :custom
@@ -483,244 +494,20 @@ Runs after every theme load via `enable-theme-functions'."
   :custom
   (olivetti-body-width 80)
   (olivetti-style 'fancy)
-  :custom-face
-  (olivetti-fringe ((t (:background "#1f161c"))))
   :hook
   ((org-mode . olivetti-mode)
    (org-mode . visual-line-mode)))
 
-(use-package ox-typst
-  :after org)
-
-
-;;; ------------------------------------------------------------------
 ;;; To look into
-;;; ------------------------------------------------------------------
 ;; - magit and moving around
 ;; - accessibility
 ;; - margin on the side
 ;; - file associations
 ;; - claude
+;; - less annoying warnings
+;; - Ruby setup; quote pairing workflow
 ;; - code folding: (setopt hs-show-indicators t hs-display-lines-hidden t)
+;; - reader: https://codeberg.org/MonadicSheep/emacs-reader
+;; - emacs-everywhere: needs an osacompile advice (removed; see git history)
 
 ;;; init.el ends here
-
-
-
-
-;;If an export ever fails in a confusing way, temporarily turn cleanup off:
-;;(setq org-latex-remove-logfiles nil)
-(with-eval-after-load 'ox-latex
-  (add-to-list 'org-latex-logfiles-extensions "tex"))
-
-
-(with-eval-after-load 'ox-latex
-  (add-to-list 'org-latex-classes
-               '("exam" "\\documentclass[answers]{exam}"
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}"))))
-
-
-(setq org-list-allow-alphabetical t)
-
-
-;;(setenv "PATH" (concat (file-name-directory (executable-find "dot")) ":" (getenv "PATH")))
-
-
-;; Use Noto Sans Symbols 2 for symbol characters the main fonts lack.
-;;(set-fontset-font t 'symbol "Noto Sans Symbols 2" nil 'append)
-
-
-;; Ensure Emacs loads the most recent byte-compiled files.
-(setq load-prefer-newer t)
-
-(use-package compile-angel
-  :demand t
-  :config
-  ;; Set `compile-angel-verbose' to nil to disable compile-angel messages.
-  ;; (When set to nil, compile-angel won't show which file is being compiled.)
-  (setq compile-angel-verbose t)
-
-  ;; The following directive prevents compile-angel from compiling your init
-  ;; files. If you choose to remove this push to `compile-angel-excluded-path-suffixes'
-  ;; and compile your pre/post-init files, ensure you understand the
-  ;; implications and thoroughly test your code. For example, if you're using
-  ;; the `use-package' macro, you'll need to explicitly add:
-  ;; (eval-when-compile (require 'use-package))
-  ;; at the top of your init file.
-  (push "/init.el" compile-angel-excluded-path-suffixes)
-  (push "/early-init.el" compile-angel-excluded-path-suffixes)
-
-  ;; Uncomment the line below to compile automatically when an Elisp file is saved
-  ;; (add-hook 'emacs-lisp-mode-hook #'compile-angel-on-save-local-mode)
-
-  ;; A global mode that compiles .el files when they are loaded
-  ;; using `load' or `require'.
-  (compile-angel-on-load-mode 1))
-
-(setq package-native-compile t)
-
-(setq inhibit-compacting-font-caches t)
-
-(require 'project)
-(setopt project-vc-extra-root-markers '(".project"))
-
-(add-hook 'dired-mode-hook 'auto-revert-mode)
-
-;;(setq insert-directory-program (executable-find "gls"))
-
-(use-package dape
-  :ensure t
-  ;; :preface
-  ;; By default dape shares the same keybinding prefix as `gud'
-  ;; If you do not want to use any prefix, set it to nil.
-  ;; (setq dape-key-prefix "\C-x\C-a")
-
-  ;;  :hook
-  ;; Save breakpoints on quit
-  ;; (kill-emacs . dape-breakpoint-save)
-  ;; Load breakpoints on startup
-  ;; (after-init . dape-breakpoint-load)
-
-  ;; :custom
-  ;; Turn on global bindings for setting breakpoints with mouse
-  ;; (dape-breakpoint-global-mode +1)
-
-  ;; Info buffers to the right
-  ;; (dape-buffer-window-arrangement 'right)
-  ;; Info buffers like gud (gdb-mi)
-  ;; (dape-buffer-window-arrangement 'gud)
-  ;; (dape-info-hide-mode-line nil)
-
-  ;; Projectile users
-  ;; (dape-cwd-function #'projectile-project-root)
-
-  ;; :config
-  ;; Pulse source line (performance hit)
-  ;; (add-hook 'dape-display-source-hook #'pulse-momentary-highlight-one-line)
-
-  ;; Save buffers on startup, useful for interpreted languages
-  ;; (add-hook 'dape-start-hook (lambda () (save-some-buffers t t)))
-
-  ;; Kill compile buffer on build success
-  ;; (add-hook 'dape-compile-hook #'kill-buffer)
-  )
-
-;; For a more ergonomic Emacs and `dape' experience
-(use-package repeat
-  :custom
-  (repeat-mode +1))
-
-;; Left and right side windows occupy full frame height
-(use-package emacs
-  :custom
-  (window-sides-vertical t))
-
-;;(use-package reader
-;;  :vc (:url "https://codeberg.org/MonadicSheep/emacs-reader"))
-
-(setq org-agenda-timegrid-use-ampm t)
-(setq org-agenda-span 2
-      org-agenda-start-day "+0d")
-
-;; Hide duplicates of the same todo item
-;; If it has more than one of timestamp, scheduled,
-;; or deadline information
-(setq org-agenda-skip-timestamp-if-done t
-      org-agenda-skip-deadline-if-done t
-      org-agenda-skip-scheduled-if-done t
-      ;;org-agenda-skip-scheduled-if-deadline-is-shown t
-      ;;org-agenda-skip-timestamp-if-deadline-is-shown t)
-
-      ;; Ricing org agenda
-      ;;(setq org-agenda-current-time-string "")
-      ;;(setq org-agenda-time-grid '((daily) () "" ""))
-      )
-
-;; A minimal time grid instead
-;;(setq org-agenda-time-grid '((daily) (600 1200 1800) "---" "-----"))
-
-;; Remove category names and scheduling type from agenda view
-;;(setq org-agenda-prefix-format '(
-;;                                 (agenda . "  %?-2i %t ")
-;;                                 (todo . " %i %-12:c")
-;;                                 (tags . " %i %-12:c")
-;;                                 (search . " %i %-12:c")))
-;;
-
-(setq-default line-spacing 0.3)
-
-
-
-(setq org-cycle-separator-lines 1)
-
-(defun ben/no-line-spacing ()
-  (setq-local line-spacing 0))
-(add-hook 'minibuffer-setup-hook #'ben/no-line-spacing)
-
-;; Use macOS's native font smoothing
-;;(setq mac-allow-anti-aliasing t)
-
-;;(use-package meow-ghostel
-;;  :ensure t
-;;  :after (ghostel meow)
-;;  :hook (ghostel-mode . meow-ghostel-mode))
-
-(use-package meow-ghostel
-  :vc (:url "https://github.com/dakra/meow-ghostel" :rev :newest)
-  :after (ghostel meow)
-  :hook (ghostel-mode . meow-ghostel-mode))
-
-;; make warnings less annoying
-
-(use-package swift-mode
-  :ensure t
-  :mode "\\.swift\\'"
-  :interpreter "swift")
-
-;;(add-to-list 'eglot-server-programs
-;;             '(swift-mode . ("sourcekit-lsp")))
-
-(add-hook 'swift-mode-hook #'eglot-ensure)
-
-(use-package zig-mode
-  :ensure t)
-
-(with-eval-after-load 'eglot
-  (add-to-list 'eglot-server-programs
-               '(zig-mode . ("zls"))))
-
-(use-package treemacs
-  :ensure t)
-
-(use-package minimap
-  :ensure t)
-
-(use-package matlab-mode
-  :ensure t)
-
-;; Setup ruby
-;; fix quotes pairing workflow
-
-(use-package csv-mode)
-
-(global-auto-revert-mode 1)
-
-(use-package languagetool
-  :ensure t
-  :defer t
-  :commands (languagetool-check
-             languagetool-clear-suggestions
-             languagetool-correct-at-point
-             languagetool-correct-buffer
-             languagetool-set-language
-             languagetool-server-mode
-             languagetool-server-start
-             languagetool-server-stop)
-  :config
-  (setq languagetool-java-arguments '("-Dfile.encoding=UTF-8")
-
-        ;;languagetool-console-command "~/.languagetool/languagetool-commandline.jar"
-        ;;languagetool-server-command "~/.languagetool/languagetool-server.jar"))
-        languagetool-console-command "/opt/homebrew/opt/languagetool/libexec/languagetool-commandline.jar"
-        languagetool-server-command "/opt/homebrew/opt/languagetool/libexec/languagetool-server.jar"))
