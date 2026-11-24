@@ -19,6 +19,7 @@
     ./links.nix
     ./infat.nix
     ./mpv.nix
+    ./zsh.nix
   ];
 
   # ── Live-editable configs ─────────────────────────────────
@@ -26,7 +27,7 @@
   # Editing those files needs no rebuild; adding a name here does.
   # (Emacs adds itself in modules/darwin/emacs.nix.)
   dotfiles.live = [
-    "zsh"
+
   ]
   ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
     "aerospace"

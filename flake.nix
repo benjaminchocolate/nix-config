@@ -72,6 +72,14 @@
               );
               pass_filenames = false;
             };
+            commit-msg-review = {
+              enable = true;
+              name = "review commit message";
+              entry = nixpkgs.lib.getExe (
+                nixpkgs.legacyPackages.${system}.callPackage ./pkgs/commit-msg-review.nix { }
+              );
+              stages = [ "commit-msg" ];
+            };
           };
         };
       });
