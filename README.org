@@ -54,12 +54,6 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   │   └── safari_tab_scroll.lua
 │   └── karabiner
 │       └── karabiner.json
-├── hosts
-│   ├── cosmic-crisp
-│   │   ├── default.nix
-│   │   └── facter.json
-│   └── honeycrisp
-│       └── default.nix
 ├── legacy
 │   ├── darwin
 │   │   ├── default.nix
@@ -99,8 +93,9 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 ├── modules
 │   ├── hosts
 │   │   ├── cosmic-crisp
-│   │   │   └── disk.nix
-│   │   ├── cosmic-crisp.nix
+│   │   │   ├── default.nix
+│   │   │   ├── disk.nix
+│   │   │   └── facter.json
 │   │   └── honeycrisp.nix
 │   ├── dev.nix
 │   ├── fastfetch-logo.png
