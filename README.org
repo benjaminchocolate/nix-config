@@ -19,7 +19,6 @@ tree -L 2 --dirsfirst -I 'result|.git'
 │   ├── emacs
 │   ├── hammerspoon
 │   ├── karabiner
-│   ├── mpv
 │   └── zsh
 ├── hosts
 │   ├── cosmic-crisp
@@ -30,12 +29,14 @@ tree -L 2 --dirsfirst -I 'result|.git'
 │   └── nixos
 ├── pkgs
 │   └── update-readme.nix
+├── secrets
+│   └── cosmic-crisp.yaml
 ├── LICENSE
 ├── README.org
 ├── flake.lock
 └── flake.nix
 
-16 directories, 5 files
+16 directories, 6 files
 #+end_example
 * Flake inputs
 #+begin_src sh :results output verbatim :exports results

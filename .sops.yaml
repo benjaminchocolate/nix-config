@@ -1,0 +1,10 @@
+keys:
+  - &admin_ben age1vykx2xnqr74w7ufatsxzasvyvryye6wedccvk6k52p0tdp6k394sn0wnyv
+  - &server_cosmic-crisp age1u4ekengw9qhmmzaxv054xp3xwyr04ha60fwh8hk65qhmku7h7dhqeugdzy
+
+creation_rules:
+  - path_regex: secrets/cosmic-crisp\.yaml$
+    key_groups:
+      - age:
+          - *admin_ben
+          - *server_cosmic-crisp

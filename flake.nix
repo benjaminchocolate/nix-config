@@ -77,7 +77,7 @@
       });
 
       devShells = forSystems (system: {
-        default = nixpkgs.legacyPackages.${system}.mkShell {
+        default = nixpkgs.legacyPackages.${system}.mkShellNoCC {
           inherit (inputs.self.checks.${system}.pre-commit) shellHook;
           buildInputs = inputs.self.checks.${system}.pre-commit.enabledPackages;
         };

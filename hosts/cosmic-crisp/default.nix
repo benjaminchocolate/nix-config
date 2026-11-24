@@ -8,6 +8,7 @@
   imports = [
     inputs.disko.nixosModules.disko
     inputs.determinate.nixosModules.default
+    inputs.sops-nix.nixosModules.sops
     ./hardware-configuration.nix
     ./disk-config.nix
     ../../modules/nixos/caddy.nix
@@ -15,6 +16,8 @@
     ../../modules/nixos/freshrss.nix
     # ../../modules/nixos/rsshub.nix
   ];
+
+  sops.defaultSopsFile = ../../secrets/cosmic-crisp.yaml;
 
   networking.hostName = "cosmic-crisp";
 

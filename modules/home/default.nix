@@ -18,6 +18,7 @@
     ./sparkle.nix
     ./links.nix
     ./infat.nix
+    ./mpv.nix
   ];
 
   # ── Live-editable configs ─────────────────────────────────
@@ -31,7 +32,6 @@
     "aerospace"
     "hammerspoon"
     "karabiner"
-    "mpv"
   ];
 
   manual.manpages.enable = false;
