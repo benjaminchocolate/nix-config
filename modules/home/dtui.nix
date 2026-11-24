@@ -2,12 +2,15 @@
 let
   # One handler per UTI. The attrset key is the UTI, the value is the bundle ID.
   handlers = {
+    "com.apple.m4a-audio" = "com.apple.QuickTimePlayerX";
+    "public.mp3" = "com.apple.QuickTimePlayerX";
+    "public.aac-audio" = "com.apple.QuickTimePlayerX";
+    "public.aiff-audio" = "com.apple.QuickTimePlayerX";
+    "com.microsoft.waveform-audio" = "com.apple.QuickTimePlayerX";
+    "net.daringfireball.markdown" = "com.apple.TextEdit";
     "public.plain-text" = "org.gnu.EmacsClient";
     "public.c-source" = "org.gnu.EmacsClient";
-    "public.c-header" = "org.gnu.EmacsClient";
-    "public.c-plus-plus-source" = "org.gnu.EmacsClient";
-    "public.c-plus-plus-header" = "org.gnu.EmacsClient";
-    "com.apple.m4a-audio" = "com.apple.QuickTimePlayerX";
+    # ...
   };
 
   # Turn the attrset into duti's "bundle-id  UTI  role" lines.

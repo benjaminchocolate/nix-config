@@ -15,7 +15,7 @@
     ./ssh.nix
     ./zsh.nix
 
-    ./infat.nix
+    ./dtui.nix
     ./links.nix
     ./sparkle.nix
 
