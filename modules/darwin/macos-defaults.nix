@@ -97,6 +97,8 @@ in
 
       "com.apple.finder"._FXEnableColumnAutoSizing = true;
 
+      "com.apple.TextEdit".RichText = false;
+
       "com.apple.Safari" = {
         IncludeDevelopMenu = true;
         WebKitDeveloperExtrasEnabledPreferenceKey = true;
