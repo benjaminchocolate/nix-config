@@ -29,7 +29,7 @@ Nix configuration for my Mac (nix-darwin) and my server (NixOS). It uses the den
 
 * Layout
 #+begin_src sh :results output verbatim :exports results
-tree -L 2 --dirsfirst -I 'result|.git'
+git ls-files | tree --fromfile --dirsfirst --noreport
 #+end_src
 
 #+RESULTS:
@@ -37,19 +37,71 @@ tree -L 2 --dirsfirst -I 'result|.git'
 .
 ├── config
 │   ├── aerospace
+│   │   └── aerospace.toml
 │   ├── emacs
+│   │   ├── early-init.el
+│   │   └── init.el
 │   ├── hammerspoon
+│   │   ├── focus_after_close.lua
+│   │   ├── green_button_fill.lua
+│   │   ├── green_button_fill_experiment.lua
+│   │   ├── init.lua
+│   │   ├── mission_control_focus.lua
+│   │   ├── mission_control_scroll.lua
+│   │   ├── mission_control_spotlight.lua
+│   │   ├── mouse_side_buttons.lua
+│   │   ├── safari_sidebar.lua
+│   │   └── safari_tab_scroll.lua
 │   └── karabiner
+│       └── karabiner.json
 ├── hosts
 │   ├── cosmic-crisp
+│   │   ├── default.nix
+│   │   └── facter.json
 │   └── honeycrisp
+│       └── default.nix
 ├── legacy
 │   ├── darwin
+│   │   ├── default.nix
+│   │   ├── ds-store-killer.nix
+│   │   ├── emacs.nix
+│   │   ├── environment.nix
+│   │   ├── home-manager.nix
+│   │   ├── login-items.nix
+│   │   ├── macos-defaults.nix
+│   │   ├── system.nix
+│   │   └── zsh.nix
 │   ├── home
+│   │   ├── default.nix
+│   │   ├── dotfiles.nix
+│   │   ├── dtui.nix
+│   │   ├── ghostty.nix
+│   │   ├── git.nix
+│   │   ├── links.nix
+│   │   ├── mpv.nix
+│   │   ├── secrets.nix
+│   │   ├── sparkle.nix
+│   │   ├── ssh.nix
+│   │   └── zsh.nix
 │   ├── nixos
+│   │   ├── caddy.nix
+│   │   ├── copyparty.nix
+│   │   ├── freshrss.nix
+│   │   ├── ntfy.nix
+│   │   ├── rsshub.nix
+│   │   └── uptermd.nix
 │   └── packages
+│       ├── cli.nix
+│       ├── dev.nix
+│       ├── fonts.nix
+│       ├── homebrew.nix
+│       └── media.nix
 ├── modules
 │   ├── hosts
+│   │   ├── cosmic-crisp
+│   │   │   └── disk.nix
+│   │   ├── cosmic-crisp.nix
+│   │   └── honeycrisp.nix
 │   ├── dev.nix
 │   ├── fastfetch-logo.png
 │   ├── fastfetch.nix
@@ -65,8 +117,6 @@ tree -L 2 --dirsfirst -I 'result|.git'
 ├── flake.lock
 ├── flake.nix
 └── justfile
-
-18 directories, 13 files
 #+end_example
 * Flake inputs
 #+begin_src sh :results output verbatim :exports results
