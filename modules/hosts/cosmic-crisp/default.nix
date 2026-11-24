@@ -12,13 +12,13 @@
         inputs.determinate.nixosModules.default
         inputs.sops-nix.nixosModules.sops
         inputs.self.modules.nixos.cosmic-crisp-disk
+        inputs.self.modules.nixos.caddy
+        inputs.self.modules.nixos.uptermd
 
-        ../../../legacy/nixos/caddy.nix
         ../../../legacy/nixos/copyparty.nix
         ../../../legacy/nixos/freshrss.nix
         ../../../legacy/nixos/ntfy.nix
         ../../../legacy/nixos/rsshub.nix
-        ../../../legacy/nixos/uptermd.nix
       ];
 
       networking.hostName = "cosmic-crisp";

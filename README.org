@@ -78,12 +78,10 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   │   ├── ssh.nix
 │   │   └── zsh.nix
 │   ├── nixos
-│   │   ├── caddy.nix
 │   │   ├── copyparty.nix
 │   │   ├── freshrss.nix
 │   │   ├── ntfy.nix
-│   │   ├── rsshub.nix
-│   │   └── uptermd.nix
+│   │   └── rsshub.nix
 │   └── packages
 │       ├── cli.nix
 │       ├── dev.nix
@@ -97,10 +95,12 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   │   │   ├── disk.nix
 │   │   │   └── facter.json
 │   │   └── honeycrisp.nix
+│   ├── caddy.nix
 │   ├── dev.nix
 │   ├── fastfetch-logo.png
 │   ├── fastfetch.nix
-│   └── systems.nix
+│   ├── systems.nix
+│   └── uptermd.nix
 ├── pkgs
 │   ├── commit-msg-review.nix
 │   └── update-readme.nix
@@ -148,7 +148,7 @@ Inputs:
 ├───git-hooks: github:cachix/git-hooks.nix/204b697 (2026-11-03 06:09:14)
 │   ├───flake-compat: github:NixOS/flake-compat/5edf11c (2025-12-29 20:24:17)
 │   └───nixpkgs follows input 'nixpkgs'
-├───home-manager: github:nix-community/home-manager/3b8140d (2026-11-22 16:59:17)
+├───home-manager: github:nix-community/home-manager/b56bcd0 (2026-11-24 15:27:02)
 │   └───nixpkgs follows input 'nixpkgs'
 ├───import-tree: github:vic/import-tree/eb1b52e (2026-09-03 20:25:10)
 ├───nix-darwin: github:nix-darwin/nix-darwin/663d8b9 (2026-11-22 18:47:21)
