@@ -10,10 +10,10 @@
     inputs.determinate.nixosModules.default
     ./hardware-configuration.nix
     ./disk-config.nix
-    ./services/caddy.nix
-    ./services/uptermd.nix
-    ./services/freshrss.nix
-    #./services/rsshub.nix
+    ../../modules/nixos/caddy.nix
+    ../../modules/nixos/uptermd.nix
+    ../../modules/nixos/freshrss.nix
+    # ../../modules/nixos/rsshub.nix
   ];
 
   networking.hostName = "cosmic-crisp";
