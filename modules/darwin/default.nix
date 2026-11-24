@@ -4,7 +4,7 @@
     ./macos-defaults.nix
     ./environment.nix
     ./login-items.nix
-    ./homebrew.nix
+    ../packages/homebrew.nix
     ./zsh.nix
     ./emacs.nix
     ./ds-store-killer.nix

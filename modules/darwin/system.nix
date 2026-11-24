@@ -34,16 +34,10 @@ in
     blockAllIncoming = false; # must stay off, or the allowlist is ignored
   };
 
-  # ── Nix packages & fonts ──────────────────────────────────
-  # List packages installed in system profile. To search by name, run:
-  # $ nix-env -qaP | grep wget
+  # ── Nix packages ──────────────────────────────────────────
+  # User packages are in modules/packages; this is system-wide only.
   environment.systemPackages = with pkgs; [
     nixd
-  ];
-
-  # Fonts are installed as Homebrew casks (see "Fonts" in homebrew.nix).
-  # Nixpkgs equivalents, kept for reference:
-  fonts.packages = [
   ];
 
   # ── PATH ──────────────────────────────────────────────────

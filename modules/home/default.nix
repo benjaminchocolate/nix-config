@@ -16,6 +16,10 @@
     ./mpv.nix
     ./zsh.nix
     ./ghostty.nix
+    ../packages/cli.nix
+    ../packages/dev.nix
+    ../packages/media.nix
+    ../packages/fonts.nix
   ];
 
   dotfiles.live =
