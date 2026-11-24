@@ -28,9 +28,9 @@ in
     brews = [
       "bash"
       "cloudflare-wrangler"
-      "cmake"
+      #"cmake"
       "container"
-      "llvm"
+      #"llvm"
       "mas"
       "mole"
       "openai/tools/tart"
@@ -41,9 +41,9 @@ in
       "uv"
       "vscode-langservers-extracted"
       "xdg-ninja"
-      "zig@0.17"
+      #"zig@0.17"
       "zls"
-      "zsh"
+      #"zsh"
     ];
 
     casks = [
@@ -69,7 +69,7 @@ in
       "kicad"
       "ltspice"
       "mattt/tap/imcp"
-      "mixxx"
+      #"mixxx"
       "moonlight"
       "mos"
       "motu-m-series"

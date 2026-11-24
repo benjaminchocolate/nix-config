@@ -1,0 +1,4 @@
+modules/home/fastfetch-logo.png: the nix-darwin logo, from github.com/nix-darwin/nix-darwin.
+Combines the Nix snowflake by Simon Frankau and Tim Cuthbertson (CC BY 4.0,
+github.com/NixOS/nixos-artwork) with Hexley the platypus by Jon Hooper.
+Not covered by this repository's 0BSD license.

@@ -5,7 +5,6 @@
     bat
     cheat
     eza
-    fastfetch
     fd
     navi
     ripgrep

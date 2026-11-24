@@ -54,12 +54,13 @@ tree -L 2 --dirsfirst -I 'result|.git'
 ├── secrets
 │   └── cosmic-crisp.yaml
 ├── LICENSE
+├── NOTICE
 ├── README.org
 ├── flake.lock
 ├── flake.nix
 └── justfile
 
-16 directories, 8 files
+16 directories, 9 files
 #+end_example
 * Flake inputs
 #+begin_src sh :results output verbatim :exports results
