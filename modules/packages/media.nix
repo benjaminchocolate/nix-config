@@ -1,11 +1,11 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
-    texliveFull
     ffmpeg
     imagemagick
     mupdf
     qpdf
+    texliveFull
     typst
     yt-dlp
   ];

@@ -1,10 +1,6 @@
-# commit-msg hook: asks Claude to review the commit message against
-# the rules below, shows the suggestion, and asks before using it.
-#
-# It never blocks a commit by accident. It skips itself when there is no
-# terminal to ask on (GUI clients, Claude Code, CI), when the claude CLI is
-# missing or fails, and for merge/fixup/squash messages.
-# Skip it on purpose with: SKIP=commit-msg-review git commit ...
+# commit-msg hook: Claude reviews the message against the rules below and
+# asks before replacing it. Skips itself with no terminal, no claude CLI, or
+# a merge/fixup/squash message. Skip on purpose: SKIP=commit-msg-review git commit
 {
   writeShellApplication,
   writeText,

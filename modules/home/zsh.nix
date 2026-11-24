@@ -1,15 +1,11 @@
-{
-  config,
-  pkgs,
-  ...
-}:
+{ config, pkgs, ... }:
 let
   cache = "${config.xdg.cacheHome}/zsh";
 in
 {
   programs.zsh = {
     enable = true;
-    package = null; # keep the zsh you log in with for now
+    package = null; # login shell is Homebrew's zsh
 
     history.path = "${config.xdg.stateHome}/zsh/history";
 
@@ -27,7 +23,7 @@ in
     syntaxHighlighting.enable = true;
     historySubstringSearch.enable = true;
 
-    envExtra = "SHELL_SESSIONS_DISABLE=1";
+    envExtra = "SHELL_SESSIONS_DISABLE=1"; # no per-window history in ~/.zsh_sessions
     profileExtra = ''eval "$(/opt/homebrew/bin/brew shellenv)"'';
 
     shellAliases = {

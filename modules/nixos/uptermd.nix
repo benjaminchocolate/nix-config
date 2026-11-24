@@ -1,5 +1,6 @@
-{ ... }:
 {
-  services.uptermd.enable = true;
-  services.uptermd.openFirewall = true;
+  services.uptermd = {
+    enable = true;
+    openFirewall = true;
+  };
 }

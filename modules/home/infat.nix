@@ -1,49 +1,27 @@
-# modules/home/infat.nix
-# Default apps for file types and URL schemes, applied on every switch.
+# Default apps, reapplied on every switch (overrides changes made in Finder).
 {
   programs.infat = {
     enable = true;
     settings = {
       extensions = {
-        md = "TextEdit";
-        # pdf = "Preview";
-        # carxp = "Carla";
-        m4a = "QuickTime Player";
-        mp3 = "QuickTime Player";
         aac = "QuickTime Player";
-        wav = "QuickTime Player";
         aiff = "QuickTime Player";
+        m4a = "QuickTime Player";
+        md = "TextEdit";
+        mp3 = "QuickTime Player";
+        wav = "QuickTime Player";
       };
-      schemes = {
-        mailto = "Mail";
-        #web = "come.apple.Safari";
-      };
+      schemes.mailto = "Mail";
       types = {
-        plain-text = "Emacs Client";
-        text = "Emacs Client";
-        # csv
-        image = "";
-        # raw-image
         audio = "QuickTime Player";
-        video = "QuickTime Player";
-        # movie
-        mp4-audio = "QuickTime Player";
-        # quicktime
-        # mp4-movie
-        # archive
-        # sourcecode
         c-source = "Emacs Client";
         cpp-source = "Emacs Client";
+        image = "";
+        mp4-audio = "QuickTime Player";
         objc-source = "Emacs Client";
-        # shell
-        # makefile
-        # data
-        # directory
-        # folder
-        # symlink
-        # executable
-        # unix-executable
-        # app-bundle
+        plain-text = "Emacs Client";
+        text = "Emacs Client";
+        video = "QuickTime Player";
       };
     };
   };

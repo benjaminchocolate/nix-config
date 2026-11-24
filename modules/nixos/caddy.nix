@@ -1,4 +1,3 @@
-{ ... }:
 {
   services.caddy = {
     enable = true;
@@ -11,5 +10,4 @@
     80
     443
   ];
-
 }

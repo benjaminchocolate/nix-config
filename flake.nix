@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-26.05";
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
 
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin/master";
@@ -15,23 +16,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    sops-nix = {
-      url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    ds-store-killer = {
-      url = "github:kawayww/ds-store-killer";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
-    git-hooks = {
-      url = "github:cachix/git-hooks.nix";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -40,7 +31,15 @@
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
-    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
+    ds-store-killer = {
+      url = "github:kawayww/ds-store-killer";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

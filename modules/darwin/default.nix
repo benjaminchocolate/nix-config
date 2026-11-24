@@ -1,13 +1,15 @@
 {
   imports = [
-    ./system.nix
-    ./macos-defaults.nix
     ./environment.nix
     ./login-items.nix
-    ../packages/homebrew.nix
+    ./macos-defaults.nix
+    ./system.nix
     ./zsh.nix
-    ./emacs.nix
+
     ./ds-store-killer.nix
+    ./emacs.nix
+    ../packages/homebrew.nix
+
     ./home-manager.nix
   ];
 }

@@ -7,42 +7,37 @@
 {
   imports = [
     ./dotfiles.nix
-    ./git.nix
     ./secrets.nix
-    ./ssh.nix
-    ./sparkle.nix
-    ./links.nix
-    ./infat.nix
-    ./mpv.nix
-    ./zsh.nix
+
     ./ghostty.nix
+    ./git.nix
+    ./mpv.nix
+    ./ssh.nix
+    ./zsh.nix
+
+    ./infat.nix
+    ./links.nix
+    ./sparkle.nix
+
     ../packages/cli.nix
     ../packages/dev.nix
-    ../packages/media.nix
     ../packages/fonts.nix
+    ../packages/media.nix
   ];
-
-  dotfiles.live =
-    [ ]
-    ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
-      "aerospace"
-      "hammerspoon"
-      "karabiner"
-    ];
-
-  manual.manpages.enable = true; # Just want to see
 
   xdg.enable = true;
   home.preferXdgDirectories = true;
+
+  dotfiles.live = lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
+    "aerospace"
+    "hammerspoon"
+    "karabiner"
+  ];
 
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
   };
-
-  home.packages = with pkgs; [
-    # bun
-  ];
 
   xdg.configFile."vim/vimrc".text = ''
     syntax on
@@ -50,10 +45,9 @@
     set viminfofile=${config.xdg.stateHome}/vim/viminfo
     set mouse=a
   '';
-  xdg.stateFile."vim/.keep".text = ""; # Get rid of this?
+  xdg.stateFile."vim/.keep".text = ""; # vim won't create the viminfo directory itself
 
   home.file.".hushlogin".text = "";
-
   home.file.".clang-format".text = ''
     BasedOnStyle: Google
   '';

@@ -1,13 +1,11 @@
 {
   programs.ghostty = {
     enable = true;
-    package = null;
-    enableZshIntegration = false; # Ghostty injects this itself
-    settings = {
-      keybind = [
-        "ctrl+h=goto_split:left"
-        "ctrl+l=goto_split:right"
-      ];
-    };
+    package = null; # Homebrew cask
+    enableZshIntegration = false; # Ghostty injects its own
+    settings.keybind = [
+      "ctrl+h=goto_split:left"
+      "ctrl+l=goto_split:right"
+    ];
   };
 }

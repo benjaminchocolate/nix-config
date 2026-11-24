@@ -1,18 +1,15 @@
-{
-  config,
-  ...
-}:
+{ config, ... }:
 {
   services.ntfy-sh = {
     enable = true;
+    environmentFile = config.sops.secrets.ntfy-env.path;
     settings = {
       base-url = "https://ntfy.carpenterlab.dev";
       listen-http = "127.0.0.1:2586";
       behind-proxy = true;
-      upstream-base-url = "https://ntfy.sh";
       auth-default-access = "deny-all";
+      upstream-base-url = "https://ntfy.sh"; # instant iOS push
     };
-    environmentFile = config.sops.secrets.ntfy-env.path;
   };
 
   sops.secrets.ntfy-env.restartUnits = [ "ntfy-sh.service" ];

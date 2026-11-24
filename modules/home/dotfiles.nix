@@ -1,13 +1,5 @@
-# Live-editable configs.
-#
-# Most of Home Manager copies files into the read-only Nix store, so changing
-# them needs a rebuild. For configs I edit often (Emacs, zsh, Hammerspoon,
-# Karabiner) that is the wrong trade. Instead the real files stay in this
-# repo under config/, and ~/.config/<name> is a symlink to them:
-#
-#   ~/.config/emacs -> <repo>/config/emacs
-#
-# Edit the file, the program sees it. Nix only owns the symlink.
+# Live-editable configs: ~/.config/<name> links to config/<name> in this
+# repo, so edits apply without a rebuild. Nix only owns the symlink.
 { config, lib, ... }:
 let
   cfg = config.dotfiles;

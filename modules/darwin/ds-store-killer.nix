@@ -5,6 +5,5 @@
   services.dsk = {
     enable = true;
     paths = [ "/" ];
-    #notify = true;
   };
 }

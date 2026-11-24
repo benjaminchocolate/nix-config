@@ -1,29 +1,17 @@
-# Machine basics: Nix, security, system packages, PATH
 {
   config,
-  pkgs,
   inputs,
+  pkgs,
   ...
 }:
 let
   home = config.users.users.${config.system.primaryUser}.home;
 in
 {
-  # ── Nix ───────────────────────────────────────────────────
-  nix.enable = false; # Determinate Nix manages the Nix daemon
+  nix.enable = false; # Determinate Nix manages the daemon
 
-  # Necessary for using flakes on this system.
-  #nix.settings.experimental-features = "nix-command flakes";
+  system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null; # shown by darwin-version
 
-  # Set Git commit hash for darwin-version.
-  # (`self` lives in `inputs`, passed in via specialArgs in flake.nix)
-  system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
-
-  # ── Shells ────────────────────────────────────────────────
-  # Enable alternative shell support in nix-darwin.
-  # programs.fish.enable = true;
-
-  # ── Security ──────────────────────────────────────────────
   security.pam.services.sudo_local.touchIdAuth = true;
 
   networking.applicationFirewall = {
@@ -34,16 +22,10 @@ in
     blockAllIncoming = false; # must stay off, or the allowlist is ignored
   };
 
-  # ── Nix packages ──────────────────────────────────────────
-  # User packages are in modules/packages; this is system-wide only.
-  environment.systemPackages = with pkgs; [
-    nixd
-  ];
+  environment.systemPackages = [ pkgs.nixd ];
 
-  # ── PATH ──────────────────────────────────────────────────
   environment.systemPath = [
     "/opt/homebrew/bin"
-    # "/Library/TeX/texbin"
-    "${home}/.local/bin" # user-installed binaries (the XDG convention)
+    "${home}/.local/bin"
   ];
 }

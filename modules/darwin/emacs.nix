@@ -1,7 +1,4 @@
-{
-  config,
-  ...
-}:
+{ config, ... }:
 let
   user = config.system.primaryUser;
 in
@@ -15,12 +12,13 @@ in
     ];
 
     brews = [
-      # pdf-tools build deps
-      # "pkg-config"
-      # "poppler"
+      "languagetool"
+
+      # pdf-tools needs these to build epdfinfo:
       # "autoconf"
       # "automake"
-      "languagetool"
+      # "pkg-config"
+      # "poppler"
     ];
 
     casks = [
@@ -34,7 +32,7 @@ in
   home-manager.users.${user} = {
     dotfiles.live = [ "emacs" ];
 
-    home.file.".config/emacs-plus/build.yml".text = ''
+    xdg.configFile."emacs-plus/build.yml".text = ''
       icon: liquid-glass
     '';
 
@@ -45,12 +43,12 @@ in
           "/opt/homebrew/bin/emacs"
           "--fg-daemon"
         ];
-        RunAtLoad = true;
-        KeepAlive = true;
-        StandardOutPath = "/tmp/emacs-daemon.log";
-        StandardErrorPath = "/tmp/emacs-daemon.log";
         EnvironmentVariables = config.launchd.user.envVariables;
+        KeepAlive = true;
         ProcessType = "Interactive";
+        RunAtLoad = true;
+        StandardErrorPath = "/tmp/emacs-daemon.log";
+        StandardOutPath = "/tmp/emacs-daemon.log";
       };
     };
   };

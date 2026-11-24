@@ -1,10 +1,5 @@
+{ config, ... }:
 {
-  config,
-  ...
-}:
-{
-  sops.secrets.freshrss-password.owner = config.services.freshrss.user;
-
   services.freshrss = {
     enable = true;
     webserver = "caddy";
@@ -14,4 +9,6 @@
     passwordFile = config.sops.secrets.freshrss-password.path;
     api.enable = true;
   };
+
+  sops.secrets.freshrss-password.owner = config.services.freshrss.user;
 }
