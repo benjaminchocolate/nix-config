@@ -10,16 +10,6 @@ in
       InitialKeyRepeat = 25; # in 15 ms units
       KeyRepeat = 2; # fastest the slider allows
       "com.apple.trackpad.scaling" = 1.0;
-
-      # new
-      AppleActionOnDoubleClick = "Fill"; # double-clicking a title bar
-      AppleMenuBarVisibleInFullscreen = true;
-      "com.apple.scrollwheel.scaling" = 0.3125;
-
-      NSFont = "AtkinsonHyperlegibleNext-Regular";
-      NSFontSize = 15;
-      NSFixedPitchFont = "AtkinsonHyperlegibleMono-Regular";
-      NSFixedPitchFontSize = 15;
     };
 
     dock = {
@@ -92,6 +82,12 @@ in
         AppleActionOnDoubleClick = "Fill"; # double-clicking a title bar
         AppleMenuBarVisibleInFullscreen = true;
         "com.apple.scrollwheel.scaling" = 0.3125;
+
+        # new
+        NSFont = "AtkinsonHyperlegibleNext-Regular";
+        NSFontSize = 15;
+        NSFixedPitchFont = "AtkinsonHyperlegibleMono-Regular";
+        NSFixedPitchFontSize = 15;
       };
 
       "com.apple.desktopservices" = {
