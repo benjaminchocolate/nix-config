@@ -51,6 +51,8 @@ tree -L 2 --dirsfirst -I 'result|.git'
 ├── modules
 │   ├── hosts
 │   ├── dev.nix
+│   ├── fastfetch-logo.png
+│   ├── fastfetch.nix
 │   └── systems.nix
 ├── pkgs
 │   ├── commit-msg-review.nix
@@ -64,7 +66,7 @@ tree -L 2 --dirsfirst -I 'result|.git'
 ├── flake.nix
 └── justfile
 
-18 directories, 11 files
+18 directories, 13 files
 #+end_example
 * Flake inputs
 #+begin_src sh :results output verbatim :exports results

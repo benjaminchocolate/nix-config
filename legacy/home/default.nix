@@ -9,7 +9,6 @@
     ./dotfiles.nix
     ./secrets.nix
 
-    ./fastfetch.nix
     ./ghostty.nix
     ./git.nix
     ./mpv.nix
