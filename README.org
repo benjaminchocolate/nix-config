@@ -43,11 +43,15 @@ tree -L 2 --dirsfirst -I 'result|.git'
 ├── hosts
 │   ├── cosmic-crisp
 │   └── honeycrisp
-├── modules
+├── legacy
 │   ├── darwin
 │   ├── home
 │   ├── nixos
 │   └── packages
+├── modules
+│   ├── hosts
+│   ├── dev.nix
+│   └── systems.nix
 ├── pkgs
 │   ├── commit-msg-review.nix
 │   └── update-readme.nix
@@ -60,7 +64,7 @@ tree -L 2 --dirsfirst -I 'result|.git'
 ├── flake.nix
 └── justfile
 
-16 directories, 9 files
+18 directories, 11 files
 #+end_example
 * Flake inputs
 #+begin_src sh :results output verbatim :exports results
@@ -92,11 +96,14 @@ Inputs:
 │   └───nixpkgs follows input 'nixpkgs-stable'
 ├───ds-store-killer: github:kawayww/ds-store-killer/054b862 (2025-12-26 05:19:07)
 │   └───nixpkgs follows input 'nixpkgs'
+├───flake-parts: github:hercules-ci/flake-parts/ea2630b (2026-11-01 23:44:19)
+│   └───nixpkgs-lib follows input 'nixpkgs'
 ├───git-hooks: github:cachix/git-hooks.nix/204b697 (2026-11-03 06:09:14)
 │   ├───flake-compat: github:NixOS/flake-compat/5edf11c (2025-12-29 20:24:17)
 │   └───nixpkgs follows input 'nixpkgs'
 ├───home-manager: github:nix-community/home-manager/3b8140d (2026-11-22 16:59:17)
 │   └───nixpkgs follows input 'nixpkgs'
+├───import-tree: github:vic/import-tree/eb1b52e (2026-09-03 20:25:10)
 ├───nix-darwin: github:nix-darwin/nix-darwin/663d8b9 (2026-11-22 18:47:21)
 │   └───nixpkgs follows input 'nixpkgs'
 ├───nixpkgs: github:NixOS/nixpkgs/619c39f (2026-11-22 18:15:35)

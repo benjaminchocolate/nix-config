@@ -13,12 +13,12 @@
     ./disk-config.nix
     ./hardware-configuration.nix
 
-    ../../modules/nixos/caddy.nix
-    ../../modules/nixos/copyparty.nix
-    ../../modules/nixos/freshrss.nix
-    ../../modules/nixos/ntfy.nix
-    ../../modules/nixos/rsshub.nix
-    ../../modules/nixos/uptermd.nix
+    ../../legacy/nixos/caddy.nix
+    ../../legacy/nixos/copyparty.nix
+    ../../legacy/nixos/freshrss.nix
+    ../../legacy/nixos/ntfy.nix
+    ../../legacy/nixos/rsshub.nix
+    ../../legacy/nixos/uptermd.nix
   ];
 
   networking.hostName = "cosmic-crisp";

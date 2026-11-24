@@ -1,5 +1,5 @@
 {
-  imports = [ ../../modules/darwin ];
+  imports = [ ../../legacy/darwin ];
 
   nixpkgs.hostPlatform = "aarch64-darwin";
 
