@@ -65,24 +65,18 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   │   ├── macos-defaults.nix
 │   │   ├── system.nix
 │   │   └── zsh.nix
-│   ├── home
-│   │   ├── default.nix
-│   │   ├── dotfiles.nix
-│   │   ├── dtui.nix
-│   │   ├── ghostty.nix
-│   │   ├── git.nix
-│   │   ├── links.nix
-│   │   ├── mpv.nix
-│   │   ├── secrets.nix
-│   │   ├── sparkle.nix
-│   │   ├── ssh.nix
-│   │   └── zsh.nix
-│   └── packages
-│       ├── cli.nix
-│       ├── dev.nix
-│       ├── fonts.nix
-│       ├── homebrew.nix
-│       └── media.nix
+│   └── home
+│       ├── default.nix
+│       ├── dotfiles.nix
+│       ├── dtui.nix
+│       ├── ghostty.nix
+│       ├── git.nix
+│       ├── links.nix
+│       ├── mpv.nix
+│       ├── secrets.nix
+│       ├── sparkle.nix
+│       ├── ssh.nix
+│       └── zsh.nix
 ├── modules
 │   ├── hosts
 │   │   ├── cosmic-crisp
@@ -90,6 +84,13 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   │   │   ├── disk.nix
 │   │   │   └── facter.json
 │   │   └── honeycrisp.nix
+│   ├── packages
+│   │   ├── cli.nix
+│   │   ├── default.nix
+│   │   ├── dev.nix
+│   │   ├── fonts.nix
+│   │   ├── homebrew.nix
+│   │   └── media.nix
 │   ├── caddy.nix
 │   ├── copyparty.nix
 │   ├── dev.nix

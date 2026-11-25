@@ -18,11 +18,6 @@
     ./dtui.nix
     ./links.nix
     ./sparkle.nix
-
-    ../packages/cli.nix
-    ../packages/dev.nix
-    ../packages/fonts.nix
-    ../packages/media.nix
   ];
 
   xdg.enable = true;

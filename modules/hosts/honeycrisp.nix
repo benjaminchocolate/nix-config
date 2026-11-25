@@ -1,7 +1,10 @@
 { inputs, config, ... }:
 {
   flake.modules.darwin.honeycrisp = {
-    imports = [ ../../legacy/darwin ];
+    imports = [
+      ../../legacy/darwin
+      inputs.self.modules.darwin.packages
+    ];
 
     nixpkgs.hostPlatform = "aarch64-darwin";
 

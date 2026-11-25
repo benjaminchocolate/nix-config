@@ -8,7 +8,6 @@
 
     ./ds-store-killer.nix
     ./emacs.nix
-    ../packages/homebrew.nix
 
     ./home-manager.nix
   ];
