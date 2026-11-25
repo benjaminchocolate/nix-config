@@ -20,10 +20,6 @@
             name = "benjaminchocolate/tap";
             trusted = true;
           }
-          {
-            name = "openai/tools";
-            trusted = true;
-          }
         ];
 
         brews = [
@@ -34,7 +30,7 @@
           #"llvm"
           "mas"
           "mole"
-          "openai/tools/tart"
+          #"openai/tools/tart"
           "opencode"
           "pandoc"
           "pi-coding-agent"

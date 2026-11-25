@@ -60,7 +60,6 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │       ├── ds-store-killer.nix
 │       ├── emacs.nix
 │       ├── environment.nix
-│       ├── home-manager.nix
 │       ├── login-items.nix
 │       ├── macos-defaults.nix
 │       ├── system.nix
@@ -78,7 +77,6 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   │   ├── links.nix
 │   │   ├── mpv.nix
 │   │   ├── secrets.nix
-│   │   ├── shell.nix
 │   │   ├── sparkle.nix
 │   │   └── vim.nix
 │   ├── hosts
@@ -87,6 +85,12 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   │   │   ├── disk.nix
 │   │   │   └── facter.json
 │   │   └── honeycrisp.nix
+│   ├── macos
+│   │   ├── defaults.nix
+│   │   ├── ds-store-killer.nix
+│   │   ├── environment.nix
+│   │   ├── login-items.nix
+│   │   └── system.nix
 │   ├── packages
 │   │   ├── cli.nix
 │   │   ├── default.nix
@@ -102,6 +106,9 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   │   ├── rsshub.nix
 │   │   └── uptermd.nix
 │   ├── dev.nix
+│   ├── emacs.nix
+│   ├── home-manager.nix
+│   ├── shell.nix
 │   ├── ssh.nix
 │   └── systems.nix
 ├── pkgs

@@ -8,7 +8,5 @@
 
     ./ds-store-killer.nix
     ./emacs.nix
-
-    ./home-manager.nix
   ];
 }
