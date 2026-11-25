@@ -8,6 +8,7 @@
       home-manager
       login-items
       macos-defaults
+      nix-homebrew
       packages
       shell
       system

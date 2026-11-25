@@ -54,16 +54,6 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   │   └── safari_tab_scroll.lua
 │   └── karabiner
 │       └── karabiner.json
-├── legacy
-│   └── darwin
-│       ├── default.nix
-│       ├── ds-store-killer.nix
-│       ├── emacs.nix
-│       ├── environment.nix
-│       ├── login-items.nix
-│       ├── macos-defaults.nix
-│       ├── system.nix
-│       └── zsh.nix
 ├── modules
 │   ├── home
 │   │   ├── base.nix
@@ -108,6 +98,7 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   ├── dev.nix
 │   ├── emacs.nix
 │   ├── home-manager.nix
+│   ├── nix-homebrew.nix
 │   ├── shell.nix
 │   ├── ssh.nix
 │   └── systems.nix
@@ -160,9 +151,13 @@ Inputs:
 │   └───nixpkgs follows input 'nixpkgs'
 ├───home-manager: github:nix-community/home-manager/b56bcd0 (2026-11-24 15:27:02)
 │   └───nixpkgs follows input 'nixpkgs'
+├───homebrew-cask: github:homebrew/homebrew-cask/3e252b0 (2026-11-25 04:23:56)
+├───homebrew-core: github:homebrew/homebrew-core/81d5c3b (2026-11-25 04:43:36)
 ├───import-tree: github:vic/import-tree/eb1b52e (2026-09-03 20:25:10)
 ├───nix-darwin: github:nix-darwin/nix-darwin/663d8b9 (2026-11-22 18:47:21)
 │   └───nixpkgs follows input 'nixpkgs'
+├───nix-homebrew: github:zhaofengli/nix-homebrew/52bc87d (2026-11-01 14:37:43)
+│   └───brew-src: github:Homebrew/brew/c6069d2 (2026-10-26 07:44:47)
 ├───nixpkgs: github:NixOS/nixpkgs/619c39f (2026-11-22 18:15:35)
 ├───nixpkgs-stable: github:NixOS/nixpkgs/0dc498b (2026-11-22 17:54:03)
 └───sops-nix: github:Mic92/sops-nix/d5abe5e (2026-11-23 22:02:25)
