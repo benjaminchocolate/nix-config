@@ -6,10 +6,30 @@
       inputs.self.modules.darwin.packages
     ];
 
-    home-manager.users.ben.imports = [
-      inputs.self.modules.homeManager.fastfetch
-      inputs.self.modules.homeManager.mpv
-    ];
+    home-manager.users.ben = {
+      imports = with inputs.self.modules.homeManager; [
+        base
+        direnv
+        dotfiles
+        dtui
+        fastfetch
+        ghostty
+        git
+        links
+        mpv
+        secrets
+        shell
+        sparkle
+        ssh
+        vim
+      ];
+
+      dotfiles.live = [
+        "aerospace"
+        "hammerspoon"
+        "karabiner"
+      ];
+    };
 
     nixpkgs.hostPlatform = "aarch64-darwin";
 

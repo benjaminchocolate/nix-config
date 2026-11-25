@@ -55,32 +55,32 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   └── karabiner
 │       └── karabiner.json
 ├── legacy
-│   ├── darwin
-│   │   ├── default.nix
-│   │   ├── ds-store-killer.nix
-│   │   ├── emacs.nix
-│   │   ├── environment.nix
-│   │   ├── home-manager.nix
-│   │   ├── login-items.nix
-│   │   ├── macos-defaults.nix
-│   │   ├── system.nix
-│   │   └── zsh.nix
-│   └── home
+│   └── darwin
 │       ├── default.nix
-│       ├── dotfiles.nix
-│       ├── dtui.nix
-│       ├── ghostty.nix
-│       ├── git.nix
-│       ├── links.nix
-│       ├── secrets.nix
-│       ├── sparkle.nix
-│       ├── ssh.nix
+│       ├── ds-store-killer.nix
+│       ├── emacs.nix
+│       ├── environment.nix
+│       ├── home-manager.nix
+│       ├── login-items.nix
+│       ├── macos-defaults.nix
+│       ├── system.nix
 │       └── zsh.nix
 ├── modules
 │   ├── home
+│   │   ├── base.nix
+│   │   ├── direnv.nix
+│   │   ├── dotfiles.nix
+│   │   ├── dtui.nix
 │   │   ├── fastfetch-logo.png
 │   │   ├── fastfetch.nix
-│   │   └── mpv.nix
+│   │   ├── ghostty.nix
+│   │   ├── git.nix
+│   │   ├── links.nix
+│   │   ├── mpv.nix
+│   │   ├── secrets.nix
+│   │   ├── shell.nix
+│   │   ├── sparkle.nix
+│   │   └── vim.nix
 │   ├── hosts
 │   │   ├── cosmic-crisp
 │   │   │   ├── default.nix
@@ -102,6 +102,7 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   │   ├── rsshub.nix
 │   │   └── uptermd.nix
 │   ├── dev.nix
+│   ├── ssh.nix
 │   └── systems.nix
 ├── pkgs
 │   ├── commit-msg-review.nix
