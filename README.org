@@ -91,16 +91,17 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   │   ├── fonts.nix
 │   │   ├── homebrew.nix
 │   │   └── media.nix
-│   ├── caddy.nix
-│   ├── copyparty.nix
+│   ├── services
+│   │   ├── caddy.nix
+│   │   ├── copyparty.nix
+│   │   ├── freshrss.nix
+│   │   ├── ntfy.nix
+│   │   ├── rsshub.nix
+│   │   └── uptermd.nix
 │   ├── dev.nix
 │   ├── fastfetch-logo.png
 │   ├── fastfetch.nix
-│   ├── freshrss.nix
-│   ├── ntfy.nix
-│   ├── rsshub.nix
-│   ├── systems.nix
-│   └── uptermd.nix
+│   └── systems.nix
 ├── pkgs
 │   ├── commit-msg-review.nix
 │   └── update-readme.nix
