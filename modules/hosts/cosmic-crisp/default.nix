@@ -12,13 +12,13 @@
         inputs.determinate.nixosModules.default
         inputs.sops-nix.nixosModules.sops
         inputs.self.modules.nixos.cosmic-crisp-disk
-        inputs.self.modules.nixos.caddy
-        inputs.self.modules.nixos.uptermd
 
-        ../../../legacy/nixos/copyparty.nix
-        ../../../legacy/nixos/freshrss.nix
-        ../../../legacy/nixos/ntfy.nix
-        ../../../legacy/nixos/rsshub.nix
+        inputs.self.modules.nixos.caddy
+        inputs.self.modules.nixos.copyparty
+        inputs.self.modules.nixos.freshrss
+        inputs.self.modules.nixos.ntfy
+        inputs.self.modules.nixos.rsshub
+        inputs.self.modules.nixos.uptermd
       ];
 
       networking.hostName = "cosmic-crisp";
@@ -92,7 +92,6 @@
     };
 
   flake.nixosConfigurations.cosmic-crisp = inputs.nixpkgs-stable.lib.nixosSystem {
-    specialArgs = { inherit inputs; }; # legacy/nixos/copyparty.nix takes inputs
     modules = [ config.flake.modules.nixos.cosmic-crisp ];
   };
 }

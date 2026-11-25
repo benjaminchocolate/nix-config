@@ -77,11 +77,6 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   │   ├── sparkle.nix
 │   │   ├── ssh.nix
 │   │   └── zsh.nix
-│   ├── nixos
-│   │   ├── copyparty.nix
-│   │   ├── freshrss.nix
-│   │   ├── ntfy.nix
-│   │   └── rsshub.nix
 │   └── packages
 │       ├── cli.nix
 │       ├── dev.nix
@@ -96,9 +91,13 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   │   │   └── facter.json
 │   │   └── honeycrisp.nix
 │   ├── caddy.nix
+│   ├── copyparty.nix
 │   ├── dev.nix
 │   ├── fastfetch-logo.png
 │   ├── fastfetch.nix
+│   ├── freshrss.nix
+│   ├── ntfy.nix
+│   ├── rsshub.nix
 │   ├── systems.nix
 │   └── uptermd.nix
 ├── pkgs
