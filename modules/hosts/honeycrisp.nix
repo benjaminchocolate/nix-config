@@ -6,6 +6,11 @@
       inputs.self.modules.darwin.packages
     ];
 
+    home-manager.users.ben.imports = [
+      inputs.self.modules.homeManager.fastfetch
+      inputs.self.modules.homeManager.mpv
+    ];
+
     nixpkgs.hostPlatform = "aarch64-darwin";
 
     networking = {

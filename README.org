@@ -72,12 +72,15 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │       ├── ghostty.nix
 │       ├── git.nix
 │       ├── links.nix
-│       ├── mpv.nix
 │       ├── secrets.nix
 │       ├── sparkle.nix
 │       ├── ssh.nix
 │       └── zsh.nix
 ├── modules
+│   ├── home
+│   │   ├── fastfetch-logo.png
+│   │   ├── fastfetch.nix
+│   │   └── mpv.nix
 │   ├── hosts
 │   │   ├── cosmic-crisp
 │   │   │   ├── default.nix
@@ -99,8 +102,6 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   │   ├── rsshub.nix
 │   │   └── uptermd.nix
 │   ├── dev.nix
-│   ├── fastfetch-logo.png
-│   ├── fastfetch.nix
 │   └── systems.nix
 ├── pkgs
 │   ├── commit-msg-review.nix

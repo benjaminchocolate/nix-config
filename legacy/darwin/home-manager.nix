@@ -7,9 +7,6 @@
     useUserPackages = true;
     backupFileExtension = "backup"; # move conflicting files aside instead of failing
     extraSpecialArgs = { inherit inputs; };
-    users.${config.system.primaryUser}.imports = [
-      ../home
-      inputs.self.modules.homeManager.fastfetch
-    ];
+    users.${config.system.primaryUser}.imports = [ ../home ];
   };
 }

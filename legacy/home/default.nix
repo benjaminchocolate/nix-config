@@ -11,7 +11,6 @@
 
     ./ghostty.nix
     ./git.nix
-    ./mpv.nix
     ./ssh.nix
     ./zsh.nix
 
