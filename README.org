@@ -111,6 +111,7 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 ├── LICENSE
 ├── NOTICE
 ├── README.org
+├── bootstrap.sh
 ├── flake.lock
 ├── flake.nix
 └── justfile
