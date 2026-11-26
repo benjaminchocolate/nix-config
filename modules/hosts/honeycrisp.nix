@@ -25,11 +25,11 @@
         git
         links
         mpv
+        neovim
         secrets
         shell
         sparkle
         ssh
-        vim
       ];
 
       dotfiles = {

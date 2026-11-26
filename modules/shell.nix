@@ -244,7 +244,6 @@
         };
       };
 
-      home.sessionVariables.EDITOR = "vim";
       home.packages = [ pkgs.zsh-completions ];
     };
 

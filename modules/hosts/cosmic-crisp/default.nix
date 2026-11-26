@@ -16,6 +16,7 @@
         inputs.self.modules.nixos.caddy
         inputs.self.modules.nixos.copyparty
         inputs.self.modules.nixos.freshrss
+        inputs.self.modules.nixos.neovim
         inputs.self.modules.nixos.ntfy
         inputs.self.modules.nixos.rsshub
         inputs.self.modules.nixos.uptermd

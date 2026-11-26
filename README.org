@@ -67,9 +67,7 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   │   ├── links.nix
 │   │   ├── mpv.nix
 │   │   ├── secrets.nix
-│   │   ├── sparkle.nix
-│   │   ├── starship.nix
-│   │   └── vim.nix
+│   │   └── sparkle.nix
 │   ├── hosts
 │   │   ├── cosmic-crisp
 │   │   │   ├── default.nix
@@ -99,6 +97,7 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   ├── dev.nix
 │   ├── emacs.nix
 │   ├── home-manager.nix
+│   ├── neovim.nix
 │   ├── nix-homebrew.nix
 │   ├── shell.nix
 │   ├── ssh.nix
