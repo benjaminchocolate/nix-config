@@ -25,6 +25,8 @@
       -                       !                  ]        [` `                L
  #+end_example
 
+#+html: <div align="center"><a href="https://github.com/nix-darwin/nix-darwin"><img alt="honeycrisp: nix-darwin" src="https://img.shields.io/badge/honeycrisp-nix--darwin-000000?style=flat-square&logo=apple&logoColor=white"></a> <a href="https://nixos.org"><img alt="cosmic-crisp: NixOS 26.05" src="https://img.shields.io/badge/cosmic--crisp-NixOS_26.05-5277C3?style=flat-square&logo=nixos&logoColor=white"></a> <a href="https://determinate.systems"><img alt="Determinate Nix" src="https://img.shields.io/badge/Determinate-Nix-6E56CF?style=flat-square&logo=nixos&logoColor=white"></a> <a href="https://github.com/mightyiam/dendritic"><img alt="dendritic pattern" src="https://img.shields.io/badge/pattern-dendritic-2E7D32?style=flat-square"></a> <a href="https://github.com/benjaminchocolate/nix-config/commits/main"><img alt="last commit" src="https://img.shields.io/github/last-commit/benjaminchocolate/nix-config?style=flat-square"></a> <a href="LICENSE"><img alt="license" src="https://img.shields.io/github/license/benjaminchocolate/nix-config?style=flat-square"></a></div>
+
 Nix configuration for my Mac (nix-darwin) and my server (NixOS). It uses the dendritic pattern, one file per feature for every host, on Determinate Nix.
 
 * New Mac
@@ -79,6 +81,7 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   │   │   ├── default.nix
 │   │   │   ├── disk.nix
 │   │   │   └── facter.json
+│   │   ├── brew-lab.nix
 │   │   └── honeycrisp.nix
 │   ├── macos
 │   │   ├── defaults.nix
@@ -103,6 +106,7 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   ├── dev.nix
 │   ├── emacs.nix
 │   ├── home-manager.nix
+│   ├── homebrew-dev.nix
 │   ├── neovim.nix
 │   ├── nix-homebrew.nix
 │   ├── shell.nix
