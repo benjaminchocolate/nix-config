@@ -103,6 +103,7 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   │   ├── ntfy.nix
 │   │   ├── rsshub.nix
 │   │   └── uptermd.nix
+│   ├── darwin-configurations.nix
 │   ├── dev.nix
 │   ├── emacs.nix
 │   ├── home-manager.nix
