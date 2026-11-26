@@ -14,7 +14,6 @@
         sequoia-sq
         shellcheck
         sops
-        tart
         uv
         vscode-langservers-extracted
       ];

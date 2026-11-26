@@ -31,6 +31,7 @@
         shell
         sparkle
         ssh
+        tart
       ];
 
       dotfiles = {
