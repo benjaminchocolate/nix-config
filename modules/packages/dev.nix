@@ -6,6 +6,7 @@
         age
         gh
         gitleaks
+        gnumake
         just
         mosh
         nixfmt
@@ -13,6 +14,8 @@
         sequoia-sq
         shellcheck
         sops
+        uv
+        vscode-langservers-extracted
       ];
     };
 }
