@@ -16,7 +16,6 @@
           ];
           text = ''
             # Usage: brew-dev-setup [cask] [core]   (default: cask)
-            # Safe to rerun: every step skips itself when already done.
             taps=("$@")
             [ ''${#taps[@]} -gt 0 ] || taps=(cask)
 

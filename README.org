@@ -27,7 +27,7 @@
 
 #+html: <div align="center"><a href="https://github.com/nix-darwin/nix-darwin"><img alt="honeycrisp: nix-darwin" src="https://img.shields.io/badge/honeycrisp-nix--darwin-000000?style=flat-square&logo=apple&logoColor=white"></a> <a href="https://nixos.org"><img alt="cosmic-crisp: NixOS 26.05" src="https://img.shields.io/badge/cosmic--crisp-NixOS_26.05-5277C3?style=flat-square&logo=nixos&logoColor=white"></a> <a href="https://determinate.systems"><img alt="Determinate Nix" src="https://img.shields.io/badge/Determinate-Nix-6E56CF?style=flat-square&logo=nixos&logoColor=white"></a> <a href="https://github.com/mightyiam/dendritic"><img alt="dendritic pattern" src="https://img.shields.io/badge/pattern-dendritic-2E7D32?style=flat-square"></a> <a href="https://github.com/benjaminchocolate/nix-config/commits/main"><img alt="last commit" src="https://img.shields.io/github/last-commit/benjaminchocolate/nix-config?style=flat-square"></a> <a href="LICENSE"><img alt="license" src="https://img.shields.io/github/license/benjaminchocolate/nix-config?style=flat-square"></a></div>
 
-Nix configuration for my Mac (nix-darwin) and my server (NixOS). It uses the dendritic pattern, one file per feature for every host, on Determinate Nix.
+Nix configuration for my Macs (nix-darwin) and Linux machines (NixOS). It uses the dendritic pattern, one file per feature for every host, on Determinate Nix.
 
 * New Mac
 #+begin_src sh :eval never
@@ -62,6 +62,20 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   └── karabiner
 │       └── karabiner.json
 ├── modules
+│   ├── darwin
+│   │   ├── defaults.nix
+│   │   ├── ds-store-killer.nix
+│   │   ├── emacs.nix
+│   │   ├── environment.nix
+│   │   ├── home-manager.nix
+│   │   ├── homebrew-dev.nix
+│   │   ├── login-items.nix
+│   │   ├── nix-homebrew.nix
+│   │   └── security.nix
+│   ├── flake
+│   │   ├── darwin-configurations.nix
+│   │   ├── dev-shell.nix
+│   │   └── systems.nix
 │   ├── home
 │   │   ├── fastfetch
 │   │   │   ├── default.nix
@@ -75,29 +89,22 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   │   ├── links.nix
 │   │   ├── mpv.nix
 │   │   ├── secrets.nix
-│   │   └── sparkle.nix
+│   │   ├── sparkle.nix
+│   │   ├── ssh.nix
+│   │   └── tart.nix
 │   ├── hosts
 │   │   ├── cosmic-crisp
 │   │   │   ├── default.nix
 │   │   │   ├── disk.nix
 │   │   │   └── facter.json
 │   │   ├── sunflare
-│   │   │   ├── README
-│   │   │   ├── default.nix
-│   │   │   ├── disk.nix
-│   │   │   └── facter.json
+│   │   │   └── default.nix
 │   │   ├── dabinett.nix
 │   │   └── honeycrisp.nix
-│   ├── macos
-│   │   ├── defaults.nix
-│   │   ├── ds-store-killer.nix
-│   │   ├── environment.nix
-│   │   ├── login-items.nix
-│   │   └── system.nix
 │   ├── packages
 │   │   ├── cli.nix
-│   │   ├── default.nix
 │   │   ├── dev.nix
+│   │   ├── documents.nix
 │   │   ├── fonts.nix
 │   │   ├── homebrew.nix
 │   │   └── media.nix
@@ -108,18 +115,9 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   │   ├── ntfy.nix
 │   │   ├── rsshub.nix
 │   │   └── uptermd.nix
-│   ├── darwin-configurations.nix
-│   ├── dev.nix
-│   ├── emacs.nix
-│   ├── home-manager.nix
-│   ├── homebrew-dev.nix
 │   ├── neovim.nix
-│   ├── nix-homebrew.nix
-│   ├── nixpkgs.nix
-│   ├── shell.nix
-│   ├── ssh.nix
-│   ├── systems.nix
-│   └── tart.nix
+│   ├── nix.nix
+│   └── shell.nix
 ├── pkgs
 │   ├── commit-msg-review.nix
 │   └── update-readme.nix

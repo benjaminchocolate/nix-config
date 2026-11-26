@@ -8,10 +8,10 @@
       nix-homebrew = {
         enable = true;
         user = config.system.primaryUser;
-        autoMigrate = true; # take over the existing /opt/homebrew install
+        autoMigrate = true;
       };
 
-      # Keep the Brewfile in sync with the taps declared in nix-homebrew.taps
+      # Brewfile taps come from nix-homebrew.taps, so a tap is only declared once
       homebrew.taps = map (name: {
         inherit name;
         trusted = true;

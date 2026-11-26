@@ -11,7 +11,7 @@
         settings = {
           i = "127.0.0.1";
           p = 3923;
-          # Trust Caddy's header so copyparty sees real client IPs.
+          # Trust Caddy's header so copyparty sees real client IPs
           xff-hdr = "x-forwarded-for";
           xff-src = "127.0.0.1";
           rproxy = 1;
@@ -35,7 +35,7 @@
         };
       };
 
-      # copyparty won't start if a volume's folder is missing.
+      # copyparty won't start if a volume's folder is missing
       systemd.tmpfiles.rules = [
         "d /var/lib/copyparty/files 0750 copyparty copyparty -"
         "d /var/lib/copyparty/shared 0750 copyparty copyparty -"

@@ -21,7 +21,7 @@ writeShellApplication {
                 (org-babel-execute-buffer)
                 (save-buffer))'
 
-    # Stage the regenerated README so the commit includes it instead of failing
+    # Otherwise pre-commit sees a modified file and fails the commit
     git add README.org
   '';
 }

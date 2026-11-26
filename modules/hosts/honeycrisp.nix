@@ -2,17 +2,17 @@
 {
   flake.modules.darwin.honeycrisp = {
     imports = with inputs.self.modules.darwin; [
+      defaults
       ds-store-killer
       emacs
       environment
       home-manager
+      homebrew
       login-items
-      macos-defaults
+      nix
       nix-homebrew
-      nixpkgs
-      packages
+      security
       shell
-      system
     ];
 
     home-manager.users.ben = {
@@ -27,6 +27,7 @@
         links
         mpv
         neovim
+        packages
         secrets
         shell
         sparkle

@@ -6,7 +6,7 @@
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;
-      backupFileExtension = "backup"; # move conflicting files aside instead of failing
+      backupFileExtension = "backup"; # why stray *.backup files appear
     };
   };
 }

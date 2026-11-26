@@ -1,6 +1,6 @@
 { lib, ... }:
 {
-  # flake-parts declares nixosConfigurations but not darwinConfigurations, so hosts in separate files can't merge without this
+  # flake-parts only declares nixosConfigurations; without this, two darwin hosts can't merge
   options.flake.darwinConfigurations = lib.mkOption {
     type = lib.types.lazyAttrsOf lib.types.raw;
     default = { };

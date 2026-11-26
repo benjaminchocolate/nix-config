@@ -1,6 +1,5 @@
 {
   flake.modules.nixos.caddy = {
-
     services.caddy = {
       enable = true;
       virtualHosts."carpenterlab.dev".extraConfig = ''
@@ -12,6 +11,5 @@
       80
       443
     ];
-
   };
 }

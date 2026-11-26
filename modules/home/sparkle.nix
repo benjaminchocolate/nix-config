@@ -2,6 +2,7 @@
   flake.modules.homeManager.sparkle =
     { lib, ... }:
     {
+      # Homebrew updates these apps, so their built-in updaters stay off
       home.activation.disableSparkleUpdates = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
         for app in /Applications/*.app; do
           [ -d "$app/Contents/Frameworks/Sparkle.framework" ] || continue

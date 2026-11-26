@@ -9,22 +9,28 @@
     }:
     {
       imports = [
-        inputs.determinate.nixosModules.default
         inputs.sops-nix.nixosModules.sops
-        inputs.self.modules.nixos.cosmic-crisp-disk
+      ]
+      ++ (with inputs.self.modules.nixos; [
+        cosmic-crisp-disk
 
-        inputs.self.modules.nixos.caddy
-        inputs.self.modules.nixos.copyparty
-        inputs.self.modules.nixos.freshrss
-        inputs.self.modules.nixos.neovim
-        inputs.self.modules.nixos.nixpkgs
-        inputs.self.modules.nixos.ntfy
-        inputs.self.modules.nixos.rsshub
-        inputs.self.modules.nixos.uptermd
-      ];
+        caddy
+        copyparty
+        freshrss
+        neovim
+        nix
+        ntfy
+        rsshub
+        uptermd
+      ]);
 
       networking.hostName = "cosmic-crisp";
-      system.stateVersion = "26.05";
+
+      hardware.facter = {
+        reportPath = ./facter.json;
+        detected.graphics.enable = false;
+        detected.dhcp.enable = false; # static address below
+      };
 
       boot = {
         loader.grub.enable = true;
@@ -72,7 +78,7 @@
       };
 
       users = {
-        # Otherwise the root password is only set when root is first created.
+        # Otherwise the root password is only set when root is first created
         mutableUsers = false;
         users.root = {
           hashedPasswordFile = config.sops.secrets.root-password.path; # console only; SSH refuses passwords
@@ -88,9 +94,7 @@
         pkgs.gitMinimal
       ];
 
-      hardware.facter.reportPath = ./facter.json;
-      hardware.facter.detected.graphics.enable = false;
-      hardware.facter.detected.dhcp.enable = false;
+      system.stateVersion = "26.05";
     };
 
   flake.nixosConfigurations.cosmic-crisp = inputs.nixpkgs-stable.lib.nixosSystem {

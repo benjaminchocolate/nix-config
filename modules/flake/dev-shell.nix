@@ -13,13 +13,13 @@
         readme = {
           enable = true;
           name = "update README";
-          entry = pkgs.lib.getExe (pkgs.callPackage ../pkgs/update-readme.nix { });
+          entry = pkgs.lib.getExe (pkgs.callPackage ../../pkgs/update-readme.nix { });
           pass_filenames = false;
         };
         commit-msg-review = {
           enable = true;
           name = "review commit message";
-          entry = pkgs.lib.getExe (pkgs.callPackage ../pkgs/commit-msg-review.nix { });
+          entry = pkgs.lib.getExe (pkgs.callPackage ../../pkgs/commit-msg-review.nix { });
           stages = [ "commit-msg" ];
         };
       };

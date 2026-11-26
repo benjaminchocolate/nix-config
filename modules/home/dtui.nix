@@ -54,7 +54,6 @@
         "public.yaml" = emacs;
       };
 
-      # URL scheme = bundle ID
       schemes = {
         mailto = mail;
       };

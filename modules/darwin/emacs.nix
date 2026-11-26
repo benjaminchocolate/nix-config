@@ -1,12 +1,14 @@
 { inputs, ... }:
 {
   flake.modules.darwin.emacs =
-    { config, ... }:
+    { config, pkgs, ... }:
     let
       user = config.system.primaryUser;
     in
     {
       nix-homebrew.taps."d12frosted/homebrew-emacs-plus" = inputs.homebrew-emacs-plus;
+
+      environment.systemPackages = [ pkgs.nixd ]; # eglot's Nix language server
 
       homebrew = {
         brews = [

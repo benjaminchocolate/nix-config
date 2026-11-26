@@ -24,7 +24,6 @@
         };
       };
 
-      programs.zsh.initContent = lib.mkOrder 1500 "fastfetch";
+      programs.zsh.initContent = lib.mkOrder 1500 "fastfetch"; # last in .zshrc
     };
-
 }

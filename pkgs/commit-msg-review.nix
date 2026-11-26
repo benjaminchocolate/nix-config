@@ -1,8 +1,5 @@
-# commit-msg hook: Apple's on-device model (fm, macOS 27+) checks the message
-# against a spec and asks before replacing it. A repo can replace the default
-# spec with a .commit-rules file. Skips itself with no terminal, no fm (Linux,
-# older macOS), or a merge/fixup/squash message.
-# Skip on purpose: SKIP=commit-msg-review git commit
+# A .commit-rules file at a repo's root replaces defaultRules.
+# Skip once: SKIP=commit-msg-review git commit
 {
   writeShellApplication,
   writeText,
@@ -38,7 +35,7 @@ writeShellApplication {
   text = ''
     msg_file="$1"
 
-    # No terminal to ask on, or no fm: say nothing, keep the message.
+    # No terminal to ask on, or no fm (Linux, older macOS): keep the message
     if ! (exec </dev/tty) 2>/dev/null; then exit 0; fi
     if ! command -v fm >/dev/null; then exit 0; fi
 

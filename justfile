@@ -63,8 +63,9 @@ clt-fix:
 _honeycrisp action:
     {{ if action == "test" { "darwin-rebuild build" } else if action == "rollback" { "sudo darwin-rebuild switch --rollback" } else { "sudo darwin-rebuild switch" } }} --flake .#honeycrisp
 
+# Build only: switching here would turn this Mac into the VM. The VM applies it itself (dabinett build).
 _dabinett action:
-    {{ if action == "test" { "darwin-rebuild build" } else if action == "rollback" { "sudo darwin-rebuild switch --rollback" } else { "sudo darwin-rebuild switch" } }} --flake .#dabinett
+    {{ if action == "test" { "darwin-rebuild build --flake .#dabinett" } else { error("dabinett only supports test") } }}
 
 _cosmic-crisp action:
     nix run nixpkgs#nixos-rebuild -- {{ if action == "rollback" { "switch --rollback" } else { action } }} --no-reexec --flake .#cosmic-crisp --target-host {{server}} --build-host {{server}}

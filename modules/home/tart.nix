@@ -1,6 +1,5 @@
 {
-  # Host side of the dabinett VM: `dabinett build` makes the golden image from the
-  # dabinett flake host, `dabinett` opens a throwaway clone, `dabinett reset` deletes it
+  # dabinett build: make the golden VM | dabinett: shell in a clone | dabinett reset: drop the clone
   flake.modules.homeManager.tart =
     {
       config,
@@ -15,7 +14,7 @@
     {
       home.sessionVariables.TART_HOME = "${config.xdg.dataHome}/tart";
 
-      # VMs are tens of GB and change constantly; tmutil's exclusion is a sticky xattr, so rerunning is harmless
+      # Keep tens of GB of VMs out of Time Machine
       home.activation.tartBackupExclusion = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
         run mkdir -p "${config.xdg.dataHome}/tart"
         run /usr/bin/tmutil addexclusion "${config.xdg.dataHome}/tart"
@@ -35,7 +34,7 @@
 
             exists() { tart get "$1" >/dev/null 2>&1; }
 
-            # Boots headless and waits for the guest agent, which tart exec talks to
+            # tart exec only answers once the guest agent is up
             start() {
               tart exec "$1" true 2>/dev/null && return
               nohup tart run --no-graphics "$1" >/dev/null 2>&1 &

@@ -1,5 +1,5 @@
 {
-  flake.modules.darwin.macos-defaults =
+  flake.modules.darwin.defaults =
     { config, ... }:
     let
       home = config.users.users.${config.system.primaryUser}.home;
@@ -78,7 +78,7 @@
           StandardHideWidgets = true;
         };
 
-        # Settings without a nix-darwin option (`defaults write <domain> <key>`)
+        # No nix-darwin option for these (`defaults write <domain> <key>`)
         CustomUserPreferences = {
           NSGlobalDomain = {
             AppleActionOnDoubleClick = "Fill"; # double-clicking a title bar

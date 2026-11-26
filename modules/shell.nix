@@ -7,7 +7,7 @@
     {
       programs.zsh = {
         enable = true;
-        package = null; # login shell is Homebrew's zsh
+        package = null; # macOS's /bin/zsh is the login shell
 
         history.path = "${config.xdg.stateHome}/zsh/history";
 
@@ -247,12 +247,12 @@
       home.packages = [ pkgs.zsh-completions ];
     };
 
-  # Turns off what /etc/zshrc would duplicate from Home Manager's .zshrc.
+  # /etc/zshrc would repeat what Home Manager's .zshrc already does
   flake.modules.darwin.shell = {
     programs.zsh = {
       enableBashCompletion = false;
-      enableGlobalCompInit = false; # Home Manager runs compinit
-      promptInit = ""; # starship draws the prompt
+      enableGlobalCompInit = false;
+      promptInit = "";
     };
   };
 }

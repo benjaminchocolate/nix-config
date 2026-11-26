@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  flake.modules.darwin.packages =
+  flake.modules.darwin.homebrew =
     { config, ... }:
     let
       home = config.users.users.${config.system.primaryUser}.home;
@@ -20,23 +20,25 @@
           autoUpdate = false; # `just upgrade` updates Homebrew
           upgrade = false;
           cleanup = "uninstall";
-          extraEnv.XDG_CONFIG_HOME = "${home}/.config"; # trust list in ~/.config/homebrew
+          extraEnv.XDG_CONFIG_HOME = "${home}/.config"; # brew reads its trust list from here
         };
 
         brews = [
           "cloudflare-wrangler"
-          #"cmake"
           "container"
-          #"llvm"
           "mas"
           "mole"
           "opencode"
           "pandoc"
           "pi-coding-agent"
           "python"
-          #"zig@0.17"
           "zls"
-          #"zsh"
+
+          # Disabled
+          # "cmake"
+          # "llvm"
+          # "zig@0.17"
+          # "zsh"
         ];
 
         casks = [
