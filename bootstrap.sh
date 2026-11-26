@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env sh
 # New Mac: curl -fsSL https://raw.githubusercontent.com/benjaminchocolate/nix-config/main/bootstrap.sh | sh
 # Other host: ... | sh -s -- <host>
 set -eu
@@ -42,3 +42,12 @@ fi
 
 # 7. First switch: installs Homebrew, apps, shell, dotfiles
 sudo "$nix" run github:nix-darwin/nix-darwin/master#darwin-rebuild -- switch --flake "$dest#$host"
+
+cat <<'DONE'
+
+Done. Still manual:
+  - Restore ~/.ssh/id_ed25519 and ~/.config/sops/age/keys.txt from your password manager
+  - git -C /etc/nix-darwin remote set-url origin git@github.com:benjaminchocolate/nix-config.git
+  - Approve the Karabiner and BlackHole drivers in System Settings > Privacy & Security
+  - Turn on Apple Intelligence if commit message review should work
+DONE
