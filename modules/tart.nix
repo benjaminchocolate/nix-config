@@ -9,7 +9,7 @@
       ...
     }:
     let
-      base = "ghcr.io/cirruslabs/macos-tahoe-base:latest";
+      base = "ghcr.io/cirruslabs/macos-golden-gate-base:latest";
       flake = "github:benjaminchocolate/nix-config#dabinett";
     in
     {
