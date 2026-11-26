@@ -27,6 +27,11 @@
 
 Nix configuration for my Mac (nix-darwin) and my server (NixOS). It uses the dendritic pattern, one file per feature for every host, on Determinate Nix.
 
+* New Mac
+#+begin_src sh :eval never
+curl -fsSL https://raw.githubusercontent.com/benjaminchocolate/nix-config/main/bootstrap.sh | sh
+#+end_src
+
 * Layout
 #+begin_src sh :results output verbatim :exports results
 git ls-files | tree --fromfile --dirsfirst --noreport
