@@ -313,6 +313,14 @@
   :custom
   (project-vc-extra-root-markers '(".project")))
 
+;; Buffer-local direnv, so eglot finds each project's flake tools.
+(use-package envrc
+  :init
+  ;; Depth 90 runs it after other global modes, so its hooks run before theirs.
+  (add-hook 'after-init-hook #'envrc-global-mode 90)
+  :config
+  (keymap-set envrc-mode-map "C-c e" #'envrc-command-map))
+
 (defun my/indent-buffer ()
   "Re-indent the whole buffer."
   (indent-region (point-min) (point-max)))
