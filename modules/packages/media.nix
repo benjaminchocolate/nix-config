@@ -7,7 +7,9 @@
         imagemagick
         mupdf
         qpdf
+        texlab
         texliveFull
+        tinymist
         typst
         yt-dlp
       ];

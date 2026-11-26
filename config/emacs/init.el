@@ -335,12 +335,18 @@
   :ensure nil
   :preface
   (defun my/eglot-format-on-save ()
-    "Format with the language server before saving, while Eglot manages the buffer."
-    (if (eglot-managed-p)
+    "Format with the language server before saving, if the server can format."
+    (if (and (eglot-managed-p) (eglot-server-capable :documentFormattingProvider))
         (add-hook 'before-save-hook #'eglot-format-buffer nil t)
       (remove-hook 'before-save-hook #'eglot-format-buffer t)))
   :hook
-  (((c-ts-mode c++-ts-mode nix-ts-mode swift-mode) . eglot-ensure)
+  ;; A missing server only prints a warning, so a language can be listed
+  ;; before its server is installed globally or in a project's flake.
+  (((bash-ts-mode c-ts-mode c++-ts-mode css-ts-mode go-ts-mode java-ts-mode
+     js-ts-mode json-ts-mode latex-mode lua-ts-mode nix-ts-mode python-ts-mode
+     ruby-ts-mode rust-ts-mode swift-mode tsx-ts-mode typescript-ts-mode
+     typst-ts-mode zig-mode)
+    . eglot-ensure)
    (eglot-managed-mode . my/eglot-format-on-save))
   :custom
   (eglot-send-changes-idle-time 0.1)
@@ -350,8 +356,25 @@
   ;; Don't log JSON-RPC events; a large speedup.
   (eglot-events-buffer-config '(:size 0 :format full))
   :config
+  ;; Eglot's defaults lack these two.
   (add-to-list 'eglot-server-programs '(nix-ts-mode . ("nixd")))
-  (add-to-list 'eglot-server-programs '(zig-mode . ("zls"))))
+  (add-to-list 'eglot-server-programs '(typst-ts-mode . ("tinymist"))))
+
+(use-package devdocs
+  :bind ("C-h D" . devdocs-lookup))
+
+(use-package dape)
+
+;;; Languages
+;; Built in with tree-sitter, no package needed: Bash, C, C++, CMake, CSS,
+;; Dockerfile, Go, HTML, Java, JavaScript, JSON, Lua, Python, Ruby, Rust,
+;; TOML, TypeScript, YAML.
+
+(use-package csv-mode)
+
+(use-package markdown-mode)             ; Eglot also uses it to render hover docs
+
+(use-package matlab-mode)
 
 (use-package nix-ts-mode
   :mode "\\.nix\\'"
@@ -364,14 +387,10 @@
   :mode "\\.swift\\'"
   :interpreter "swift")
 
+(use-package typst-ts-mode              ; from NonGNU ELPA
+  :mode "\\.typ\\'")
+
 (use-package zig-mode)
-(use-package matlab-mode)
-(use-package csv-mode)
-
-(use-package devdocs
-  :bind ("C-h D" . devdocs-lookup))
-
-(use-package dape)
 
 ;;; Tools
 
