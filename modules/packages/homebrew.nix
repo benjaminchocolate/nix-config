@@ -30,7 +30,6 @@
           #"llvm"
           "mas"
           "mole"
-          #"openai/tools/tart"
           "opencode"
           "pandoc"
           "pi-coding-agent"

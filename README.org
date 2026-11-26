@@ -110,6 +110,7 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   ├── homebrew-dev.nix
 │   ├── neovim.nix
 │   ├── nix-homebrew.nix
+│   ├── nixpkgs.nix
 │   ├── shell.nix
 │   ├── ssh.nix
 │   └── systems.nix

@@ -9,6 +9,7 @@
       login-items
       macos-defaults
       nix-homebrew
+      nixpkgs
       packages
       shell
       system
