@@ -1,6 +1,7 @@
 {
   writeShellApplication,
   emacs-nox,
+  git,
   tree,
   perl,
 }:
@@ -8,6 +9,7 @@ writeShellApplication {
   name = "update-readme";
   runtimeInputs = [
     emacs-nox
+    git
     tree
     perl
   ];
@@ -18,5 +20,8 @@ writeShellApplication {
       --eval '(with-current-buffer (find-file-noselect "README.org")
                 (org-babel-execute-buffer)
                 (save-buffer))'
+
+    # Stage the regenerated README so the commit includes it instead of failing
+    git add README.org
   '';
 }
