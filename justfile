@@ -25,6 +25,40 @@ upgrade:
     brew upgrade --greedy
     @just switch cosmic-crisp
 
+# Check the Xcode Command Line Tools: path, version, pending update
+clt:
+    #!/usr/bin/env bash
+    dir=$(xcode-select -p 2>/dev/null)
+    if [[ -z $dir || ! -x $dir/usr/bin/git ]]; then
+      echo "Broken or missing (${dir:-no developer path}). Run: just clt-fix"
+      exit 1
+    fi
+    echo "Path:    $dir"
+    echo "Version: $(pkgutil --pkg-info=com.apple.pkg.CLTools_Executables 2>/dev/null | awk '/^version/ {print $2}')"
+    if softwareupdate --list 2>&1 | grep -q 'Label: Command Line Tools'; then
+      echo "Update available. Run: just clt-fix"
+    else
+      echo "Up to date"
+    fi
+
+# Reinstall the newest Command Line Tools (fixes "invalid active developer path")
+[confirm("Delete /Library/Developer/CommandLineTools and reinstall it?")]
+clt-fix:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    marker=/tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
+    touch "$marker" # makes Software Update offer the tools even when they're installed
+    trap 'rm -f "$marker"' EXIT
+    label=$(softwareupdate --list 2>/dev/null | awk -F': ' '/Label: Command Line Tools/ {print $2}' | sort -V | tail -1)
+    if [[ -z $label ]]; then
+      echo "Software Update offers no Command Line Tools. Try: xcode-select --install"
+      exit 1
+    fi
+    echo "Installing $label"
+    sudo rm -rf /Library/Developer/CommandLineTools
+    sudo softwareupdate --install "$label"
+    sudo xcode-select --reset
+
 # macOS has no "test", so test only builds the config
 _honeycrisp action:
     {{ if action == "test" { "darwin-rebuild build" } else if action == "rollback" { "sudo darwin-rebuild switch --rollback" } else { "sudo darwin-rebuild switch" } }} --flake .#honeycrisp
