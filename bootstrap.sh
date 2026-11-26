@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env python
 # New Mac: curl -fsSL https://raw.githubusercontent.com/benjaminchocolate/nix-config/main/bootstrap.sh | sh
 # Other host: ... | sh -s -- <host>
 set -eu
