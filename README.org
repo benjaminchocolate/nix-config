@@ -61,12 +61,13 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │       └── karabiner.json
 ├── modules
 │   ├── home
+│   │   ├── fastfetch
+│   │   │   ├── default.nix
+│   │   │   └── logo.png
 │   │   ├── base.nix
 │   │   ├── direnv.nix
 │   │   ├── dotfiles.nix
 │   │   ├── dtui.nix
-│   │   ├── fastfetch-logo.png
-│   │   ├── fastfetch.nix
 │   │   ├── ghostty.nix
 │   │   ├── git.nix
 │   │   ├── links.nix

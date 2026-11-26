@@ -7,7 +7,7 @@
         settings = {
           logo = {
             type = "kitty-direct";
-            source = ./fastfetch-logo.png; # nix-darwin logo, not 0BSD (see NOTICE)
+            source = ./logo.png; # nix-darwin logo, not 0BSD (see NOTICE)
             height = 8;
             width = 19;
           };
