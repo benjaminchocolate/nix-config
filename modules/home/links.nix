@@ -16,7 +16,6 @@
       // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
         "Developer/container".source =
           link "${config.home.homeDirectory}/Library/Application Support/com.apple.container";
-        "Developer/homebrew-tap".source = link "/opt/homebrew/Library/Taps/benjaminchocolate/homebrew-tap";
       };
     };
 }

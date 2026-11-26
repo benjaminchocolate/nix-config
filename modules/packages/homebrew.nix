@@ -1,3 +1,4 @@
+{ inputs, ... }:
 {
   flake.modules.darwin.packages =
     { config, ... }:
@@ -5,6 +6,13 @@
       home = config.users.users.${config.system.primaryUser}.home;
     in
     {
+      nix-homebrew.taps = {
+        "benjaminchocolate/homebrew-tap" = inputs.homebrew-tap;
+        "mattt/homebrew-tap" = inputs.homebrew-mattt;
+        "nikitabobko/homebrew-tap" = inputs.homebrew-nikitabobko;
+        "y3owk1n/homebrew-tap" = inputs.homebrew-y3owk1n;
+      };
+
       homebrew = {
         enable = true;
         greedyCasks = true;
@@ -14,13 +22,6 @@
           cleanup = "uninstall";
           extraEnv.XDG_CONFIG_HOME = "${home}/.config"; # trust list in ~/.config/homebrew
         };
-
-        taps = [
-          {
-            name = "benjaminchocolate/tap";
-            trusted = true;
-          }
-        ];
 
         brews = [
           "bash"
@@ -90,6 +91,7 @@
           # "touchdesigner"
         ];
 
+        # Not pinned: the App Store always installs the latest version
         masApps = {
           Copilot = 1447330651;
           "Customize Search Engine" = 6445840140;

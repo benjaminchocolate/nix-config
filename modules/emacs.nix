@@ -1,3 +1,4 @@
+{ inputs, ... }:
 {
   flake.modules.darwin.emacs =
     { config, ... }:
@@ -5,14 +6,9 @@
       user = config.system.primaryUser;
     in
     {
-      homebrew = {
-        taps = [
-          {
-            name = "d12frosted/emacs-plus";
-            trusted = true;
-          }
-        ];
+      nix-homebrew.taps."d12frosted/homebrew-emacs-plus" = inputs.homebrew-emacs-plus;
 
+      homebrew = {
         brews = [
           "languagetool"
 

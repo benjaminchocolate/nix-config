@@ -20,9 +20,9 @@ update:
 upgrade:
     sudo determinate-nixd upgrade
     nix flake update
+    @just switch honeycrisp
     brew update
     brew upgrade --greedy
-    @just switch honeycrisp
     @just switch cosmic-crisp
 
 # macOS has no "test", so test only builds the config

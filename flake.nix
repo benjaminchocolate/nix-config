@@ -49,13 +49,28 @@
 
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
 
-    homebrew-core = {
-      url = "github:homebrew/homebrew-core";
+    homebrew-emacs-plus = {
+      url = "github:d12frosted/homebrew-emacs-plus";
       flake = false;
     };
 
-    homebrew-cask = {
-      url = "github:homebrew/homebrew-cask";
+    homebrew-tap = {
+      url = "github:benjaminchocolate/homebrew-tap";
+      flake = false;
+    };
+
+    homebrew-mattt = {
+      url = "github:mattt/homebrew-tap";
+      flake = false;
+    };
+
+    homebrew-nikitabobko = {
+      url = "github:nikitabobko/homebrew-tap";
+      flake = false;
+    };
+
+    homebrew-y3owk1n = {
+      url = "github:y3owk1n/homebrew-tap";
       flake = false;
     };
   };
