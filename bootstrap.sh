@@ -23,10 +23,22 @@ for f in /etc/bashrc /etc/zshrc; do
   if [ -f "$f" ] && [ ! -L "$f" ]; then sudo mv "$f" "$f.before-nix-darwin"; fi
 done
 
-# 4. masApps fail if the App Store is signed out
+# 4. Xcode Command Line Tools: Homebrew needs them, Nix doesn't
+if ! xcode-select -p >/dev/null 2>&1; then
+  xcode-select --install
+  printf 'Finish installing the Command Line Tools, then press Enter... '
+  read -r _ < /dev/tty
+fi
+
+# 5. masApps fail if the App Store is signed out
 open -a "App Store"
 printf 'Sign in to the App Store, then press Enter... '
 read -r _ < /dev/tty
 
-# 5. First switch: installs Homebrew, apps, shell, dotfiles
+# 6. Apple's on-device model (commit message review); the license prompt is interactive
+if command -v fm >/dev/null 2>&1; then
+  fm license --status 2>/dev/null | grep -q Agreed || sudo fm license < /dev/tty
+fi
+
+# 7. First switch: installs Homebrew, apps, shell, dotfiles
 sudo "$nix" run github:nix-darwin/nix-darwin/master#darwin-rebuild -- switch --flake "$dest#$host"

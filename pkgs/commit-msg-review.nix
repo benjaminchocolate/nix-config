@@ -1,6 +1,7 @@
-# commit-msg hook: Claude reviews the message against the rules below and
-# asks before replacing it. Skips itself with no terminal, no claude CLI, or
-# a merge/fixup/squash message. Skip on purpose: SKIP=commit-msg-review git commit
+# commit-msg hook: Apple's on-device model (fm, macOS 27+) reviews the message
+# against the rules below and asks before replacing it. Skips itself with no
+# terminal, no fm (Linux, older macOS), or a merge/fixup/squash message.
+# Skip on purpose: SKIP=commit-msg-review git commit
 {
   writeShellApplication,
   writeText,
@@ -28,9 +29,9 @@ writeShellApplication {
   text = ''
     msg_file="$1"
 
-    # No terminal to ask on, or no claude CLI: say nothing, keep the message.
+    # No terminal to ask on, or no fm: say nothing, keep the message.
     if ! (exec </dev/tty) 2>/dev/null; then exit 0; fi
-    if ! command -v claude >/dev/null; then exit 0; fi
+    if ! command -v fm >/dev/null; then exit 0; fi
 
     original=$(git stripspace --strip-comments <"$msg_file")
     case "$original" in
@@ -43,12 +44,15 @@ writeShellApplication {
       {
         printf 'Current message:\n%s\n\nStaged changes:\n' "$original"
         git diff --cached --stat
-        git diff --cached | head -c 30000 || true
-      } | claude -p --model haiku "$(cat ${rules})
+        git diff --cached | head -c 6000 || true # the on-device model has a small context
+      } | fm respond -g -i "$(cat ${rules})
 
     Reply with only the commit message: no commentary, no code fences.
     If the current message already follows the rules, reply with it unchanged."
-    ) || exit 0
+    ) || {
+      printf 'fm failed, keeping your message. First time? Run: sudo fm license\n' >/dev/tty
+      exit 0
+    }
 
     if [ -z "$suggestion" ] || [ "$suggestion" = "$original" ]; then exit 0; fi
 
