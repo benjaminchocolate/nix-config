@@ -1,10 +1,11 @@
 { inputs, config, ... }:
 {
-  # Tart VM for Homebrew contributions; the user is Cirrus' default "admin"
-  flake.modules.darwin.brew-lab = {
+  # Tart VM for Homebrew contributions, named for a cider apple; the user is Cirrus' default "admin"
+  flake.modules.darwin.dabinett = {
     imports = with inputs.self.modules.darwin; [
       home-manager
       homebrew-dev
+      nixpkgs
       shell
     ];
 
@@ -27,6 +28,12 @@
         home.stateVersion = "26.05";
       };
 
+    networking = {
+      hostName = "dabinett";
+      localHostName = "dabinett";
+      computerName = "Dabinett";
+    };
+
     nix.enable = false; # Determinate Nix manages the daemon
     nixpkgs.hostPlatform = "aarch64-darwin";
     system.primaryUser = "admin";
@@ -34,7 +41,7 @@
     system.stateVersion = 7;
   };
 
-  flake.darwinConfigurations.brew-lab = inputs.nix-darwin.lib.darwinSystem {
-    modules = [ config.flake.modules.darwin.brew-lab ];
+  flake.darwinConfigurations.dabinett = inputs.nix-darwin.lib.darwinSystem {
+    modules = [ config.flake.modules.darwin.dabinett ];
   };
 }

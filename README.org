@@ -81,7 +81,7 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   │   │   ├── default.nix
 │   │   │   ├── disk.nix
 │   │   │   └── facter.json
-│   │   ├── brew-lab.nix
+│   │   ├── dabinett.nix
 │   │   └── honeycrisp.nix
 │   ├── macos
 │   │   ├── defaults.nix
