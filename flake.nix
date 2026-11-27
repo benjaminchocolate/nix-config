@@ -49,6 +49,10 @@
       url = "github:d12frosted/homebrew-emacs-plus";
       flake = false;
     };
+    homebrew-hammerspoon = {
+      url = "github:Hammerspoon/homebrew-tap";
+      flake = false;
+    };
     homebrew-mattt = {
       url = "github:mattt/homebrew-tap";
       flake = false;

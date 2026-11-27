@@ -319,6 +319,22 @@
         "type": "github"
       }
     },
+    "homebrew-hammerspoon": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1795656671,
+        "narHash": "sha256-hOY65L1g48jQrQBHH1kXSfhSdCWch+ovHuhbB5qxSJA=",
+        "owner": "Hammerspoon",
+        "repo": "homebrew-tap",
+        "rev": "aa255f063b513df4f7f7c0cd8ed2b6c195fcb073",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Hammerspoon",
+        "repo": "homebrew-tap",
+        "type": "github"
+      }
+    },
     "homebrew-mattt": {
       "flake": false,
       "locked": {
@@ -561,6 +577,7 @@
         "git-hooks": "git-hooks",
         "home-manager": "home-manager",
         "homebrew-emacs-plus": "homebrew-emacs-plus",
+        "homebrew-hammerspoon": "homebrew-hammerspoon",
         "homebrew-mattt": "homebrew-mattt",
         "homebrew-nikitabobko": "homebrew-nikitabobko",
         "homebrew-tap": "homebrew-tap",

@@ -169,6 +169,7 @@ Inputs:
 ├───home-manager: github:nix-community/home-manager/b56bcd0 (2026-11-24 15:27:02)
 │   └───nixpkgs follows input 'nixpkgs'
 ├───homebrew-emacs-plus: github:d12frosted/homebrew-emacs-plus/8bdab23 (2026-11-25 03:34:23)
+├───homebrew-hammerspoon: github:Hammerspoon/homebrew-tap/aa255f0 (2026-11-26 01:31:11)
 ├───homebrew-mattt: github:mattt/homebrew-tap/02eedce (2026-11-25 15:42:10)
 ├───homebrew-nikitabobko: github:nikitabobko/homebrew-tap/086fa55 (2026-10-06 11:30:32)
 ├───homebrew-tap: github:benjaminchocolate/homebrew-tap/07afbac (2026-11-25 23:35:45)

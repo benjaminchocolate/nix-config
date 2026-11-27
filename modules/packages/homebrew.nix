@@ -8,6 +8,7 @@
     {
       nix-homebrew.taps = {
         "benjaminchocolate/homebrew-tap" = inputs.homebrew-tap;
+        "hammerspoon/homebrew-tap" = inputs.homebrew-hammerspoon;
         "mattt/homebrew-tap" = inputs.homebrew-mattt;
         "nikitabobko/homebrew-tap" = inputs.homebrew-nikitabobko;
         "y3owk1n/homebrew-tap" = inputs.homebrew-y3owk1n;
@@ -58,6 +59,7 @@
           "ghostty"
           "github"
           "hammerspoon"
+          "hammerspoon/tap/hammerspoon2"
           "karabiner-elements"
           "kdenlive"
           "keyboardcleantool"
