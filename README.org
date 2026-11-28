@@ -163,24 +163,24 @@ Inputs:
 │   └───nixpkgs follows input 'nixpkgs'
 ├───flake-parts: github:hercules-ci/flake-parts/ea2630b (2026-11-01 23:44:19)
 │   └───nixpkgs-lib follows input 'nixpkgs'
-├───git-hooks: github:cachix/git-hooks.nix/204b697 (2026-11-03 06:09:14)
+├───git-hooks: github:cachix/git-hooks.nix/26f3f17 (2026-11-27 01:25:16)
 │   ├───flake-compat: github:NixOS/flake-compat/5edf11c (2025-12-29 20:24:17)
 │   └───nixpkgs follows input 'nixpkgs'
-├───home-manager: github:nix-community/home-manager/b56bcd0 (2026-11-24 15:27:02)
+├───home-manager: github:nix-community/home-manager/54f903f (2026-11-27 03:03:50)
 │   └───nixpkgs follows input 'nixpkgs'
-├───homebrew-emacs-plus: github:d12frosted/homebrew-emacs-plus/8bdab23 (2026-11-25 03:34:23)
+├───homebrew-emacs-plus: github:d12frosted/homebrew-emacs-plus/a71a8c1 (2026-11-27 03:29:51)
 ├───homebrew-hammerspoon: github:Hammerspoon/homebrew-tap/aa255f0 (2026-11-26 01:31:11)
-├───homebrew-mattt: github:mattt/homebrew-tap/02eedce (2026-11-25 15:42:10)
+├───homebrew-mattt: github:mattt/homebrew-tap/5942d06 (2026-11-26 11:46:10)
 ├───homebrew-nikitabobko: github:nikitabobko/homebrew-tap/086fa55 (2026-10-06 11:30:32)
 ├───homebrew-tap: github:benjaminchocolate/homebrew-tap/07afbac (2026-11-25 23:35:45)
 ├───homebrew-y3owk1n: github:y3owk1n/homebrew-tap/3f869bb (2026-11-16 09:54:35)
 ├───import-tree: github:vic/import-tree/eb1b52e (2026-09-03 20:25:10)
-├───nix-darwin: github:nix-darwin/nix-darwin/663d8b9 (2026-11-22 18:47:21)
+├───nix-darwin: github:nix-darwin/nix-darwin/594c680 (2026-11-27 02:53:19)
 │   └───nixpkgs follows input 'nixpkgs'
-├───nix-homebrew: github:zhaofengli/nix-homebrew/52bc87d (2026-11-01 14:37:43)
-│   └───brew-src: github:Homebrew/brew/c6069d2 (2026-10-26 07:44:47)
+├───nix-homebrew: github:zhaofengli/nix-homebrew/b279e78 (2026-11-27 04:55:27)
+│   └───brew-src: github:Homebrew/brew/3e47189 (2026-11-19 01:25:46)
 ├───nixpkgs: github:NixOS/nixpkgs/619c39f (2026-11-22 18:15:35)
-├───nixpkgs-stable: github:NixOS/nixpkgs/0dc498b (2026-11-22 17:54:03)
+├───nixpkgs-stable: github:NixOS/nixpkgs/5b31ff9 (2026-11-24 06:39:33)
 └───sops-nix: github:Mic92/sops-nix/d5abe5e (2026-11-23 22:02:25)
     └───nixpkgs follows input 'nixpkgs'
 #+end_example

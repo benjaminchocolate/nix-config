@@ -7,6 +7,7 @@
       vimAlias = true;
       withPython3 = false;
       withRuby = false;
+      initLua = "vim.o.termguicolors = false"; # use the terminal's colours, not Neovim's own theme
     };
 
     # Editing secrets: no swap file, no saved history or registers
