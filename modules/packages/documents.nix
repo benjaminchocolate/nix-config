@@ -3,7 +3,7 @@
     { pkgs, ... }:
     {
       home.packages = with pkgs; [
-        mupdf
+        mupdf-headless
         qpdf
         texlab
         texliveFull

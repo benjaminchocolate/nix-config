@@ -33,7 +33,7 @@
           "pandoc"
           "pi-coding-agent"
           "python"
-          "zls"
+          #"zls"
 
           # Disabled
           # "cmake"
@@ -82,6 +82,8 @@
           "valhalla-supermassive"
           "wireshark-app"
           "y3owk1n/tap/neru"
+
+          "orcaslicer"
 
           # Disabled
           # "benjaminchocolate/tap/matlab-package-manager"
