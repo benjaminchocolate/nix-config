@@ -24,6 +24,7 @@ upgrade:
     @just switch honeycrisp
     brew update
     brew upgrade --greedy
+    applesauce compress /Applications >/dev/null
     @just switch cosmic-crisp
 
 # The gala VM: just gala (shell in a throwaway clone) | build | update | reset

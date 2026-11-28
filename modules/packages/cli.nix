@@ -3,6 +3,7 @@
     { pkgs, ... }:
     {
       home.packages = with pkgs; [
+        applesauce
         aria2
         bashInteractive
         bat
