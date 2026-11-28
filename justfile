@@ -24,8 +24,14 @@ upgrade:
     @just switch honeycrisp
     brew update
     brew upgrade --greedy
-    applesauce compress /Applications >/dev/null
+    brew cleanup --prune=7
+    @just compress
     @just switch cosmic-crisp
+
+# APFS-compress folders that only change on upgrades; skips files already compressed or that don't shrink
+compress:
+    applesauce compress /Applications "$HOME/Applications" \
+        "$HOME/Library/Application Support/Bitwig/Bitwig Studio/installed-packages/5.0/Orchestral Tools" >/dev/null
 
 # The gala VM: just gala (shell in a throwaway clone) | build | update | reset
 gala action="shell":
