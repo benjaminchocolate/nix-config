@@ -30,8 +30,7 @@ upgrade:
 
 # APFS-compress folders that only change on upgrades; skips files already compressed or that don't shrink
 compress:
-    applesauce compress /Applications "$HOME/Applications" \
-        "$HOME/Library/Application Support/Bitwig/Bitwig Studio/installed-packages/5.0/Orchestral Tools" >/dev/null
+    applesauce compress /Applications "$HOME/Applications" >/dev/null
 
 # The gala VM: just gala (shell in a throwaway clone) | build | update | reset
 gala action="shell":
