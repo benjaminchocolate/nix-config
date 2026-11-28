@@ -112,6 +112,7 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   │   ├── caddy.nix
 │   │   ├── copyparty.nix
 │   │   ├── freshrss.nix
+│   │   ├── mcp-nixos.nix
 │   │   ├── ntfy.nix
 │   │   ├── rsshub.nix
 │   │   └── uptermd.nix
@@ -168,7 +169,7 @@ Inputs:
 │   └───nixpkgs follows input 'nixpkgs'
 ├───home-manager: github:nix-community/home-manager/5f5abf5 (2026-11-28 01:05:05)
 │   └───nixpkgs follows input 'nixpkgs'
-├───homebrew-emacs-plus: github:d12frosted/homebrew-emacs-plus/a71a8c1 (2026-11-27 03:29:51)
+├───homebrew-emacs-plus: github:d12frosted/homebrew-emacs-plus/f5ffec4 (2026-11-28 03:27:19)
 ├───homebrew-hammerspoon: github:Hammerspoon/homebrew-tap/aa255f0 (2026-11-26 01:31:11)
 ├───homebrew-mattt: github:mattt/homebrew-tap/5942d06 (2026-11-26 11:46:10)
 ├───homebrew-nikitabobko: github:nikitabobko/homebrew-tap/086fa55 (2026-10-06 11:30:32)

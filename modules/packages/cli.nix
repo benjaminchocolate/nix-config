@@ -22,7 +22,7 @@
         # not sure
         mas
         wrangler
-        python3
+        python313
       ];
     };
 }
