@@ -9,6 +9,8 @@
         texliveFull
         tinymist
         typst
+
+        pandoc
       ];
     };
 }

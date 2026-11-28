@@ -18,6 +18,11 @@
         wget
         xdg-ninja
         zoxide
+
+        # not sure
+        mas
+        wrangler
+        python3
       ];
     };
 }

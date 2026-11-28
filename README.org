@@ -166,7 +166,7 @@ Inputs:
 ├───git-hooks: github:cachix/git-hooks.nix/26f3f17 (2026-11-27 01:25:16)
 │   ├───flake-compat: github:NixOS/flake-compat/5edf11c (2025-12-29 20:24:17)
 │   └───nixpkgs follows input 'nixpkgs'
-├───home-manager: github:nix-community/home-manager/54f903f (2026-11-27 03:03:50)
+├───home-manager: github:nix-community/home-manager/5f5abf5 (2026-11-28 01:05:05)
 │   └───nixpkgs follows input 'nixpkgs'
 ├───homebrew-emacs-plus: github:d12frosted/homebrew-emacs-plus/a71a8c1 (2026-11-27 03:29:51)
 ├───homebrew-hammerspoon: github:Hammerspoon/homebrew-tap/aa255f0 (2026-11-26 01:31:11)

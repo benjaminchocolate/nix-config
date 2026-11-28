@@ -25,14 +25,14 @@
         };
 
         brews = [
-          "cloudflare-wrangler"
+          #"cloudflare-wrangler"
           "container"
-          "mas"
+          #"mas"
           "mole"
           "opencode"
-          "pandoc"
+          #"pandoc"
           "pi-coding-agent"
-          "python"
+          #"python"
           #"zls"
 
           # Disabled
@@ -71,7 +71,7 @@
           "mos"
           "motu-m-series"
           "netnewswire"
-          "nikitabobko/tap/aerospace"
+          #"nikitabobko/tap/aerospace"
           "ob-xf"
           "obs"
           "solidcraft"
