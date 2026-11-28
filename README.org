@@ -99,7 +99,7 @@ git ls-files | tree --fromfile --dirsfirst --noreport
 │   │   │   └── facter.json
 │   │   ├── sunflare
 │   │   │   └── default.nix
-│   │   ├── dabinett.nix
+│   │   ├── gala.nix
 │   │   └── honeycrisp.nix
 │   ├── packages
 │   │   ├── cli.nix

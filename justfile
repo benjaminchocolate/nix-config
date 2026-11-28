@@ -1,4 +1,5 @@
 server := "root@104.204.70.197"
+image := "ghcr.io/cirruslabs/macos-golden-gate-base:latest"
 
 # Apply a host's config and keep it: just switch cosmic-crisp
 switch host:
@@ -24,6 +25,36 @@ upgrade:
     brew update
     brew upgrade --greedy
     @just switch cosmic-crisp
+
+# The gala VM: just gala (shell in a throwaway clone) | build | update | reset
+gala action="shell":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    up() { # tart exec only answers once the guest agent is up
+      tart exec "$1" true 2>/dev/null && return
+      nohup tart run --no-graphics "$1" >/dev/null 2>&1 &
+      until tart exec "$1" true 2>/dev/null; do sleep 2; done
+    }
+    case {{action}} in
+      build)
+        tart pull {{image}}
+        tart clone {{image}} gala
+        up gala
+        tart exec gala sh -c 'curl -fsSL https://raw.githubusercontent.com/benjaminchocolate/nix-config/main/bootstrap.sh | sh -s -- gala'
+        tart stop gala ;;
+      update)
+        up gala
+        tart exec gala zsh -lc 'git -C /etc/nix-darwin pull --ff-only && sudo darwin-rebuild switch --flake /etc/nix-darwin#gala'
+        tart stop gala ;;
+      shell)
+        tart get gala-work >/dev/null 2>&1 || tart clone gala gala-work
+        up gala-work
+        exec tart exec -it gala-work zsh -l ;;
+      reset)
+        tart stop gala-work 2>/dev/null || true
+        tart delete gala-work ;;
+      *) echo "Usage: just gala [build|update|reset]" >&2; exit 1 ;;
+    esac
 
 # Check the Xcode Command Line Tools: path, version, pending update
 clt:
@@ -63,9 +94,9 @@ clt-fix:
 _honeycrisp action:
     {{ if action == "test" { "darwin-rebuild build" } else if action == "rollback" { "sudo darwin-rebuild switch --rollback" } else { "sudo darwin-rebuild switch" } }} --flake .#honeycrisp
 
-# Build only: switching here would turn this Mac into the VM. The VM applies it itself (dabinett build).
-_dabinett action:
-    {{ if action == "test" { "darwin-rebuild build --flake .#dabinett" } else { error("dabinett only supports test") } }}
+# Build only: switching here would turn this Mac into the VM. Use just gala update.
+_gala action:
+    {{ if action == "test" { "darwin-rebuild build --flake .#gala" } else { error("gala only supports test") } }}
 
 _cosmic-crisp action:
     nix run nixpkgs#nixos-rebuild -- {{ if action == "rollback" { "switch --rollback" } else { action } }} --no-reexec --flake .#cosmic-crisp --target-host {{server}} --build-host {{server}}

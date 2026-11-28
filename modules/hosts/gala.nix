@@ -1,7 +1,7 @@
 { inputs, config, ... }:
 {
-  # Tart VM for Homebrew contributions (see home/tart.nix). "admin" is the Cirrus image's user.
-  flake.modules.darwin.dabinett = {
+  # Tart VM for Homebrew contributions (`just gala`). "admin" is the Cirrus image's user.
+  flake.modules.darwin.gala = {
     imports = with inputs.self.modules.darwin; [
       home-manager
       homebrew-dev
@@ -29,9 +29,9 @@
       };
 
     networking = {
-      hostName = "dabinett";
-      localHostName = "dabinett";
-      computerName = "Dabinett";
+      hostName = "gala";
+      localHostName = "gala";
+      computerName = "Gala";
     };
 
     nixpkgs.hostPlatform = "aarch64-darwin";
@@ -40,7 +40,7 @@
     system.stateVersion = 7;
   };
 
-  flake.darwinConfigurations.dabinett = inputs.nix-darwin.lib.darwinSystem {
-    modules = [ config.flake.modules.darwin.dabinett ];
+  flake.darwinConfigurations.gala = inputs.nix-darwin.lib.darwinSystem {
+    modules = [ config.flake.modules.darwin.gala ];
   };
 }

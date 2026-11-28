@@ -6,6 +6,9 @@ host="${1:-honeycrisp}"
 dest=/etc/nix-darwin
 nix=/nix/var/nix/profiles/default/bin/nix
 
+# Prompts need a terminal; unattended runs (the gala VM) skip them
+if (exec </dev/tty) 2>/dev/null; then tty=1; else tty=; fi
+
 # 1. Determinate Nix
 if [ ! -x "$nix" ]; then
   curl -fsSL https://install.determinate.systems/nix | sh -s -- install --no-confirm
@@ -18,8 +21,8 @@ if [ ! -d "$dest/.git" ]; then
   "$nix" run nixpkgs#git -- clone https://github.com/benjaminchocolate/nix-config.git "$dest"
 fi
 
-# 3. nix-darwin refuses to overwrite shell files it didn't create
-for f in /etc/bashrc /etc/zshrc; do
+# 3. nix-darwin refuses to overwrite files in /etc it didn't create
+for f in /etc/bashrc /etc/zshrc /etc/nix/nix.custom.conf; do
   if [ -f "$f" ] && [ ! -L "$f" ]; then sudo mv "$f" "$f.before-nix-darwin"; fi
 done
 
@@ -31,12 +34,14 @@ if ! xcode-select -p >/dev/null 2>&1; then
 fi
 
 # 5. masApps fail if the App Store is signed out
-open -a "App Store"
-printf 'Sign in to the App Store, then press Enter... '
-read -r _ < /dev/tty
+if [ -n "$tty" ]; then
+  open -a "App Store"
+  printf 'Sign in to the App Store, then press Enter... '
+  read -r _ < /dev/tty
+fi
 
 # 6. Apple's on-device model (commit message review); the license prompt is interactive
-if command -v fm >/dev/null 2>&1; then
+if [ -n "$tty" ] && command -v fm >/dev/null 2>&1; then
   fm license --status 2>/dev/null | grep -q Agreed || sudo fm license < /dev/tty
 fi
 
